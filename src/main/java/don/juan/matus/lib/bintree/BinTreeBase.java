@@ -63,35 +63,37 @@ public class BinTreeBase<T extends Comparable<T>>
     }
 
     protected void passStraight(BinTreePassEvent<BinTreeNodeInterface<T>> thePassEvent, BinTreeNodeInterface<T> node) {
-        thePassEvent.incLevel();
+        thePassEvent.incLevel(node);
         if (node.getLeft() != null) {
-            thePassEvent.incLeft();
+            thePassEvent.incLeft(node);
             passStraight(thePassEvent, node.getLeft());
-            thePassEvent.decLeft();
+            thePassEvent.decLeft(node);
         }
         if (node != root) thePassEvent.onPass(node);
         if (node.getRight() != null) {
-            thePassEvent.incRight();
+            thePassEvent.incRight(node);
             passStraight(thePassEvent, node.getRight());
-            thePassEvent.decRight();
+            thePassEvent.decRight(node);
         }
-        thePassEvent.decLevel();
+        thePassEvent.decLevel(node);
+        if (node != root) thePassEvent.onNodeCompleted(node);
     }
 
     protected void passBack(BinTreePassEvent<BinTreeNodeInterface<T>> thePassEvent, BinTreeNodeInterface<T> node) {
-        thePassEvent.incLevel();
+        thePassEvent.incLevel(node);
         if (node.getRight() != null) {
-            thePassEvent.incRight();
+            thePassEvent.incRight(node);
             passBack(thePassEvent, node.getRight());
-            thePassEvent.decRight();
+            thePassEvent.decRight(node);
         }
         if (node != root) thePassEvent.onPass(node);
         if (node.getLeft() != null) {
-            thePassEvent.incLeft();
+            thePassEvent.incLeft(node);
             passBack(thePassEvent, node.getLeft());
-            thePassEvent.decLeft();
+            thePassEvent.decLeft(node);
         }
-        thePassEvent.decLevel();
+        thePassEvent.decLevel(node);
+        if (node != root) thePassEvent.onNodeCompleted(node);
     }
 
     @Override

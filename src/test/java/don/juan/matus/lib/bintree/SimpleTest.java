@@ -718,28 +718,33 @@ public class SimpleTest extends TestCase {
                 i++;
             }
 
-            public Long incLevel() {
+            public Long incLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decLevel() {
+            public Long decLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long incLeft() {
+            public Long incLeft(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decLeft() {
+            public Long decLeft(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long incRight() {
+            public Long incRight(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decRight() {
+            public Long decRight(BinTreeNodeInterface<Long> theObject) {
                 return null;
+            }
+
+            @Override
+            public void onNodeCompleted(BinTreeNodeInterface<Long> theObject) {
+
             }
         });
         System.out.println("----------------------");
@@ -751,28 +756,33 @@ public class SimpleTest extends TestCase {
                 i++;
             }
 
-            public Long incLevel() {
+            public Long incLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decLevel() {
+            public Long decLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long incLeft() {
+            public Long incLeft(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decLeft() {
+            public Long decLeft(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long incRight() {
+            public Long incRight(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decRight() {
+            public Long decRight(BinTreeNodeInterface<Long> theObject) {
                 return null;
+            }
+
+            @Override
+            public void onNodeCompleted(BinTreeNodeInterface<Long> theObject) {
+
             }
         });
         System.out.println("----------------------");
@@ -837,27 +847,32 @@ public class SimpleTest extends TestCase {
                 i++;
             }
 
-            public Long incLevel() {
+            public Long incLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
-            public Long decLevel() {
-                return null;
-            }
-
-            public Long incLeft() {
+            public Long decLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decLeft() {
+            public Long incLeft(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long incRight() {
+            public Long decLeft(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decRight() {
+            public Long incRight(BinTreeNodeInterface<Long> theObject) {
                 return null;
+            }
+
+            public Long decRight(BinTreeNodeInterface<Long> theObject) {
+                return null;
+            }
+
+            @Override
+            public void onNodeCompleted(BinTreeNodeInterface<Long> theObject) {
+
             }
         });
         System.out.println("----------------------");
@@ -869,27 +884,32 @@ public class SimpleTest extends TestCase {
                 i++;
             }
 
-            public Long incLevel() {
+            public Long incLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
-            public Long decLevel() {
-                return null;
-            }
-
-            public Long incLeft() {
+            public Long decLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decLeft() {
+            public Long incLeft(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long incRight() {
+            public Long decLeft(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decRight() {
+            public Long incRight(BinTreeNodeInterface<Long> theObject) {
                 return null;
+            }
+
+            public Long decRight(BinTreeNodeInterface<Long> theObject) {
+                return null;
+            }
+
+            @Override
+            public void onNodeCompleted(BinTreeNodeInterface<Long> theObject) {
+
             }
         });
 
@@ -935,28 +955,33 @@ public class SimpleTest extends TestCase {
                 i++;
             }
 
-            public Long incLevel() {
+            public Long incLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decLevel() {
+            public Long decLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long incLeft() {
+            public Long incLeft(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decLeft() {
+            public Long decLeft(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long incRight() {
+            public Long incRight(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decRight() {
+            public Long decRight(BinTreeNodeInterface<Long> theObject) {
                 return null;
+            }
+
+            @Override
+            public void onNodeCompleted(BinTreeNodeInterface<Long> theObject) {
+
             }
         });
         Calendar cEnd = Calendar.getInstance();
@@ -993,27 +1018,32 @@ public class SimpleTest extends TestCase {
                 i++;
             }
 
-            public Long incLevel() {
+            public Long incLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
-            public Long decLevel() {
-                return null;
-            }
-
-            public Long incLeft() {
+            public Long decLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decLeft() {
+            public Long incLeft(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long incRight() {
+            public Long decLeft(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decRight() {
+            public Long incRight(BinTreeNodeInterface<Long> theObject) {
                 return null;
+            }
+
+            public Long decRight(BinTreeNodeInterface<Long> theObject) {
+                return null;
+            }
+
+            @Override
+            public void onNodeCompleted(BinTreeNodeInterface<Long> theObject) {
+
             }
         });
         Calendar cEnd = Calendar.getInstance();
@@ -1456,27 +1486,32 @@ public class SimpleTest extends TestCase {
                 i++;
             }
 
-            public Long incLevel() {
+            public Long incLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
-            public Long decLevel() {
-                return null;
-            }
-
-            public Long incLeft() {
+            public Long decLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decLeft() {
+            public Long incLeft(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long incRight() {
+            public Long decLeft(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decRight() {
+            public Long incRight(BinTreeNodeInterface<Long> theObject) {
                 return null;
+            }
+
+            public Long decRight(BinTreeNodeInterface<Long> theObject) {
+                return null;
+            }
+
+            @Override
+            public void onNodeCompleted(BinTreeNodeInterface<Long> theObject) {
+
             }
         });
         btLng.add(10L);
@@ -1504,27 +1539,32 @@ public class SimpleTest extends TestCase {
                 i++;
             }
 
-            public Long incLevel() {
+            public Long incLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
-            public Long decLevel() {
-                return null;
-            }
-
-            public Long incLeft() {
+            public Long decLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decLeft() {
+            public Long incLeft(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long incRight() {
+            public Long decLeft(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
 
-            public Long decRight() {
+            public Long incRight(BinTreeNodeInterface<Long> theObject) {
                 return null;
+            }
+
+            public Long decRight(BinTreeNodeInterface<Long> theObject) {
+                return null;
+            }
+
+            @Override
+            public void onNodeCompleted(BinTreeNodeInterface<Long> theObject) {
+
             }
         });
     }

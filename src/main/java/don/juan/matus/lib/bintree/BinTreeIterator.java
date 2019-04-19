@@ -43,9 +43,9 @@ public class BinTreeIterator<T extends Comparable<T>> extends BinTreeIteratorBas
             while (quit) {
                 switch (leftOrRight) {
                     case 1: /*from parent*/ {
+                        outerObject = currentNode.changeOuterObject(outerObject, currentNode, 1);
                         if (currentNode.getLeft() == null) {
                             result = currentNode.getObjectNode();
-                            outerObject = currentNode.changeOuterObject(outerObject, currentNode, 0);
                             leftOrRight = 2;
                             size++;
                             quit = false;
@@ -54,7 +54,6 @@ public class BinTreeIterator<T extends Comparable<T>> extends BinTreeIteratorBas
                             leftOrRight = 1;
                             level++;
                             if (maxLevel < level) maxLevel = level;
-                            outerObject = currentNode.changeOuterObject(outerObject, currentNode, 1);
                         }
                         break;
                     }
@@ -66,7 +65,6 @@ public class BinTreeIterator<T extends Comparable<T>> extends BinTreeIteratorBas
                             leftOrRight = 1;
                             level++;
                             if (maxLevel < level) maxLevel = level;
-                            outerObject = currentNode.changeOuterObject(outerObject, currentNode, 1);
                         }
                         break;
                     }
@@ -76,20 +74,19 @@ public class BinTreeIterator<T extends Comparable<T>> extends BinTreeIteratorBas
                             if (currentNode == rootNode) {
                                 quit = false;
                             } else {
+                                outerObject = currentNode.changeOuterObject(outerObject, currentNode, -1);
                                 if (currentNode == parent.getLeft()) {
                                     currentNode = parent;
                                     result = currentNode.getObjectNode();
                                     leftOrRight = 2;
                                     size++;
                                     level--;
-                                    outerObject = currentNode.changeOuterObject(outerObject, currentNode, -1);
                                     quit = false;
                                 }
                                 if (currentNode == parent.getRight()) {
                                     leftOrRight = 3;
                                     currentNode = parent;
                                     level--;
-                                    outerObject = currentNode.changeOuterObject(outerObject, currentNode, -1);
                                 }
                             }
                         } else {

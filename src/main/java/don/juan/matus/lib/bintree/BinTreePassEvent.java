@@ -5,10 +5,11 @@ package don.juan.matus.lib.bintree;
  */
 public interface BinTreePassEvent<T> {
     void onPass(T theObject);
-    Long incLevel();
-    Long decLevel();
-    Long incLeft();
-    Long decLeft();
-    Long incRight();
-    Long decRight();
+    Long incLevel(T theObject);
+    Long decLevel(T theObject);
+    Long incLeft(T theObject);
+    Long decLeft(T theObject);
+    Long incRight(T theObject);
+    Long decRight(T theObject);
+    void onNodeCompleted(T theObject);
 }
