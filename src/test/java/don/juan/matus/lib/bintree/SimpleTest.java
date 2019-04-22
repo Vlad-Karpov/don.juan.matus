@@ -1123,10 +1123,40 @@ public class SimpleTest extends TestCase {
         tmLng = null;
         System.gc();
         //
+        System.out.println("RedBlackTree");
+        cBegin = Calendar.getInstance();
+        RedBlackTree<Long> rbLng = new RedBlackTree<Long>();
+        for (int i = 0; i < 10000000; i++) {
+            rnd = rList.get(i);
+            rbLng.add(rnd);
+        }
+        System.out.println("maxLevel = " + rbLng.getMaxLevel());
+        System.out.println("RotateCount = " + rbLng.getRotateCount());
+        cEnd = Calendar.getInstance();
+        System.out.println("time 2.3 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
+        //
+        cBegin = Calendar.getInstance();
+        it = rbLng.iterator();
+        j = 0;
+        while (it.hasNext()) {
+            it.next();
+            j++;
+        }
+        cEnd = Calendar.getInstance();
+        System.out.println("time 3.3 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + rbLng.getSize());
+        //
+        cBegin = Calendar.getInstance();
+        rbLng.checkStructure(new BinTreeCheckPassEventTest());
+        cEnd = Calendar.getInstance();
+        System.out.println("time 4.3 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + rbLng.getSize());
+        //
+        rbLng = null;
+        System.gc();
+        //
         System.out.println("AVLBinTree");
         cBegin = Calendar.getInstance();
-        //AVLBinTree<Long> avlLng = new AVLBinTree<Long>();
-        RedBlackTree<Long> avlLng = new RedBlackTree<Long>();
+        AVLBinTree<Long> avlLng = new AVLBinTree<Long>();
+        //RedBlackTree<Long> avlLng = new RedBlackTree<Long>();
         //avlLng.setThreshold((byte)4);
         for (int i = 0; i < 10000000; i++) {
             rnd = rList.get(i);

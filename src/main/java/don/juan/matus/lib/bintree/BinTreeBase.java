@@ -1,5 +1,7 @@
 package don.juan.matus.lib.bintree;
 
+import don.juan.matus.lib.bintree.rotatetree.red_black.BinTreeNodeRB;
+
 import java.util.*;
 
 /**
@@ -248,8 +250,6 @@ public class BinTreeBase<T extends Comparable<T>>
         BinTreeNodeInterface<T> current = currentNode;
         do {
             current.onNode();
-            level++;
-            if (maxLevel < level) maxLevel = level;
             if (current.getObjectNode() == null) {
                 current.onGoLeft();
                 if (current.getLeft() != null) {
@@ -260,6 +260,8 @@ public class BinTreeBase<T extends Comparable<T>>
                     break;
                 }
             } else {
+                level++;
+                if (maxLevel < level) maxLevel = level;
                 if (theObject.compareTo(current.getObjectNode()) < 0) {
                     current.onGoLeft();
                     if (current.getLeft() != null) {
@@ -443,28 +445,6 @@ public class BinTreeBase<T extends Comparable<T>>
 
     protected void changeNode(BinTreeNodeInterface<T> theCurrentNode) {
         //
-    }
-
-    protected int min(int b1, int b2) {
-        return b1 < b2 ? b1 : b2;
-    }
-
-    protected int min(int b1, int b2, int b3) {
-        int m = min(b1, b2);
-        return m < b3 ? m : b3;
-    }
-
-    protected int max(int b1, int b2) {
-        return b1 > b2 ? b1 : b2;
-    }
-
-    protected int max(int b1, int b2, int b3) {
-        int m = max(b1, b2);
-        return m > b3 ? m : b3;
-    }
-
-    protected int abs(int b1) {
-        return (b1 < 0) ? -b1 : b1;
     }
 
 }

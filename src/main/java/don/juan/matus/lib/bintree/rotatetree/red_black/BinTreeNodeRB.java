@@ -9,7 +9,7 @@ public class BinTreeNodeRB<T extends Comparable<T>> extends BinTreeNodeBase<T> {
     public static byte BLACK = 0;
 
     // 0 - black; 1 - red
-    private byte color;
+    byte color;
 
     public BinTreeNodeRB(T objectNode, BinTreeNodeBase<T> left, BinTreeNodeBase<T> parent, BinTreeNodeBase<T> right) {
         super(objectNode, left, parent, right);

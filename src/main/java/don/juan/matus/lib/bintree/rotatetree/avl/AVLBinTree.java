@@ -5,6 +5,8 @@ import don.juan.matus.lib.bintree.BinTreeIterator;
 import don.juan.matus.lib.bintree.BinTreeNodeInterface;
 import don.juan.matus.lib.bintree.rotatetree.RotateBalancedBinTree;
 
+import static don.juan.matus.lib.bintree.BinTreeInterface.*;
+
 /**
  * Classic AVL binary tree.
  */
