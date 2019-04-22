@@ -15,7 +15,7 @@ import java.util.Iterator;
 public class AVLTreeTest extends TestCase {
 
 
-    public static final long CNT = 20L;
+    public static final long CNT = 100L;
 
     public static void main(String[] args) {
         //AVLBinTree<Long> btLng = new AVLBinTree<Long>();

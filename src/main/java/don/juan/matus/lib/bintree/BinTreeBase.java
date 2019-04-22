@@ -433,6 +433,14 @@ public class BinTreeBase<T extends Comparable<T>>
         return result;
     }
 
+    @Override
+    public void clearTree() {
+        root.setLeft(null);
+        maxLevel = 0L;
+        level = 0L;
+        size = 0L;
+    }
+
     protected void changeNode(BinTreeNodeInterface<T> theCurrentNode) {
         //
     }

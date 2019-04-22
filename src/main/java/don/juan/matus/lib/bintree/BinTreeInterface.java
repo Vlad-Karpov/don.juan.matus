@@ -49,4 +49,5 @@ public interface BinTreeInterface<T extends Comparable<T>> {
             BinTreeNodeInterface<T> currentNode,
             BinTreeNodeInterface<T> nextNode);
 
+    void clearTree();
 }
