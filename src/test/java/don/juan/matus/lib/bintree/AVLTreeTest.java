@@ -1,11 +1,9 @@
 package don.juan.matus.lib.bintree;
 
-import don.juan.matus.lib.bintree.rotatetree.random.RndBinTree;
+import don.juan.matus.lib.bintree.rotatetree.avl.AVLBinTree;
 import don.juan.matus.lib.bintree.rotatetree.red_black.RedBlackTree;
-import don.juan.matus.lib.bintree.rotatetree.waight.BinTreeW;
 import junit.framework.TestCase;
 import org.junit.Test;
-import don.juan.matus.lib.bintree.rotatetree.avl.AVLBinTree;
 
 import java.util.Iterator;
 
@@ -34,7 +32,7 @@ public class AVLTreeTest extends TestCase {
         //for (int i = 0; i < rnd.length; i++) btLng.add(rnd[i]);
         for (long i = 0; i < CNT; i++) {
             Long rnd = Math.round(Math.random() * CNT);
-            System.out.print(rnd  + "L, ");
+            System.out.print(rnd + "L, ");
             btLng.add(rnd);
             btLng.checkStructure(check);
         }

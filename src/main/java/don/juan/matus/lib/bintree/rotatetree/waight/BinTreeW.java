@@ -4,9 +4,10 @@ import don.juan.matus.lib.bintree.BinTreeCheckPassEvent;
 import don.juan.matus.lib.bintree.BinTreeIterator;
 import don.juan.matus.lib.bintree.BinTreeNodeInterface;
 import don.juan.matus.lib.bintree.rotatetree.RotateBalancedBinTree;
+import don.juan.matus.lib.bintree.rotatetree.red_black.BinTreeNodeRB;
 
 /**
- * Двоичное дерево с балансировкой по весам.
+ * Binary tree with balance by weight.
  */
 public class BinTreeW<T extends Comparable<T>> extends RotateBalancedBinTree<T> {
 
@@ -15,21 +16,38 @@ public class BinTreeW<T extends Comparable<T>> extends RotateBalancedBinTree<T> 
         root = new BinTreeNodeW<T>(null, null, null, null);
     }
 
+    @Override
     protected BinTreeNodeInterface<T> postAddLoop(final BinTreeNodeInterface<T> currentNode) {
         BinTreeNodeW<T> cursor = (BinTreeNodeW<T>) currentNode;
-        do {
-            long leftWeight = cursor.getLeft() == null ? 0 : ((BinTreeNodeW<T>) cursor.getLeft()).getWeight();
-            long rightWeight = cursor.getRight() == null ? 0 : ((BinTreeNodeW<T>) cursor.getRight()).getWeight();
-            if (rightWeight > leftWeight * 4) {
-                cursor = rotateLeft(cursor);
-            }
-            if (leftWeight > rightWeight * 4) {
-                cursor = rotateRight(cursor);
-            }
+        while (cursor != null && cursor.getParent() != null) {
+            cursor = rebalance(cursor);
             cursor = (BinTreeNodeW<T>) cursor.getParent();
-        } while (cursor != null && cursor.getParent() != null);
+        };
         return cursor;
     }
+
+    private BinTreeNodeW<T> rebalance(BinTreeNodeW<T> cursor) {
+        long leftWeight = cursor.getLeft() == null ? 0 : ((BinTreeNodeW<T>) cursor.getLeft()).getWeight();
+        long rightWeight = cursor.getRight() == null ? 0 : ((BinTreeNodeW<T>) cursor.getRight()).getWeight();
+        if (rightWeight > leftWeight * 4) {
+            cursor = rotateLeft(cursor);
+        }
+        if (leftWeight > rightWeight * 4) {
+            cursor = rotateRight(cursor);
+        }
+        return cursor;
+    }
+
+    @Override
+    protected void changeNode(BinTreeNodeInterface<T> theCurrentNode) {
+        BinTreeNodeW<T> cursor = (BinTreeNodeW<T>) theCurrentNode;
+        while (cursor != null && cursor.getParent() != null) {
+            cursor.decWeight();
+            cursor = (BinTreeNodeW<T>) cursor.getParent();
+            cursor = rebalance(cursor);
+        };
+    }
+
 
     protected BinTreeNodeW<T> rotateRight(BinTreeNodeW<T> currentNode) {
         BinTreeNodeW<T> node2 = (BinTreeNodeW<T>) currentNode.getLeft();
