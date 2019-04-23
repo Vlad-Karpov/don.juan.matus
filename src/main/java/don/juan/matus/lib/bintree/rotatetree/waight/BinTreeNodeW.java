@@ -33,12 +33,6 @@ public class BinTreeNodeW<T extends Comparable<T>> extends BinTreeNodeBase<T> {
     }
 
     @Override
-    public void onNode() {
-        super.onNode();
-        weight++;
-    }
-
-    @Override
     public BinTreeNodeInterface<T> createNode(
             T theObject,
             BinTreeNodeInterface<T> theLeft,

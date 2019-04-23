@@ -2,6 +2,7 @@ package don.juan.matus.lib.bintree;
 
 import don.juan.matus.lib.bintree.rotatetree.avl.AVLBinTree;
 import don.juan.matus.lib.bintree.rotatetree.red_black.RedBlackTree;
+import don.juan.matus.lib.bintree.rotatetree.waight.BinTreeW;
 import junit.framework.TestCase;
 import org.junit.Test;
 
@@ -17,9 +18,9 @@ public class AVLTreeTest extends TestCase {
 
     public static void main(String[] args) {
         //AVLBinTree<Long> btLng = new AVLBinTree<Long>();
-        RedBlackTree<Long> btLng = new RedBlackTree<Long>();
+        //RedBlackTree<Long> btLng = new RedBlackTree<Long>();
         //btLng.setThreshold((byte)3);
-        //BinTreeW<Long> btLng = new BinTreeW<Long>();
+        BinTreeW<Long> btLng = new BinTreeW<Long>();
         //RndBinTree<Long> btLng = new RndBinTree<Long>();
         SimpleTest.BinTreeCheckPassEventTest check = new SimpleTest.BinTreeCheckPassEventTest();
         //Long[] rnd = new Long[]{407L,3879L,958L,3899L,4262L,3295L,8258L,8214L,875L,4581L,9733L,164L,2942L,8446L,5083L,7494L,9901L,8354L,3326L,8427L,1407L,4104L,3489L/*,5555L*/};

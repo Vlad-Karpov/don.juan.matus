@@ -11,17 +11,28 @@ import don.juan.matus.lib.bintree.rotatetree.red_black.BinTreeNodeRB;
  */
 public class BinTreeW<T extends Comparable<T>> extends RotateBalancedBinTree<T> {
 
+    private long alpha = 4L;
+
     public BinTreeW() {
         super();
         root = new BinTreeNodeW<T>(null, null, null, null);
     }
 
+    public long getAlpha() {
+        return alpha;
+    }
+
+    public void setAlpha(long alpha) {
+        this.alpha = alpha;
+    }
+
     @Override
     protected BinTreeNodeInterface<T> postAddLoop(final BinTreeNodeInterface<T> currentNode) {
         BinTreeNodeW<T> cursor = (BinTreeNodeW<T>) currentNode;
-        while (cursor != null && cursor.getParent() != null) {
+        while (cursor != root) {
             cursor = rebalance(cursor);
             cursor = (BinTreeNodeW<T>) cursor.getParent();
+            cursor.incWeight();
         };
         return cursor;
     }
@@ -29,10 +40,10 @@ public class BinTreeW<T extends Comparable<T>> extends RotateBalancedBinTree<T> 
     private BinTreeNodeW<T> rebalance(BinTreeNodeW<T> cursor) {
         long leftWeight = cursor.getLeft() == null ? 0 : ((BinTreeNodeW<T>) cursor.getLeft()).getWeight();
         long rightWeight = cursor.getRight() == null ? 0 : ((BinTreeNodeW<T>) cursor.getRight()).getWeight();
-        if (rightWeight > leftWeight * 4) {
+        if (rightWeight > leftWeight * alpha) {
             cursor = rotateLeft(cursor);
         }
-        if (leftWeight > rightWeight * 4) {
+        if (leftWeight > rightWeight * alpha) {
             cursor = rotateRight(cursor);
         }
         return cursor;
@@ -40,14 +51,21 @@ public class BinTreeW<T extends Comparable<T>> extends RotateBalancedBinTree<T> 
 
     @Override
     protected void changeNode(BinTreeNodeInterface<T> theCurrentNode) {
-        BinTreeNodeW<T> cursor = (BinTreeNodeW<T>) theCurrentNode;
-        while (cursor != null && cursor.getParent() != null) {
+        BinTreeNodeW<T> cursor = (BinTreeNodeW<T>) theCurrentNode.getParent();
+        if (cursor != root) {
             cursor.decWeight();
-            cursor = (BinTreeNodeW<T>) cursor.getParent();
-            cursor = rebalance(cursor);
-        };
+            while (cursor != root) {
+                cursor = (BinTreeNodeW<T>) cursor.getParent();
+                if (cursor != root) {
+                    cursor.decWeight();
+                    cursor = rebalance(cursor);
+                } else {
+                    break;
+                }
+            }
+            ;
+        }
     }
-
 
     protected BinTreeNodeW<T> rotateRight(BinTreeNodeW<T> currentNode) {
         BinTreeNodeW<T> node2 = (BinTreeNodeW<T>) currentNode.getLeft();

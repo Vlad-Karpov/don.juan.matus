@@ -351,21 +351,7 @@ public class BinTreeBase<T extends Comparable<T>>
         BinTreeNodeInterface<T> current = currentNode;
         if (currentNode != null) {
             if (current.getLeft() == null && current.getRight() == null) {
-                //
-                changeNode(current);
-                //
-                //remove current
-                BinTreeNodeInterface<T> parent = current.getParent();
-                if (parent.getLeft() == current) {
-                    parent.setLeft(null);
-                }
-                if (parent.getRight() == current) {
-                    parent.setRight(null);
-                }
-                current.setParent(null);
-                //
-                size--;
-                //
+                removeFromLinkeList(current);
             } else {
                 if (current.getRight() != null) {
                     next = current;
@@ -391,46 +377,30 @@ public class BinTreeBase<T extends Comparable<T>>
                             break;
                         }
                     } while (true);
-                    //
-                    changeNode(next);
-                    //
-                    //remove next
-                    BinTreeNodeInterface<T> parent = next.getParent();
-                    if (parent.getLeft() == next) {
-                        parent.setLeft(null);
-                    }
-                    if (parent.getRight() == next) {
-                        parent.setRight(null);
-                    }
-                    next.setParent(null);
-                    next.setLeft(null);
-                    next.setRight(null);
-                    //
-                    size--;
-                    //
+                    removeFromLinkeList(next);
                 } else {
-                    //remove current from left (right) linked list
-                    changeNode(current);
-                    //
-                    BinTreeNodeInterface<T> leftNode = current.getLeft();
-                    BinTreeNodeInterface<T> parent = current.getParent();
-                    if (parent.getLeft() == current) {
-                        parent.setLeft(leftNode);
-                    }
-                    if (parent.getRight() == current) {
-                        parent.setRight(leftNode);
-                    }
-                    leftNode.setParent(parent);
-                    current.setParent(null);
-                    current.setLeft(null);
-                    current.setRight(null);
-                    //
-                    size--;
-                    //
+                    removeFromLinkeList(current);
                 }
             }
         }
         return result;
+    }
+
+    private void removeFromLinkeList(BinTreeNodeInterface<T> current) {
+        changeNode(current);
+        BinTreeNodeInterface<T> leftNode = current.getLeft();
+        BinTreeNodeInterface<T> parent = current.getParent();
+        if (parent.getLeft() == current) {
+            parent.setLeft(leftNode);
+        }
+        if (parent.getRight() == current) {
+            parent.setRight(leftNode);
+        }
+        if (leftNode != null) leftNode.setParent(parent);
+        current.setParent(null);
+        current.setLeft(null);
+        current.setRight(null);
+        size--;
     }
 
     @Override
