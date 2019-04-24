@@ -1,6 +1,7 @@
 package don.juan.matus.lib.bintree;
 
 import don.juan.matus.lib.bintree.rotatetree.red_black.RedBlackTree;
+import don.juan.matus.lib.bintree.rotatetree.scapegoat.ScapegoatTree;
 import junit.framework.TestCase;
 import org.apache.commons.collections.list.TreeList;
 import don.juan.matus.lib.bintree.rotatetree.avl.AVLBinTree;
@@ -849,6 +850,14 @@ public class SimpleTest extends TestCase {
 
     public void testBinTree2() {
         BinTreeW<Long> btLng = new BinTreeW<Long>();
+        addCheckStructure(btLng);
+    }
+    public void testScapegoatBinTree2() {
+        ScapegoatTree<Long> btLng = new ScapegoatTree<Long>();
+        addCheckStructure(btLng);
+    }
+
+    public void addCheckStructure(BinTreeBase btLng) {
         Long rnd;
         for (int i = 0; i < 100; i++) {
             rnd = Math.round(Math.random() * 10000L);
@@ -1113,6 +1122,36 @@ public class SimpleTest extends TestCase {
         System.out.println("time 4.1 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + btLng.getSize());
         //
         btLng = null;
+        System.gc();
+        //
+        System.out.println("ScapegoatTree");
+        cBegin = Calendar.getInstance();
+        ScapegoatTree<Long> scLng = new ScapegoatTree<Long>();
+        for (int i = 0; i < 10000000; i++) {
+            rnd = rList.get(i);
+            scLng.add(rnd);
+        }
+        System.out.println("maxLevel = " + scLng.getMaxLevel());
+        System.out.println("RotateCount = " + scLng.getRotateCount());
+        cEnd = Calendar.getInstance();
+        System.out.println("time 2.1 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
+        //
+        cBegin = Calendar.getInstance();
+        it = scLng.iterator();
+        j = 0;
+        while (it.hasNext()) {
+            it.next();
+            j++;
+        }
+        cEnd = Calendar.getInstance();
+        System.out.println("time 3.1 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + scLng.getSize());
+        //
+        cBegin = Calendar.getInstance();
+        scLng.checkStructure(new BinTreeCheckPassEventTest());
+        cEnd = Calendar.getInstance();
+        System.out.println("time 4.1 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + scLng.getSize());
+        //
+        scLng = null;
         System.gc();
         //
         System.out.println("TreeMap");
