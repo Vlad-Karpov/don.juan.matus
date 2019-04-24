@@ -11,47 +11,50 @@ import don.juan.matus.lib.bintree.rotatetree.red_black.BinTreeNodeRB;
  */
 public class BinTreeW<T extends Comparable<T>> extends RotateBalancedBinTree<T> {
 
-    private long alpha = 4L;
+    private double alpha = 4.0d;
 
     public BinTreeW() {
         super();
         root = new BinTreeNodeW<T>(null, null, null, null);
     }
 
-    public long getAlpha() {
+    public double getAlpha() {
         return alpha;
     }
 
-    public void setAlpha(long alpha) {
+    public void setAlpha(double alpha) {
         this.alpha = alpha;
     }
 
     @Override
     protected BinTreeNodeInterface<T> postAddLoop(final BinTreeNodeInterface<T> currentNode) {
         BinTreeNodeW<T> cursor = (BinTreeNodeW<T>) currentNode;
+        cursor.incWeight();
         while (cursor != root) {
             cursor = rebalance(cursor);
             cursor = (BinTreeNodeW<T>) cursor.getParent();
-            cursor.incWeight();
+            if (cursor != root) cursor.incWeight();
         };
         return cursor;
     }
 
-    private BinTreeNodeW<T> rebalance(BinTreeNodeW<T> cursor) {
+    protected <U extends BinTreeNodeW<T>> U rebalance(U cursor) {
         long leftWeight = cursor.getLeft() == null ? 0 : ((BinTreeNodeW<T>) cursor.getLeft()).getWeight();
         long rightWeight = cursor.getRight() == null ? 0 : ((BinTreeNodeW<T>) cursor.getRight()).getWeight();
         if (rightWeight > leftWeight * alpha) {
-            cursor = rotateLeft(cursor);
+            cursor = (U) rotateLeft(cursor);
         }
         if (leftWeight > rightWeight * alpha) {
-            cursor = rotateRight(cursor);
+            cursor = (U) rotateRight(cursor);
         }
         return cursor;
     }
 
     @Override
     protected void changeNode(BinTreeNodeInterface<T> theCurrentNode) {
-        BinTreeNodeW<T> cursor = (BinTreeNodeW<T>) theCurrentNode.getParent();
+        BinTreeNodeW<T> cursor = (BinTreeNodeW<T>) theCurrentNode;
+        cursor.decWeight();
+        cursor = (BinTreeNodeW<T>) theCurrentNode.getParent();
         if (cursor != root) {
             cursor.decWeight();
             while (cursor != root) {
@@ -70,16 +73,16 @@ public class BinTreeW<T extends Comparable<T>> extends RotateBalancedBinTree<T> 
     protected BinTreeNodeW<T> rotateRight(BinTreeNodeW<T> currentNode) {
         BinTreeNodeW<T> node2 = (BinTreeNodeW<T>) currentNode.getLeft();
         super.rotateRight(currentNode);
-        currentNode.setWeight((currentNode.getLeft() == null ? -1 : ((BinTreeNodeW<T>) currentNode.getLeft()).getWeight()) + (currentNode.getRight() == null ? -1 : ((BinTreeNodeW<T>) currentNode.getRight()).getWeight()) + 2);
-        node2.setWeight((node2.getLeft() == null ? -1 : ((BinTreeNodeW<T>) node2.getLeft()).getWeight()) + (node2.getRight() == null ? -1 : ((BinTreeNodeW<T>) node2.getRight()).getWeight()) + 2);
+        currentNode.setWeight((currentNode.getLeft() == null ? 0 : ((BinTreeNodeW<T>) currentNode.getLeft()).getWeight()) + (currentNode.getRight() == null ? 0 : ((BinTreeNodeW<T>) currentNode.getRight()).getWeight()) + 1);
+        node2.setWeight((node2.getLeft() == null ? 0 : ((BinTreeNodeW<T>) node2.getLeft()).getWeight()) + (node2.getRight() == null ? 0 : ((BinTreeNodeW<T>) node2.getRight()).getWeight()) + 1);
         return node2;
     }
 
     protected BinTreeNodeW<T> rotateLeft(BinTreeNodeW<T> currentNode) {
         BinTreeNodeW<T> node2 = (BinTreeNodeW<T>) currentNode.getRight();
         super.rotateLeft(currentNode);
-        currentNode.setWeight((currentNode.getLeft() == null ? -1 : ((BinTreeNodeW<T>) currentNode.getLeft()).getWeight()) + (currentNode.getRight() == null ? -1 : ((BinTreeNodeW<T>) currentNode.getRight()).getWeight()) + 2);
-        node2.setWeight((node2.getLeft() == null ? -1 : ((BinTreeNodeW<T>) node2.getLeft()).getWeight()) + (node2.getRight() == null ? -1 : ((BinTreeNodeW<T>) node2.getRight()).getWeight()) + 2);
+        currentNode.setWeight((currentNode.getLeft() == null ? 0 : ((BinTreeNodeW<T>) currentNode.getLeft()).getWeight()) + (currentNode.getRight() == null ? 0 : ((BinTreeNodeW<T>) currentNode.getRight()).getWeight()) + 1);
+        node2.setWeight((node2.getLeft() == null ? 0 : ((BinTreeNodeW<T>) node2.getLeft()).getWeight()) + (node2.getRight() == null ? 0 : ((BinTreeNodeW<T>) node2.getRight()).getWeight()) + 1);
         return node2;
     }
 
@@ -88,7 +91,7 @@ public class BinTreeW<T extends Comparable<T>> extends RotateBalancedBinTree<T> 
         boolean result = super.checkTreeNode(thePassEvent, btiLeft, btiRight, currentNode, previousNode);
         if (result) {
             if (btiLeft != null && btiRight != null) {
-                if (btiLeft.getSize() + btiRight.getSize() != ((BinTreeNodeW<T>)currentNode).getWeight()) {
+                if (btiLeft.getSize() + btiRight.getSize() + 1 != ((BinTreeNodeW<T>)currentNode).getWeight()) {
                     thePassEvent.setErrorMessage("BinTreeW: Tree structure invalid, incorrect weight!");
                     result = false;
                 }

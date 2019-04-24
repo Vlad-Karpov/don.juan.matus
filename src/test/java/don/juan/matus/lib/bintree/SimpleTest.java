@@ -965,7 +965,7 @@ public class SimpleTest extends TestCase {
     public void testWBinTree2() {
         BinTreeW<Long> btLng = new BinTreeW<Long>();
         Long rnd;
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 100000; i++) {
             rnd = Math.round(Math.random() * 10000L);
             btLng.add(rnd);
         }
