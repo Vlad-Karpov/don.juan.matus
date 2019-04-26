@@ -1,14 +1,14 @@
 package don.juan.matus.lib.bintree;
 
-import don.juan.matus.lib.bintree.rotatetree.red_black.RedBlackTree;
-import don.juan.matus.lib.bintree.rotatetree.scapegoat.ScapegoatTree;
-import junit.framework.TestCase;
-import org.apache.commons.collections.list.TreeList;
 import don.juan.matus.lib.bintree.rotatetree.avl.AVLBinTree;
 import don.juan.matus.lib.bintree.rotatetree.random.RndBinTree;
+import don.juan.matus.lib.bintree.rotatetree.red_black.RedBlackTree;
+import don.juan.matus.lib.bintree.rotatetree.scapegoat.ScapegoatTree;
 import don.juan.matus.lib.bintree.rotatetree.waight.BinTreeW;
 import don.juan.matus.lib.bintree.tst.TreeMapTst;
 import don.juan.matus.lib.bintree.tst.TreeSetTst;
+import junit.framework.TestCase;
+import org.apache.commons.collections.list.TreeList;
 
 import java.util.*;
 
@@ -706,14 +706,17 @@ public class SimpleTest extends TestCase {
         AVLBinTree<Long> btLng = new AVLBinTree<Long>();
         removeCheckStructure(btLng);
     }
+
     public void testRedBlackBinTree2() {
         RedBlackTree<Long> btLng = new RedBlackTree<Long>();
         removeCheckStructure(btLng);
     }
+
     public void testWBinTree2() {
         BinTreeW<Long> btLng = new BinTreeW<Long>();
         removeCheckStructure(btLng);
     }
+
     public void testRndBinTree2() {
         RndBinTree<Long> btLng = new RndBinTree<Long>();
         removeCheckStructure(btLng);
@@ -762,6 +765,11 @@ public class SimpleTest extends TestCase {
             public void onNodeCompleted(BinTreeNodeInterface<Long> theObject) {
 
             }
+
+            @Override
+            public void onPassCompleted() {
+
+            }
         });
         System.out.println("----------------------");
         btLng.passBack(new BinTreePassEvent<BinTreeNodeInterface<Long>>() {
@@ -800,6 +808,11 @@ public class SimpleTest extends TestCase {
             public void onNodeCompleted(BinTreeNodeInterface<Long> theObject) {
 
             }
+
+            @Override
+            public void onPassCompleted() {
+
+            }
         });
         System.out.println("----------------------");
         Iterator<Long> it = btLng.iterator();
@@ -848,10 +861,15 @@ public class SimpleTest extends TestCase {
         btLng.checkStructure(new BinTreeCheckPassEventTest());
     }
 
+    public void testBinTreeBase2() {
+        BinTreeBase<Long> btLng = new BinTreeBase<Long>();
+        addCheckStructure(btLng);
+    }
     public void testBinTree2() {
         BinTreeW<Long> btLng = new BinTreeW<Long>();
         addCheckStructure(btLng);
     }
+
     public void testScapegoatBinTree2() {
         ScapegoatTree<Long> btLng = new ScapegoatTree<Long>();
         addCheckStructure(btLng);
@@ -859,7 +877,7 @@ public class SimpleTest extends TestCase {
 
     public void addCheckStructure(BinTreeBase btLng) {
         Long rnd;
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000000; i++) {
             rnd = Math.round(Math.random() * 10000L);
             btLng.add(rnd);
         }
@@ -867,13 +885,14 @@ public class SimpleTest extends TestCase {
             int i = 1;
 
             public void onPass(BinTreeNodeInterface<Long> theObject) {
-                System.out.println("i = " + i + " btLng = " + theObject.getObjectNode());
+                //System.out.println("i = " + i + " btLng = " + theObject.getObjectNode());
                 i++;
             }
 
             public Long incLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
+
             public Long decLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
@@ -896,6 +915,11 @@ public class SimpleTest extends TestCase {
 
             @Override
             public void onNodeCompleted(BinTreeNodeInterface<Long> theObject) {
+
+            }
+
+            @Override
+            public void onPassCompleted() {
 
             }
         });
@@ -904,13 +928,14 @@ public class SimpleTest extends TestCase {
             int i = 1;
 
             public void onPass(BinTreeNodeInterface<Long> theObject) {
-                System.out.println("i = " + i + " btLng = " + theObject.getObjectNode());
+                //System.out.println("i = " + i + " btLng = " + theObject.getObjectNode());
                 i++;
             }
 
             public Long incLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
+
             public Long decLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
@@ -935,24 +960,92 @@ public class SimpleTest extends TestCase {
             public void onNodeCompleted(BinTreeNodeInterface<Long> theObject) {
 
             }
+
+            @Override
+            public void onPassCompleted() {
+
+            }
         });
 
         System.out.println("----------------------");
         Iterator<Long> it = btLng.iterator();
         int i = 1;
         while (it.hasNext()) {
-            System.out.println("i = " + i + " btLng = " + it.next());
+            //System.out.println("i = " + i + " btLng = " + it.next());
+            it.next();
             i++;
         }
         btLng.checkStructure(new BinTreeCheckPassEventTest());
+        System.out.println("---------------------------------------------------");
+        System.out.println("MaxLevel = " + btLng.getMaxLevel());
+        System.out.println("Size = " + btLng.getSize());
+        System.out.println("RotateCount = " + btLng.getRotateCount());
+        System.out.println("---------------------------------------------------");
+        btLng.rebalanceTree();
+
+        final long[] mw = new long[1];
+
+        btLng.passStraight(new BinTreePassEvent<BinTreeNodeInterface<Long>>() {
+            int i = 1;
+            long height = 0L;
+            long maxheight = 0L;
+
+            public void onPass(BinTreeNodeInterface<Long> theObject) {
+                //System.out.println("i = " + i + " btLng = " + theObject.getObjectNode());
+                i++;
+            }
+
+            public Long incLevel(BinTreeNodeInterface<Long> theObject) {
+                height++;
+                if (height > maxheight) maxheight = height;
+                return height;
+            }
+
+            public Long decLevel(BinTreeNodeInterface<Long> theObject) {
+                height--;
+                return height;
+            }
+
+            public Long incLeft(BinTreeNodeInterface<Long> theObject) {
+                return null;
+            }
+
+            public Long decLeft(BinTreeNodeInterface<Long> theObject) {
+                return null;
+            }
+
+            public Long incRight(BinTreeNodeInterface<Long> theObject) {
+                return null;
+            }
+
+            public Long decRight(BinTreeNodeInterface<Long> theObject) {
+                return null;
+            }
+
+            @Override
+            public void onNodeCompleted(BinTreeNodeInterface<Long> theObject) {
+
+            }
+
+            @Override
+            public void onPassCompleted() {
+                mw[0] = maxheight;
+            }
+        });
+
+        System.out.println("---------------------------------------------------");
+        System.out.println("MaxLevel = " + mw[0]);
+        System.out.println("Size = " + btLng.getSize());
+        //System.out.println("RotateCount = " + btLng.getRotateCount());
+        System.out.println("---------------------------------------------------");
     }
 
     public void testAVLBinTree3() {
         Calendar cBegin = Calendar.getInstance();
         AVLBinTree<Long> btLng = new AVLBinTree<Long>();
-        btLng.setThreshold((byte)4);
+        btLng.setThreshold((byte) 4);
         Long rnd;
-        for (int i = 0; i < 10000000; i++) {
+        for (int i = 0; i < 10000; i++) {
             rnd = Math.round(Math.random() * 10000L);
 //            System.out.print(", " + rnd);
             btLng.add(rnd);
@@ -1008,6 +1101,11 @@ public class SimpleTest extends TestCase {
             public void onNodeCompleted(BinTreeNodeInterface<Long> theObject) {
 
             }
+
+            @Override
+            public void onPassCompleted() {
+
+            }
         });
         Calendar cEnd = Calendar.getInstance();
         System.out.println("---------------------------------------------------");
@@ -1046,6 +1144,7 @@ public class SimpleTest extends TestCase {
             public Long incLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
+
             public Long decLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
@@ -1068,6 +1167,11 @@ public class SimpleTest extends TestCase {
 
             @Override
             public void onNodeCompleted(BinTreeNodeInterface<Long> theObject) {
+
+            }
+
+            @Override
+            public void onPassCompleted() {
 
             }
         });
@@ -1342,7 +1446,7 @@ public class SimpleTest extends TestCase {
         while (it.hasNext()) {
             it.next();
             if (j % 3 == 0) {
-                System.out.println("j="+ j);
+                System.out.println("j=" + j);
                 it.remove();
             }
             j++;
@@ -1574,6 +1678,7 @@ public class SimpleTest extends TestCase {
             public Long incLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
+
             public Long decLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
@@ -1596,6 +1701,11 @@ public class SimpleTest extends TestCase {
 
             @Override
             public void onNodeCompleted(BinTreeNodeInterface<Long> theObject) {
+
+            }
+
+            @Override
+            public void onPassCompleted() {
 
             }
         });
@@ -1627,6 +1737,7 @@ public class SimpleTest extends TestCase {
             public Long incLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
+
             public Long decLevel(BinTreeNodeInterface<Long> theObject) {
                 return null;
             }
@@ -1651,12 +1762,25 @@ public class SimpleTest extends TestCase {
             public void onNodeCompleted(BinTreeNodeInterface<Long> theObject) {
 
             }
+
+            @Override
+            public void onPassCompleted() {
+
+            }
         });
     }
 
     public static class BinTreeCheckPassEventTest implements BinTreeCheckPassEvent<Long> {
 
         private String errorMessage;
+        private boolean ignor = false;
+
+        public BinTreeCheckPassEventTest() {
+        }
+
+        public BinTreeCheckPassEventTest(boolean ignor) {
+            this.ignor = ignor;
+        }
 
         @Override
         public void onPass(
@@ -1664,11 +1788,12 @@ public class SimpleTest extends TestCase {
                 BinTreeIterator<Long> rightIterator,
                 BinTreeNodeInterface<Long> currentNode,
                 BinTreeNodeInterface<Long> previousNode) {
-            System.out.println(errorMessage
-                    + "\r\n Current node: " + currentNode
-                    + "\r\n Previous node: " + previousNode
-                    + "\r\n Left iterator: " + leftIterator
-                    + "\r\n Right iterator: " + rightIterator);
+            if (!ignor)
+                System.out.println(errorMessage
+                        + "\r\n Current node: " + currentNode
+                        + "\r\n Previous node: " + previousNode
+                        + "\r\n Left iterator: " + leftIterator
+                        + "\r\n Right iterator: " + rightIterator);
         }
 
         @Override

@@ -12,4 +12,6 @@ public interface BinTreePassEvent<T> {
     Long incRight(T theObject);
     Long decRight(T theObject);
     void onNodeCompleted(T theObject);
+
+    void onPassCompleted();
 }

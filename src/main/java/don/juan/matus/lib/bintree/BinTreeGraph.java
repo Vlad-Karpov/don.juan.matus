@@ -8,11 +8,11 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
 /**
- * Граф двоичного дерева.
+ * Grahp binary tree
  */
 public class BinTreeGraph<T extends Comparable<T>> {
 
-    private BinTreeInterface<T> tree;
+    private BinTreeBase<T> tree;
     private JFrame frame;
     private JPanel pane;
     private Container cp;
@@ -22,7 +22,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
     private Long maxX = 900L;
     private Long maxY = 700L;
 
-    public BinTreeGraph(BinTreeInterface<T> theTree) {
+    public BinTreeGraph(BinTreeBase<T> theTree) {
         super();
         tree = theTree;
     }
@@ -92,6 +92,11 @@ public class BinTreeGraph<T extends Comparable<T>> {
 
             @Override
             public void onNodeCompleted(BinTreeNodeInterface<T> theObject) {
+
+            }
+
+            @Override
+            public void onPassCompleted() {
 
             }
         });
@@ -175,6 +180,11 @@ public class BinTreeGraph<T extends Comparable<T>> {
                 paint(theObject);
             }
 
+            @Override
+            public void onPassCompleted() {
+
+            }
+
         });
     }
 
@@ -255,11 +265,26 @@ public class BinTreeGraph<T extends Comparable<T>> {
             }
         });
 
+        JButton jButtonBalance = new JButton("balance");
+        jButtonBalance.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("balance");
+                jTextField.setText("");
+                jTextField.requestFocusInWindow();
+                tree.rebalanceTree();
+                dopInfo.clear();
+                SwingUtilities.updateComponentTreeUI(frame);
+            }
+        });
+
+
         jMenuBar.add(jTextField);
         jMenuBar.add(jButtonAdd);
         jMenuBar.add(jButtonDel);
         jMenuBar.add(jButtonCheck);
         jMenuBar.add(jButtonClear);
+        jMenuBar.add(jButtonBalance);
         frame.setJMenuBar(jMenuBar);
         cp = frame.getContentPane();
         pane = new JPanel() {

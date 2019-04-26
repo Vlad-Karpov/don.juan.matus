@@ -31,7 +31,7 @@ del 15
  */
 
 
-    public static final long CNT = 20L;
+    public static final long CNT = 17L;
 
     public static void main(String[] args) {
         //AVLBinTree<Long> btLng = new AVLBinTree<Long>();
@@ -49,12 +49,13 @@ del 15
         //Long[] rnd = new Long[]{};
         //Long[] rnd = new Long[]{3693L, 5312L, 9701L, 8279L, 7627L, 5996L, 8152L, 9863L, 1212L, 2628L, 9159L, 8584L, 3876L, 2173L, 8627L, 6457L, 6034L, 6967L, 9026L, 8530L, 548L, 7564L, 6746L/*, 8752L*/};
         //for (int i = 0; i < rnd.length; i++) btLng.add(rnd[i]);
-//        for (long i = 0; i < CNT; i++) {
-//            Long rnd = Math.round(Math.random() * CNT);
-//            System.out.print(rnd + "L, ");
-//            btLng.add(rnd);
-//            btLng.checkStructure(check);
-//        }
+        for (long i = 0; i < CNT; i++) {
+            //Long rnd = Math.round(Math.random() * CNT);
+            //System.out.print(rnd + "L, ");
+            //btLng.add(rnd);
+            btLng.add(i + 1);
+            btLng.checkStructure(check);
+        }
 //        btLng.remove(2L);
 //        btLng.remove(8L);
 //        btLng.remove(19L);

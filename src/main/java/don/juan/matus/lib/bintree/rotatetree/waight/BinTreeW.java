@@ -1,15 +1,11 @@
 package don.juan.matus.lib.bintree.rotatetree.waight;
 
-import don.juan.matus.lib.bintree.BinTreeCheckPassEvent;
-import don.juan.matus.lib.bintree.BinTreeIterator;
-import don.juan.matus.lib.bintree.BinTreeNodeInterface;
-import don.juan.matus.lib.bintree.rotatetree.RotateBalancedBinTree;
-import don.juan.matus.lib.bintree.rotatetree.red_black.BinTreeNodeRB;
+import don.juan.matus.lib.bintree.*;
 
 /**
  * Binary tree with balance by weight.
  */
-public class BinTreeW<T extends Comparable<T>> extends RotateBalancedBinTree<T> {
+public class BinTreeW<T extends Comparable<T>> extends BinTreeBase<T> {
 
     private double alpha = 4.0d;
 

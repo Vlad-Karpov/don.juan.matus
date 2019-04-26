@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class BinTreeBase<T extends Comparable<T>>
         extends AbstractSet<T>
-        implements BinTreeInterface<T>, NavigableSet<T>, Cloneable, java.io.Serializable {
+        implements BinTreeInterface<T>, NavigableSet<T>, RotateBalancedBinTree<T>, Cloneable, java.io.Serializable {
 
     public static byte LEFT = 0;
     public static byte RIGHT = 1;
@@ -17,6 +17,7 @@ public class BinTreeBase<T extends Comparable<T>>
     protected Long maxLevel;
     protected Long level;
     protected Long size;
+    protected Long rotateCount;
     private GeneralCall<T> removeGeneralCall = new GeneralCall<T>() {
 
         @Override
@@ -31,6 +32,7 @@ public class BinTreeBase<T extends Comparable<T>>
         maxLevel = 0L;
         level = 0L;
         size = 0L;
+        rotateCount = 0L;
     }
 
     @Override
@@ -55,11 +57,13 @@ public class BinTreeBase<T extends Comparable<T>>
     @Override
     public void passStraight(BinTreePassEvent<BinTreeNodeInterface<T>> thePassEvent) {
         passStraight(thePassEvent, root);
+        thePassEvent.onPassCompleted();
     }
 
     @Override
     public void passBack(BinTreePassEvent<BinTreeNodeInterface<T>> thePassEvent) {
         passBack(thePassEvent, root);
+        thePassEvent.onPassCompleted();
     }
 
     protected void passStraight(BinTreePassEvent<BinTreeNodeInterface<T>> thePassEvent, BinTreeNodeInterface<T> node) {
@@ -130,6 +134,63 @@ public class BinTreeBase<T extends Comparable<T>>
         }
         return result;
     }
+
+    public static <T extends Comparable<T>> TreeProps treePassage(final BinTreeNodeInterface<T> theRoot) {
+        TreeProps result = new TreeProps();
+        if (theRoot != null) {
+            Long currentHeght = 0L;
+            Long maxHeght = 0L;
+            BinTreeNodeInterface<T> cursor = theRoot;
+            byte direction = 0;
+            while (true) {
+                if (direction == 0) {
+                    if (cursor.getLeft() != null) {
+                        cursor = cursor.getLeft();
+                        direction = 0;
+                        currentHeght++;
+                        if (maxHeght < currentHeght) maxHeght = currentHeght;
+                    } else {
+                        direction = 1;
+                    }
+                }
+                if (direction == 1) {
+                    if (cursor.getRight() != null) {
+                        cursor = cursor.getRight();
+                        direction = 0;
+                        currentHeght++;
+                        if (maxHeght < currentHeght) maxHeght = currentHeght;
+                    } else {
+                        direction = 2;
+                    }
+                }
+                if (direction == 2) {
+                    currentHeght--;
+                    result.weight++;
+                    if (cursor != theRoot) {
+                        if (cursor.getParent().getLeft() == cursor) {
+                            cursor = cursor.getParent();
+                            direction = 1;
+                            continue;
+                        }
+                        if (cursor.getParent().getRight() == cursor) {
+                            cursor = cursor.getParent();
+                            direction = 2;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            }
+            result.heght = maxHeght;
+        }
+        return result;
+    }
+
+    public static class TreeProps {
+        public Long heght = 0L;
+        public Long weight = 0L;
+    }
+
 
     @Override
     public T lower(T t) {
@@ -413,6 +474,100 @@ public class BinTreeBase<T extends Comparable<T>>
 
     protected void changeNode(BinTreeNodeInterface<T> theCurrentNode) {
         //
+    }
+
+    public Long getRotateCount() {
+        return rotateCount;
+    }
+
+    public void setRotateCount(Long rotateCount) {
+        this.rotateCount = rotateCount;
+    }
+
+    public void afterRotateRight(BinTreeNodeInterface<T> dadNode, BinTreeNodeInterface<T> currentNode, BinTreeNodeInterface<T> pivotNode) {
+
+    };
+    public void afterRotateLeft(BinTreeNodeInterface<T> dadNode, BinTreeNodeInterface<T> currentNode, BinTreeNodeInterface<T> pivotNode) {
+
+    };
+
+    public BinTreeNodeInterface<T> rotateRight(BinTreeNodeInterface<T> currentNode) {
+        rotateCount++;
+        BinTreeNodeInterface<T> pivot = currentNode.getLeft();
+        BinTreeNodeInterface<T> pivotRight = pivot.getRight();
+        BinTreeNodeInterface<T> dad = currentNode.getParent();
+        if (dad.getLeft() == currentNode) {
+            dad.setLeft(pivot);
+        } else {
+            dad.setRight(pivot);
+        }
+        pivot.setParent(dad);
+        pivot.setRight(currentNode);
+        currentNode.setParent(pivot);
+        if (pivotRight != null) pivotRight.setParent(currentNode);
+        currentNode.setLeft(pivotRight);
+        afterRotateRight(dad, currentNode, pivot);
+        return pivot;
+    }
+
+    public BinTreeNodeInterface<T> rotateLeft(BinTreeNodeInterface<T> currentNode) {
+        rotateCount++;
+        BinTreeNodeInterface<T> pivot = currentNode.getRight();
+        BinTreeNodeInterface<T> pivotLeft = pivot.getLeft();
+        BinTreeNodeInterface<T> dad = currentNode.getParent();
+        if (dad.getLeft() == currentNode) {
+            dad.setLeft(pivot);
+        } else {
+            dad.setRight(pivot);
+        }
+        pivot.setParent(dad);
+        pivot.setLeft(currentNode);
+        currentNode.setParent(pivot);
+        if (pivotLeft != null) pivotLeft.setParent(currentNode);
+        currentNode.setRight(pivotLeft);
+        afterRotateLeft(dad, currentNode, pivot);
+        return pivot;
+    }
+
+    public BinTreeNodeInterface<T> rebalanceTree(BinTreeNodeInterface<T> currentNode) {
+        BinTreeNodeInterface<T> theRoot = currentNode;
+        boolean theFirst = true;
+        int wheight = 0;
+        Double nDouble;
+        int n;
+        if (currentNode != null) {
+            BinTreeNodeInterface<T> cursor = currentNode;
+            do {
+                while (cursor.getRight() != null)
+                    cursor = rotateLeft(cursor);
+                if (theFirst) {
+                    theRoot = cursor;
+                    theFirst = false;
+                }
+                wheight++;
+                cursor = cursor.getLeft();
+            } while (cursor != null);
+            nDouble = Math.floor(Math.log(wheight) / Math.log(2));
+            n = nDouble.intValue() - 1;
+            for (int i = 0; i < n; i++) {
+                theFirst = true;
+                cursor = theRoot;
+                wheight = wheight / 2;
+                for (int j = 0; j < wheight; j++) {
+                    cursor = rotateRight(cursor);
+                    if (theFirst) {
+                        theRoot = cursor;
+                        theFirst = false;
+                    }
+                    cursor = cursor.getLeft();
+                }
+            }
+        }
+        return theRoot;
+    }
+
+    public void rebalanceTree() {
+        root.setLeft(rebalanceTree(root.getLeft()));
     }
 
 }

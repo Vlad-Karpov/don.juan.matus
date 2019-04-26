@@ -85,4 +85,6 @@ public interface BinTreeInterface<T extends Comparable<T>> {
         return (b1 < 0) ? -b1 : b1;
     }
 
+    void rebalanceTree();
+
 }

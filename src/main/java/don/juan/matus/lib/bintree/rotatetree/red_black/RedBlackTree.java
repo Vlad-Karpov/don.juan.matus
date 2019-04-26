@@ -1,17 +1,13 @@
 package don.juan.matus.lib.bintree.rotatetree.red_black;
 
-import don.juan.matus.lib.bintree.BinTreeCheckPassEvent;
-import don.juan.matus.lib.bintree.BinTreeInterface;
-import don.juan.matus.lib.bintree.BinTreeIterator;
-import don.juan.matus.lib.bintree.BinTreeNodeInterface;
-import don.juan.matus.lib.bintree.rotatetree.RotateBalancedBinTree;
+import don.juan.matus.lib.bintree.*;
 
 import static don.juan.matus.lib.bintree.BinTreeInterface.*;
 
 /*
 Classic Red-Black binary tree.
  */
-public class RedBlackTree<T extends Comparable<T>> extends RotateBalancedBinTree<T> {
+public class RedBlackTree<T extends Comparable<T>> extends BinTreeBase<T> {
 
     public RedBlackTree() {
         super();
