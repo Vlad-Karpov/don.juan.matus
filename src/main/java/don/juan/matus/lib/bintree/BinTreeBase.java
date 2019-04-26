@@ -4,7 +4,6 @@ import java.util.*;
 
 /**
  * Base class binary tree.
- * Not balances binary tree.
  */
 public class BinTreeBase<T extends Comparable<T>>
         extends AbstractSet<T>
