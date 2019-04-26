@@ -4,7 +4,6 @@ import java.util.*;
 
 /**
  * Base class binary tree.
- * Not balances binary tree.
  */
 public class BinTreeBase<T extends Comparable<T>>
         extends AbstractSet<T>
@@ -187,10 +186,14 @@ public class BinTreeBase<T extends Comparable<T>>
     }
 
     public static class TreeProps {
-        public Long heght = 0L;
-        public Long weight = 0L;
+        Long heght = 0L;
+        Long weight = 0L;
     }
 
+    public static <T extends Comparable<T>> long sizeOfNode(BinTreeNodeInterface<T> cursor) {
+        TreeProps tp = treePassage(cursor);
+        return tp.weight;
+    }
 
     @Override
     public T lower(T t) {
@@ -486,10 +489,15 @@ public class BinTreeBase<T extends Comparable<T>>
 
     public void afterRotateRight(BinTreeNodeInterface<T> dadNode, BinTreeNodeInterface<T> currentNode, BinTreeNodeInterface<T> pivotNode) {
 
-    };
+    }
+
+    ;
+
     public void afterRotateLeft(BinTreeNodeInterface<T> dadNode, BinTreeNodeInterface<T> currentNode, BinTreeNodeInterface<T> pivotNode) {
 
-    };
+    }
+
+    ;
 
     public BinTreeNodeInterface<T> rotateRight(BinTreeNodeInterface<T> currentNode) {
         rotateCount++;
