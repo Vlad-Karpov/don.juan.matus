@@ -51,18 +51,17 @@ public class ScapegoatTree<T extends Comparable<T>> extends BinTreeBase<T> {
         return cursor;
     }
 
-    private long sizeOfNode(BinTreeNodeInterface<T> cursor) {
-        TreeProps tp = treePassage(cursor);
-        return tp.weight;
-    }
-
     @Override
     protected void changeNode(BinTreeNodeInterface<T> theCurrentNode) {
         BinTreeNodeInterface<T> cursor;
         cursor = theCurrentNode.getParent();
+        Long height = 0L;
         while (cursor != root) {
             cursor = cursor.getParent();
-            //if (cursor != root) cursor = rebalance(cursor);
+            height++;
+        }
+        if (height > Math.floor(Math.log(size + 1) / Math.log(1 / alpha))) {
+            super.rebalanceTree();
         }
     }
 
