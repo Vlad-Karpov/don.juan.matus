@@ -38,16 +38,14 @@ public class ScapegoatTree<T extends Comparable<T>> extends BinTreeBase<T> {
                     cursor = super.rebalanceTree(cursor);
                     break;
                 }
-                //if (cursor != root) {
-                    if (cursor == cursor.getParent().getLeft()) {
-                        size_left = size_node;
-                        size_right = sizeOfNode(cursor.getParent().getRight());
-                    } else {
-                        size_left = sizeOfNode(cursor.getParent().getLeft());
-                        size_right = size_node;
-                    }
-                    cursor = cursor.getParent();
-                //}
+                if (cursor == cursor.getParent().getLeft()) {
+                    size_left = size_node;
+                    size_right = sizeOfNode(cursor.getParent().getRight());
+                } else {
+                    size_left = sizeOfNode(cursor.getParent().getLeft());
+                    size_right = size_node;
+                }
+                cursor = cursor.getParent();
             }
         }
         return cursor;
