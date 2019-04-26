@@ -43,9 +43,9 @@ public class DescendingBinTreeIterator<T extends Comparable<T>> extends BinTreeI
             while (quit) {
                 switch (leftOrRight) {
                     case 1: /*from parent*/ {
+                        outerObject = currentNode.changeOuterObject(outerObject, currentNode, 1);
                         if (currentNode.getRight() == null) {
                             result = currentNode.getObjectNode();
-                            outerObject = currentNode.changeOuterObject(outerObject, currentNode, 0);
                             leftOrRight = 3;
                             size++;
                             quit = false;
@@ -54,7 +54,6 @@ public class DescendingBinTreeIterator<T extends Comparable<T>> extends BinTreeI
                             leftOrRight = 1;
                             level++;
                             if (maxLevel < level) maxLevel = level;
-                            outerObject = currentNode.changeOuterObject(outerObject, currentNode, 1);
                         }
                         break;
                     }
@@ -64,20 +63,19 @@ public class DescendingBinTreeIterator<T extends Comparable<T>> extends BinTreeI
                             if (currentNode == rootNode) {
                                 quit = false;
                             } else {
+                                outerObject = currentNode.changeOuterObject(outerObject, currentNode, -1);
                                 if (currentNode == parent.getRight()) {
                                     currentNode = parent;
                                     result = currentNode.getObjectNode();
                                     leftOrRight = 3;
                                     size++;
                                     level--;
-                                    outerObject = currentNode.changeOuterObject(outerObject, currentNode, -1);
                                     quit = false;
                                 }
                                 if (currentNode == parent.getLeft()) {
                                     leftOrRight = 2;
                                     currentNode = parent;
                                     level--;
-                                    outerObject = currentNode.changeOuterObject(outerObject, currentNode, -1);
                                 }
                             }
                         } else {
@@ -93,7 +91,6 @@ public class DescendingBinTreeIterator<T extends Comparable<T>> extends BinTreeI
                             leftOrRight = 1;
                             level++;
                             if (maxLevel < level) maxLevel = level;
-                            outerObject = currentNode.changeOuterObject(outerObject, currentNode, 1);
                         }
                         break;
                     }

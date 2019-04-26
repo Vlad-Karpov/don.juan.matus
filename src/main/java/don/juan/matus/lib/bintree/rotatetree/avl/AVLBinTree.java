@@ -1,14 +1,16 @@
 package don.juan.matus.lib.bintree.rotatetree.avl;
 
+import don.juan.matus.lib.bintree.BinTreeBase;
 import don.juan.matus.lib.bintree.BinTreeCheckPassEvent;
 import don.juan.matus.lib.bintree.BinTreeIterator;
 import don.juan.matus.lib.bintree.BinTreeNodeInterface;
-import don.juan.matus.lib.bintree.rotatetree.RotateBalancedBinTree;
+
+import static don.juan.matus.lib.bintree.BinTreeInterface.*;
 
 /**
  * Classic AVL binary tree.
  */
-public class AVLBinTree<T extends Comparable<T>> extends RotateBalancedBinTree<T> {
+public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
 
     private byte threshold = 2;
 
@@ -74,7 +76,7 @@ public class AVLBinTree<T extends Comparable<T>> extends RotateBalancedBinTree<T
                     byte cb = cursor.getBalanceFactor();
                     super.rotateLeft(cursor.getLeft());
                     byte cbn = cursor.getBalanceFactor();
-                    parent.incBalanceFactor((byte) (parent.getRight() == cursor ? - cbn + cb : cbn - cb));
+                    parent.incBalanceFactor((byte) (parent.getRight() == cursor ? -cbn + cb : cbn - cb));
                 }
                 if (cursor.getBalanceFactor() == threshold) {
                     cursor = (BinTreeNodeBF<T>) super.rotateRight(cursor);
@@ -85,7 +87,7 @@ public class AVLBinTree<T extends Comparable<T>> extends RotateBalancedBinTree<T
                     byte cb = cursor.getBalanceFactor();
                     super.rotateRight(cursor.getRight());
                     byte cbn = cursor.getBalanceFactor();
-                    parent.incBalanceFactor((byte) (parent.getRight() == cursor ? cbn - cb : - cbn + cb));
+                    parent.incBalanceFactor((byte) (parent.getRight() == cursor ? cbn - cb : -cbn + cb));
                 }
                 if (cursor.getBalanceFactor() == -threshold) {
                     cursor = (BinTreeNodeBF<T>) super.rotateLeft(cursor);
@@ -160,7 +162,7 @@ public class AVLBinTree<T extends Comparable<T>> extends RotateBalancedBinTree<T
     protected void changeNode(BinTreeNodeInterface<T> theCurrentNode) {
         BinTreeNodeBF<T> cursor = (BinTreeNodeBF<T>) theCurrentNode;
         BinTreeNodeBF<T> parent = (BinTreeNodeBF<T>) cursor.getParent();
-        rebalanceTree((BinTreeNodeBF<T>)theCurrentNode, parent.getLeft() == cursor ? -1 : 1, -1);
+        rebalanceTree((BinTreeNodeBF<T>) theCurrentNode, parent.getLeft() == cursor ? -1 : 1, -1);
     }
 
 
@@ -169,7 +171,7 @@ public class AVLBinTree<T extends Comparable<T>> extends RotateBalancedBinTree<T
         boolean result = super.checkTreeNode(thePassEvent, btiLeft, btiRight, currentNode, previousNode);
         if (result) {
             if (btiLeft != null && btiRight != null) {
-                if (btiLeft.getMaxLevel() - btiRight.getMaxLevel() != ((BinTreeNodeBF<T>)currentNode).getBalanceFactor()) {
+                if (btiLeft.getMaxLevel() - btiRight.getMaxLevel() != ((BinTreeNodeBF<T>) currentNode).getBalanceFactor()) {
                     thePassEvent.setErrorMessage("AVLBinTree: Tree structure invalid, incorrect balance factor!");
                     result = false;
                 }

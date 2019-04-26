@@ -25,17 +25,11 @@ public class BinTreeNodeW<T extends Comparable<T>> extends BinTreeNodeBase<T> {
     }
 
     public Long decWeight() {
-        return weight--;
+        return weight > 0 ? weight-- : weight;
     }
 
     public void setWeight(Long weight) {
         this.weight = weight;
-    }
-
-    @Override
-    public void onNode() {
-        super.onNode();
-        weight++;
     }
 
     @Override

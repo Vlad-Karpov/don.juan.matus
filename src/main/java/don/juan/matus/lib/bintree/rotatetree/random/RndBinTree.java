@@ -3,6 +3,7 @@ package don.juan.matus.lib.bintree.rotatetree.random;
 import don.juan.matus.lib.bintree.BinTreeCheckPassEvent;
 import don.juan.matus.lib.bintree.BinTreeIterator;
 import don.juan.matus.lib.bintree.BinTreeNodeInterface;
+import don.juan.matus.lib.bintree.rotatetree.waight.BinTreeNodeW;
 import don.juan.matus.lib.bintree.rotatetree.waight.BinTreeW;
 
 import java.util.Random;
@@ -19,23 +20,17 @@ public class RndBinTree<T extends Comparable<T>> extends BinTreeW<T> {
         root = new RndBinTreeNode<T>(null, null, null, null);
     }
 
-    protected BinTreeNodeInterface<T> postAddLoop(final BinTreeNodeInterface<T> currentNode) {
-        RndBinTreeNode<T> cursor = (RndBinTreeNode<T>) currentNode;
-        do {
-            RndBinTreeNode<T> parent = (RndBinTreeNode<T>) cursor.getParent();
-            if (parent != null && parent != root) {
-                if ((rnd.nextLong() % (parent.getWeight()) == 0)) {
-                    if (cursor == parent.getLeft()) {
-                        cursor = (RndBinTreeNode<T>) rotateRight(parent);
-                    } else {
-                        cursor = (RndBinTreeNode<T>) rotateLeft(parent);
-                    }
+    protected <U extends BinTreeNodeW<T>> U rebalance(U cursor) {
+        RndBinTreeNode<T> parent = (RndBinTreeNode<T>) cursor.getParent();
+        if (parent != root) {
+            if ((rnd.nextLong() % (parent.getWeight()) == 0)) {
+                if (cursor == parent.getLeft()) {
+                    cursor = (U) rotateRight(parent);
                 } else {
-                    cursor = parent;
+                    cursor = (U) rotateLeft(parent);
                 }
-            } else
-                break;
-        } while (true);
+            }
+        }
         return cursor;
     }
 

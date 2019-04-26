@@ -1,7 +1,5 @@
 package don.juan.matus.lib.bintree;
 
-import java.util.Objects;
-
 /**
  * Base node type binary tree.
  */
@@ -92,20 +90,6 @@ public class BinTreeNodeBase<T extends Comparable<T>> implements BinTreeNodeInte
     public int compareTo(BinTreeNodeInterface<T> o) {
         return objectNode.compareTo(o.getObjectNode());
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BinTreeNodeBase<?> that = (BinTreeNodeBase<?>) o;
-        return Objects.equals(objectNode, that.objectNode);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(objectNode);
-    }
-
 
     @Override
     public Object changeOuterObject(Object theOuterObject, BinTreeNodeInterface<T> currentNode, int increment) {
