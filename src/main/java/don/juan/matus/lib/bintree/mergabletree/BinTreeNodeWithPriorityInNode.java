@@ -23,11 +23,18 @@ public class BinTreeNodeWithPriorityInNode<T extends Comparable<T>> extends BinT
             BinTreeNodeInterface<T> theLeft,
             BinTreeNodeInterface<T> theParent,
             BinTreeNodeInterface<T> theRight) {
-        return new BinTreeNodeWithPriorityInNode(
-                theObject,
-                (BinTreeNodeWithPriorityInNode<T>) theLeft,
-                (BinTreeNodeWithPriorityInNode<T>) theParent,
-                (BinTreeNodeWithPriorityInNode<T>) theRight);
+        if (theObject instanceof PriorityDecartBinTreeNode) {
+            return new BinTreeNodeWithPriority(theObject,
+                    (BinTreeNodeWithPriority) theLeft,
+                    (BinTreeNodeWithPriority) theParent,
+                    (BinTreeNodeWithPriority) theRight);
+        } else {
+            return new BinTreeNodeWithPriorityInNode<T>(
+                    theObject,
+                    (BinTreeNodeWithPriorityInNode<T>) theLeft,
+                    (BinTreeNodeWithPriorityInNode<T>) theParent,
+                    (BinTreeNodeWithPriorityInNode<T>) theRight);
+        }
     }
 
     @Override
