@@ -1213,6 +1213,7 @@ public class SimpleTest extends TestCase {
         Calendar cBegin = Calendar.getInstance();
         List<Long> rList = readRendomDataFile();
         Long rnd;
+        BinTreeBase.TreeProps tp;
         //
         int j;
         Iterator<Long> it;
@@ -1220,44 +1221,46 @@ public class SimpleTest extends TestCase {
         Calendar cEnd = Calendar.getInstance();
         System.out.println("time 1 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
         //
-//        System.out.println("BinTreeW");
-//        cBegin = Calendar.getInstance();
-//        BinTreeW<Long> btLng = new BinTreeW<Long>();
-//        for (int i = 0; i < 10000000; i++) {
-//            rnd = rList.get(i);
-//            btLng.add(rnd);
-//        }
-//        System.out.println("maxLevel = " + btLng.getMaxLevel());
-//        System.out.println("RotateCount = " + btLng.getRotateCount());
-//        cEnd = Calendar.getInstance();
-//        System.out.println("time 2.1 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
-//        //
-//        cBegin = Calendar.getInstance();
-//        it = btLng.iterator();
-//        j = 0;
-//        while (it.hasNext()) {
-//            it.next();
-//            j++;
-//        }
-//        cEnd = Calendar.getInstance();
-//        System.out.println("time 3.1 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + btLng.getSize());
-//        //
-//        cBegin = Calendar.getInstance();
-//        btLng.checkStructure(new BinTreeCheckPassEventTest());
-//        cEnd = Calendar.getInstance();
-//        System.out.println("time 4.1 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + btLng.getSize());
-//        //
-//        btLng = null;
-//        System.gc();
+        System.out.println("BinTreeW");
+        cBegin = Calendar.getInstance();
+        BinTreeW<Long> btLng = new BinTreeW<Long>();
+        for (int i = 0; i < maxRandomDataFile; i++) {
+            rnd = rList.get(i);
+            btLng.add(rnd);
+        }
+        tp = btLng.treePassage();
+        System.out.println("maxLevel = " + tp.heght);
+        System.out.println("RotateCount = " + btLng.getRotateCount());
+        cEnd = Calendar.getInstance();
+        System.out.println("time 2.1 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
+        //
+        cBegin = Calendar.getInstance();
+        it = btLng.iterator();
+        j = 0;
+        while (it.hasNext()) {
+            it.next();
+            j++;
+        }
+        cEnd = Calendar.getInstance();
+        System.out.println("time 3.1 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + btLng.getSize());
+        //
+        cBegin = Calendar.getInstance();
+        btLng.checkStructure(new BinTreeCheckPassEventTest());
+        cEnd = Calendar.getInstance();
+        System.out.println("time 4.1 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + btLng.getSize());
+        //
+        btLng = null;
+        System.gc();
         //
         System.out.println("ScapegoatTree");
         cBegin = Calendar.getInstance();
         ScapegoatTree<Long> scLng = new ScapegoatTree<Long>();
-        for (int i = 0; i < 10000000; i++) {
+        for (int i = 0; i < maxRandomDataFile; i++) {
             rnd = rList.get(i);
             scLng.add(rnd);
         }
-        System.out.println("maxLevel = " + scLng.getMaxLevel());
+        tp = scLng.treePassage();
+        System.out.println("maxLevel = " + tp.heght);
         System.out.println("RotateCount = " + scLng.getRotateCount());
         cEnd = Calendar.getInstance();
         System.out.println("time 2.1 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
@@ -1283,7 +1286,7 @@ public class SimpleTest extends TestCase {
         System.out.println("TreeMap");
         cBegin = Calendar.getInstance();
         TreeMapTst<Long, Long> tmLng = new TreeMapTst<Long, Long>();
-        for (int i = 0; i < 10000000; i++) {
+        for (int i = 0; i < maxRandomDataFile; i++) {
             rnd = rList.get(i);
             tmLng.put(rnd, rnd);
         }
@@ -1307,11 +1310,12 @@ public class SimpleTest extends TestCase {
         System.out.println("RedBlackTree");
         cBegin = Calendar.getInstance();
         RedBlackTree<Long> rbLng = new RedBlackTree<Long>();
-        for (int i = 0; i < 10000000; i++) {
+        for (int i = 0; i < maxRandomDataFile; i++) {
             rnd = rList.get(i);
             rbLng.add(rnd);
         }
-        System.out.println("maxLevel = " + rbLng.getMaxLevel());
+        tp = rbLng.treePassage();
+        System.out.println("maxLevel = " + tp.heght);
         System.out.println("RotateCount = " + rbLng.getRotateCount());
         cEnd = Calendar.getInstance();
         System.out.println("time 2.3 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
@@ -1334,97 +1338,100 @@ public class SimpleTest extends TestCase {
         rbLng = null;
         System.gc();
         //
-//        System.out.println("AVLBinTree");
-//        cBegin = Calendar.getInstance();
-//        AVLBinTree<Long> avlLng = new AVLBinTree<Long>();
-//        //RedBlackTree<Long> avlLng = new RedBlackTree<Long>();
-//        //avlLng.setThreshold((byte)4);
-//        for (int i = 0; i < 10000000; i++) {
-//            rnd = rList.get(i);
-//            avlLng.add(rnd);
-//        }
-//        System.out.println("maxLevel = " + avlLng.getMaxLevel());
-//        System.out.println("RotateCount = " + avlLng.getRotateCount());
-//        cEnd = Calendar.getInstance();
-//        System.out.println("time 2.3 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
-//        //
-//        cBegin = Calendar.getInstance();
-//        it = avlLng.iterator();
-//        j = 0;
-//        while (it.hasNext()) {
-//            it.next();
-//            j++;
-//        }
-//        cEnd = Calendar.getInstance();
-//        System.out.println("time 3.3 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + avlLng.getSize());
-//        //
-//        cBegin = Calendar.getInstance();
-//        avlLng.checkStructure(new BinTreeCheckPassEventTest());
-//        cEnd = Calendar.getInstance();
-//        System.out.println("time 4.3 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + avlLng.getSize());
-//        //
-//        avlLng = null;
-//        System.gc();
+        System.out.println("AVLBinTree");
+        cBegin = Calendar.getInstance();
+        AVLBinTree<Long> avlLng = new AVLBinTree<Long>();
+        //RedBlackTree<Long> avlLng = new RedBlackTree<Long>();
+        //avlLng.setThreshold((byte)4);
+        for (int i = 0; i < maxRandomDataFile; i++) {
+            rnd = rList.get(i);
+            avlLng.add(rnd);
+        }
+        tp = avlLng.treePassage();
+        System.out.println("maxLevel = " + tp.heght);
+        System.out.println("RotateCount = " + avlLng.getRotateCount());
+        cEnd = Calendar.getInstance();
+        System.out.println("time 2.3 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
         //
-//        System.out.println("RndBinTree");
-//        cBegin = Calendar.getInstance();
-//        RndBinTree<Long> rndBLng = new RndBinTree<Long>();
-//        for (int i = 0; i < 10000000; i++) {
-//            rnd = rList.get(i);
-//            rndBLng.add(rnd);
-//        }
-//        System.out.println("maxLevel = " + rndBLng.getMaxLevel());
-//        System.out.println("RotateCount = " + rndBLng.getRotateCount());
-//        cEnd = Calendar.getInstance();
-//        System.out.println("time 2.4 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
-//        //
-//        cBegin = Calendar.getInstance();
-//        it = rndBLng.iterator();
-//        j = 0;
-//        while (it.hasNext()) {
-//            it.next();
-//            j++;
-//        }
-//        cEnd = Calendar.getInstance();
-//        System.out.println("time 3.4 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + rndBLng.getSize());
-//        //
-//        cBegin = Calendar.getInstance();
-//        rndBLng.checkStructure(new BinTreeCheckPassEventTest());
-//        cEnd = Calendar.getInstance();
-//        System.out.println("time 4.4 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + rndBLng.getSize());
-//        //
-//        rndBLng = null;
-//        System.gc();
+        cBegin = Calendar.getInstance();
+        it = avlLng.iterator();
+        j = 0;
+        while (it.hasNext()) {
+            it.next();
+            j++;
+        }
+        cEnd = Calendar.getInstance();
+        System.out.println("time 3.3 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + avlLng.getSize());
+        //
+        cBegin = Calendar.getInstance();
+        avlLng.checkStructure(new BinTreeCheckPassEventTest());
+        cEnd = Calendar.getInstance();
+        System.out.println("time 4.3 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + avlLng.getSize());
+        //
+        avlLng = null;
+        System.gc();
+        //
+        System.out.println("RndBinTree");
+        cBegin = Calendar.getInstance();
+        RndBinTree<Long> rndBLng = new RndBinTree<Long>();
+        for (int i = 0; i < maxRandomDataFile; i++) {
+            rnd = rList.get(i);
+            rndBLng.add(rnd);
+        }
+        tp = rndBLng.treePassage();
+        System.out.println("maxLevel = " + tp.heght);
+        System.out.println("RotateCount = " + rndBLng.getRotateCount());
+        cEnd = Calendar.getInstance();
+        System.out.println("time 2.4 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
+        //
+        cBegin = Calendar.getInstance();
+        it = rndBLng.iterator();
+        j = 0;
+        while (it.hasNext()) {
+            it.next();
+            j++;
+        }
+        cEnd = Calendar.getInstance();
+        System.out.println("time 3.4 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + rndBLng.getSize());
+        //
+        cBegin = Calendar.getInstance();
+        rndBLng.checkStructure(new BinTreeCheckPassEventTest());
+        cEnd = Calendar.getInstance();
+        System.out.println("time 4.4 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + rndBLng.getSize());
+        //
+        rndBLng = null;
+        System.gc();
 
         //
-//        System.out.println("BinTreeBase");
-//        cBegin = Calendar.getInstance();
-//        BinTreeBase<Long> baseBLng = new BinTreeBase<Long>();
-//        for (int i = 0; i < 10000000; i++) {
-//            rnd = rList.get(i);
-//            baseBLng.add(rnd);
-//        }
-//        System.out.println("maxLevel = " + baseBLng.getMaxLevel());
-//        cEnd = Calendar.getInstance();
-//        System.out.println("time 2.5 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
-//        //
-//        cBegin = Calendar.getInstance();
-//        it = baseBLng.iterator();
-//        j = 0;
-//        while (it.hasNext()) {
-//            it.next();
-//            j++;
-//        }
-//        cEnd = Calendar.getInstance();
-//        System.out.println("time 3.5 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + baseBLng.getSize());
-//        //
-//        cBegin = Calendar.getInstance();
-//        baseBLng.checkStructure(new BinTreeCheckPassEventTest());
-//        cEnd = Calendar.getInstance();
-//        System.out.println("time 4.5 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + baseBLng.getSize());
-//        //
-//        baseBLng = null;
-//        System.gc();
+        System.out.println("BinTreeBase");
+        cBegin = Calendar.getInstance();
+        BinTreeBase<Long> baseBLng = new BinTreeBase<Long>();
+        for (int i = 0; i < maxRandomDataFile; i++) {
+            rnd = rList.get(i);
+            baseBLng.add(rnd);
+        }
+        tp = baseBLng.treePassage();
+        System.out.println("maxLevel = " + tp.heght);
+        cEnd = Calendar.getInstance();
+        System.out.println("time 2.5 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
+        //
+        cBegin = Calendar.getInstance();
+        it = baseBLng.iterator();
+        j = 0;
+        while (it.hasNext()) {
+            it.next();
+            j++;
+        }
+        cEnd = Calendar.getInstance();
+        System.out.println("time 3.5 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + baseBLng.getSize());
+        //
+        cBegin = Calendar.getInstance();
+        baseBLng.checkStructure(new BinTreeCheckPassEventTest());
+        cEnd = Calendar.getInstance();
+        System.out.println("time 4.5 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + baseBLng.getSize());
+        //
+        baseBLng = null;
+        System.gc();
     }
 
     public void testBinTreeBase() {
