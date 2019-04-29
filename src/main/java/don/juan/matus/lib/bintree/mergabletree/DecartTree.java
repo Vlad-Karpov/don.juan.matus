@@ -7,7 +7,7 @@ public class DecartTree<T extends Comparable<T>> extends BinTreeBase<T> implemen
 
     public DecartTree() {
         super();
-        root = new BinTreeNodeWithPriorityInNode<T>(null, null, null, null);
+        root = new BinTreeNodeWithPriorityInNode<>(null, null, null, null);
     }
 
 
