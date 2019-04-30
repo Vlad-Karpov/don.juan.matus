@@ -1181,7 +1181,7 @@ public class SimpleTest extends TestCase {
         System.out.println("time = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
     }
 
-    private static final int maxRandomDataFile = 20000000;
+    private static final int maxRandomDataFile = 40000000;
 
     public void testCreateRandomDataFile() throws IOException {
         TreeMapTst<Long, Long> tmRndLng = new TreeMapTst<Long, Long>();
@@ -1194,7 +1194,7 @@ public class SimpleTest extends TestCase {
         tmRndLng = null;
         System.gc();
 
-        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("src/test/resources/RandomDataFile20.dat"));
+        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("src/test/resources/RandomDataFile40.dat"));
         os.writeObject(rList);
         os.flush();
         os.close();
@@ -1203,7 +1203,7 @@ public class SimpleTest extends TestCase {
 
     private List<Long> readRendomDataFile() throws IOException, ClassNotFoundException {
         List<Long> result;
-        ObjectInputStream is = new ObjectInputStream(new FileInputStream("src/test/resources/RandomDataFile20.dat"));
+        ObjectInputStream is = new ObjectInputStream(new FileInputStream("src/test/resources/RandomDataFile40.dat"));
         result = (List<Long>) is.readObject();
         is.close();
         return result;

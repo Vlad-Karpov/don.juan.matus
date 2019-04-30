@@ -1,9 +1,8 @@
 package don.juan.matus.lib.bintree.mergabletree;
 
-import don.juan.matus.lib.bintree.BinTreeNodeBase;
 import don.juan.matus.lib.bintree.BinTreeNodeInterface;
 
-public class BinTreeNodeWithPriorityInNode<T extends Comparable<T>> extends BinTreeNodeBase<T> implements PriorityCartesianBinTreeNode {
+public class BinTreeNodeWithPriorityInNode<T extends Comparable<T>> extends BinTreeNodeCartesianBinTree<T> {
 
     private double priority;
 

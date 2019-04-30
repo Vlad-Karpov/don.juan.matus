@@ -11,12 +11,14 @@ public class CartesianBinTree<T extends Comparable<T>> extends BinTreeBase<T> im
     }
 
 
-    public void merge() {
-
+    @Override
+    public BinTreeNodeCartesianBinTree<T> merge(MergeParts theParts) {
+        return null;
     }
 
-    public void split() {
-
+    @Override
+    public MergeParts split(BinTreeNodeCartesianBinTree<T> theRoot, T theKey) {
+        return null;
     }
 
 }
