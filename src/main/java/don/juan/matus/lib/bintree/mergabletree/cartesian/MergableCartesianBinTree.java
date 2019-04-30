@@ -1,4 +1,4 @@
-package don.juan.matus.lib.bintree.mergabletree;
+package don.juan.matus.lib.bintree.mergabletree.cartesian;
 
 public interface MergableCartesianBinTree<T extends Comparable<T>> {
 

@@ -1,4 +1,4 @@
-package don.juan.matus.lib.bintree.mergabletree;
+package don.juan.matus.lib.bintree.mergabletree.cartesian;
 
 import don.juan.matus.lib.bintree.BinTreeBase;
 
@@ -9,7 +9,6 @@ public class CartesianBinTree<T extends Comparable<T>> extends BinTreeBase<T> im
         super();
         root = new BinTreeNodeWithPriorityInNode<>(null, null, null, null);
     }
-
 
     @Override
     public BinTreeNodeCartesianBinTree<T> merge(MergeParts theParts) {
