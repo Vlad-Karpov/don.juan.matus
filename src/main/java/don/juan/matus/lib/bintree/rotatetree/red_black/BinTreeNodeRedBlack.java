@@ -3,7 +3,7 @@ package don.juan.matus.lib.bintree.rotatetree.red_black;
 import don.juan.matus.lib.bintree.BinTreeNodeBase;
 import don.juan.matus.lib.bintree.BinTreeNodeInterface;
 
-public class BinTreeNodeRB<T extends Comparable<T>> extends BinTreeNodeBase<T> {
+public class BinTreeNodeRedBlack<T extends Comparable<T>> extends BinTreeNodeBase<T> {
 
     public static byte RED = 1;
     public static byte BLACK = 0;
@@ -11,7 +11,7 @@ public class BinTreeNodeRB<T extends Comparable<T>> extends BinTreeNodeBase<T> {
     // 0 - black; 1 - red
     byte color;
 
-    public BinTreeNodeRB(T objectNode, BinTreeNodeBase<T> left, BinTreeNodeBase<T> parent, BinTreeNodeBase<T> right) {
+    public BinTreeNodeRedBlack(T objectNode, BinTreeNodeBase<T> left, BinTreeNodeBase<T> parent, BinTreeNodeBase<T> right) {
         super(objectNode, left, parent, right);
         color = BLACK;
     }
@@ -47,16 +47,16 @@ public class BinTreeNodeRB<T extends Comparable<T>> extends BinTreeNodeBase<T> {
             BinTreeNodeInterface<T> theLeft,
             BinTreeNodeInterface<T> theParent,
             BinTreeNodeInterface<T> theRight) {
-        return new BinTreeNodeRB(
+        return new BinTreeNodeRedBlack(
                 theObject,
-                (BinTreeNodeRB<T>) theLeft,
-                (BinTreeNodeRB<T>) theParent,
-                (BinTreeNodeRB<T>) theRight);
+                (BinTreeNodeRedBlack<T>) theLeft,
+                (BinTreeNodeRedBlack<T>) theParent,
+                (BinTreeNodeRedBlack<T>) theRight);
     }
 
     @Override
     public String toString() {
-        return "BinTreeNodeRB{" +
+        return "BinTreeNodeRedBlack{" +
                 "objectNode=" + objectNode +
                 ", color=" + (color == 0 ? "BLACK" : "RED") +
                 '}';

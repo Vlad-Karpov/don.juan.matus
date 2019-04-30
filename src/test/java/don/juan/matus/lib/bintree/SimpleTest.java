@@ -80,9 +80,9 @@ public class SimpleTest extends TestCase {
             }
             tmRndLng.put(rnd[i], rnd[i]);
             /*
-            btLng.checkStructure(new AVLBinTree.BinTreePassEvent<AVLBinTree<Long>.BinTreeNodeBF<Long>>() {
+            btLng.checkStructure(new AVLBinTree.BinTreePassEvent<AVLBinTree<Long>.BinTreeNodeBalanceFactor<Long>>() {
                 @Override
-                public void onPass(AVLBinTree<Long>.BinTreeNodeBF<Long> theObject) {
+                public void onPass(AVLBinTree<Long>.BinTreeNodeBalanceFactor<Long> theObject) {
                     System.out.println("shit = " + theObject);
                 }
             });

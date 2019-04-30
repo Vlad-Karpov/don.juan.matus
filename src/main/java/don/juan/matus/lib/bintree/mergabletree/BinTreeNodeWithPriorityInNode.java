@@ -3,17 +3,17 @@ package don.juan.matus.lib.bintree.mergabletree;
 import don.juan.matus.lib.bintree.BinTreeNodeBase;
 import don.juan.matus.lib.bintree.BinTreeNodeInterface;
 
-public class BinTreeNodeWithPriorityInNode<T extends Comparable<T>> extends BinTreeNodeBase<T> implements PriorityDecartBinTreeNode {
+public class BinTreeNodeWithPriorityInNode<T extends Comparable<T>> extends BinTreeNodeBase<T> implements PriorityCartesianBinTreeNode {
 
-    private Long priority;
+    private double priority;
 
     public BinTreeNodeWithPriorityInNode(T objectNode, BinTreeNodeWithPriorityInNode<T> left, BinTreeNodeWithPriorityInNode<T> parent, BinTreeNodeWithPriorityInNode<T> right) {
         super(objectNode, left, parent, right);
-        priority = Math.round(Math.random() * Long.MAX_VALUE);
+        priority = Math.random();
     }
 
     @Override
-    public Long getPriority() {
+    public double getPriority() {
         return priority;
     }
 
@@ -23,7 +23,7 @@ public class BinTreeNodeWithPriorityInNode<T extends Comparable<T>> extends BinT
             BinTreeNodeInterface<T> theLeft,
             BinTreeNodeInterface<T> theParent,
             BinTreeNodeInterface<T> theRight) {
-        if (theObject instanceof PriorityDecartBinTreeNode) {
+        if (theObject instanceof PriorityCartesianBinTreeNode) {
             return new BinTreeNodeWithPriority(theObject,
                     (BinTreeNodeWithPriority) theLeft,
                     (BinTreeNodeWithPriority) theParent,

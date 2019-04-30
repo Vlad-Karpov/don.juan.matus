@@ -3,9 +3,9 @@ package don.juan.matus.lib.bintree.mergabletree;
 import don.juan.matus.lib.bintree.BinTreeBase;
 
 
-public class DecartTree<T extends Comparable<T>> extends BinTreeBase<T> implements MergableDecartBinTree<T> {
+public class CartesianBinTree<T extends Comparable<T>> extends BinTreeBase<T> implements MergableCartesianBinTree<T> {
 
-    public DecartTree() {
+    public CartesianBinTree() {
         super();
         root = new BinTreeNodeWithPriorityInNode<>(null, null, null, null);
     }

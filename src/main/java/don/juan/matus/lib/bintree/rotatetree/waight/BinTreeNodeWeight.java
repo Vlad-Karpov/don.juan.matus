@@ -6,11 +6,11 @@ import don.juan.matus.lib.bintree.BinTreeNodeInterface;
 /**
  * Элемент двоичного дерева с балансировкой по весам.
  */
-public class BinTreeNodeW<T extends Comparable<T>> extends BinTreeNodeBase<T> {
+public class BinTreeNodeWeight<T extends Comparable<T>> extends BinTreeNodeBase<T> {
 
     private Long weight;
 
-    public BinTreeNodeW(T objectNode, BinTreeNodeW<T> left, BinTreeNodeW<T> parent, BinTreeNodeW<T> right) {
+    public BinTreeNodeWeight(T objectNode, BinTreeNodeWeight<T> left, BinTreeNodeWeight<T> parent, BinTreeNodeWeight<T> right) {
         super(objectNode, left, parent, right);
         this.objectNode = objectNode;
         this.weight = 0L;
@@ -38,16 +38,16 @@ public class BinTreeNodeW<T extends Comparable<T>> extends BinTreeNodeBase<T> {
             BinTreeNodeInterface<T> theLeft,
             BinTreeNodeInterface<T> theParent,
             BinTreeNodeInterface<T> theRight) {
-        return new BinTreeNodeW(
+        return new BinTreeNodeWeight(
                 theObject,
-                (BinTreeNodeW<T>)theLeft,
-                (BinTreeNodeW<T>)theParent,
-                (BinTreeNodeW<T>)theRight);
+                (BinTreeNodeWeight<T>)theLeft,
+                (BinTreeNodeWeight<T>)theParent,
+                (BinTreeNodeWeight<T>)theRight);
     }
 
     @Override
     public String toString() {
-        return "BinTreeNodeW{" +
+        return "BinTreeNodeWeight{" +
                 "objectNode=" + objectNode +
                 ", weight=" + weight +
                 '}';
