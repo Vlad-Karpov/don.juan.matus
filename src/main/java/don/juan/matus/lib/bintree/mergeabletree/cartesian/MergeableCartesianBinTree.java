@@ -1,6 +1,6 @@
-package don.juan.matus.lib.bintree.mergabletree.cartesian;
+package don.juan.matus.lib.bintree.mergeabletree.cartesian;
 
-public interface MergableCartesianBinTree<T extends Comparable<T>> {
+public interface MergeableCartesianBinTree<T extends Comparable<T>> {
 
     BinTreeNodeCartesianBinTree<T> merge(MergeParts theParts);
 

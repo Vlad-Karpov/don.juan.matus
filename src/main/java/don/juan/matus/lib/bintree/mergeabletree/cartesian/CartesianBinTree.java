@@ -1,9 +1,9 @@
-package don.juan.matus.lib.bintree.mergabletree.cartesian;
+package don.juan.matus.lib.bintree.mergeabletree.cartesian;
 
 import don.juan.matus.lib.bintree.BinTreeBase;
 
 
-public class CartesianBinTree<T extends Comparable<T>> extends BinTreeBase<T> implements MergableCartesianBinTree<T> {
+public class CartesianBinTree<T extends Comparable<T>> extends BinTreeBase<T> implements MergeableCartesianBinTree<T> {
 
     public CartesianBinTree() {
         super();

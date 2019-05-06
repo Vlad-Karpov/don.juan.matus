@@ -1,4 +1,4 @@
-package don.juan.matus.lib.bintree.mergabletree.cartesian;
+package don.juan.matus.lib.bintree.mergeabletree.cartesian;
 
 import don.juan.matus.lib.bintree.BinTreeNodeBase;
 

@@ -1,4 +1,4 @@
-package don.juan.matus.lib.bintree.mergabletree.cartesian;
+package don.juan.matus.lib.bintree.mergeabletree.cartesian;
 
 import junit.framework.TestCase;
 
@@ -22,7 +22,7 @@ public class CartesianBinTreeTest extends TestCase {
         rightTree.setRight(new BinTreeNodeWithPriorityInNode<>(6L, null, rightTree, null));
         ((BinTreeNodeWithPriorityInNode<Long>)rightTree.getRight()).setPriority(5.0d);
 
-        BinTreeNodeWithPriorityInNode<Long> result = (BinTreeNodeWithPriorityInNode<Long> ) ct.merge(new MergableCartesianBinTree.MergeParts(leftTree, rightTree));
+        BinTreeNodeWithPriorityInNode<Long> result = (BinTreeNodeWithPriorityInNode<Long> ) ct.merge(new MergeableCartesianBinTree.MergeParts(leftTree, rightTree));
 
         assertEquals("result.getObjectNode() != 2L", 2L, (long) result.getObjectNode());
         assertEquals("result.getLeft().getObjectNode() != 1L", 1L, (long) result.getLeft().getObjectNode());
