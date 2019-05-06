@@ -16,6 +16,10 @@ public class BinTreeNodeWithPriorityInNode<T extends Comparable<T>> extends BinT
         return priority;
     }
 
+    public void setPriority(double thePriority) {
+        priority = thePriority;
+    }
+
     @Override
     public BinTreeNodeInterface<T> createNode(
             T theObject,
