@@ -3,7 +3,7 @@ package don.juan.matus.lib.bintree.rotatetree.random;
 import don.juan.matus.lib.bintree.BinTreeCheckPassEvent;
 import don.juan.matus.lib.bintree.BinTreeIterator;
 import don.juan.matus.lib.bintree.BinTreeNodeInterface;
-import don.juan.matus.lib.bintree.rotatetree.waight.BinTreeNodeW;
+import don.juan.matus.lib.bintree.rotatetree.waight.BinTreeNodeWeight;
 import don.juan.matus.lib.bintree.rotatetree.waight.BinTreeW;
 
 import java.util.Random;
@@ -17,11 +17,11 @@ public class RndBinTree<T extends Comparable<T>> extends BinTreeW<T> {
 
     public RndBinTree() {
         rnd = new Random();
-        root = new RndBinTreeNode<T>(null, null, null, null);
+        root = new BinTreeNodeRnd<T>(null, null, null, null);
     }
 
-    protected <U extends BinTreeNodeW<T>> U rebalance(U cursor) {
-        RndBinTreeNode<T> parent = (RndBinTreeNode<T>) cursor.getParent();
+    protected <U extends BinTreeNodeWeight<T>> U rebalance(U cursor) {
+        BinTreeNodeRnd<T> parent = (BinTreeNodeRnd<T>) cursor.getParent();
         if (parent != root) {
             if ((rnd.nextLong() % (parent.getWeight()) == 0)) {
                 if (cursor == parent.getLeft()) {

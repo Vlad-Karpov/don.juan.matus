@@ -7,7 +7,11 @@ import java.util.*;
  */
 public class BinTreeBase<T extends Comparable<T>>
         extends AbstractSet<T>
-        implements BinTreeInterface<T>, NavigableSet<T>, RotateBalancedBinTree<T>, Cloneable, java.io.Serializable {
+        implements BinTreeInterface<T>
+        , NavigableSet<T>
+        , RotateBalancedBinTree<T>
+        , Cloneable
+        , java.io.Serializable {
 
     public static byte LEFT = 0;
     public static byte RIGHT = 1;
@@ -193,6 +197,11 @@ public class BinTreeBase<T extends Comparable<T>>
     public static <T extends Comparable<T>> long sizeOfNode(BinTreeNodeInterface<T> cursor) {
         TreeProps tp = treePassage(cursor);
         return tp.weight;
+    }
+
+    @Override
+    public TreeProps treePassage() {
+        return treePassage(root.getLeft());
     }
 
     @Override

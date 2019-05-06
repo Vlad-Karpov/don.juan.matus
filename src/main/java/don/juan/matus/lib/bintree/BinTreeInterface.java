@@ -32,6 +32,8 @@ public interface BinTreeInterface<T extends Comparable<T>> {
 
     Boolean seekLoop(T theObject, BinTreeNodeInterface<T> currentNode, GeneralCall<T> generalCallObject);
 
+    BinTreeBase.TreeProps treePassage();
+
     Iterator<T> iterator();
 
     Iterator<T> iterator(T theObject);

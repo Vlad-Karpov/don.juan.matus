@@ -11,123 +11,123 @@ public class RedBlackTree<T extends Comparable<T>> extends BinTreeBase<T> {
 
     public RedBlackTree() {
         super();
-        root = new BinTreeNodeRB<T>(null, null, null, null);
+        root = new BinTreeNodeRedBlack<T>(null, null, null, null);
     }
 
     @Override
     protected BinTreeNodeInterface<T> postAddLoop(final BinTreeNodeInterface<T> currentNode) {
-        return rebalanceAfterInsertion((BinTreeNodeRB<T>) currentNode);
+        return rebalanceAfterInsertion((BinTreeNodeRedBlack<T>) currentNode);
     }
 
     @Override
     protected void changeNode(BinTreeNodeInterface<T> theCurrentNode) {
-        rebalanceAfterDeletion((BinTreeNodeRB<T>) theCurrentNode);
+        rebalanceAfterDeletion((BinTreeNodeRedBlack<T>) theCurrentNode);
     }
 
-    private void rebalanceAfterDeletion(BinTreeNodeRB<T> theCurrentNode) {
-        while (theCurrentNode != root.getLeft() && colorOf(theCurrentNode) == BinTreeNodeRB.BLACK) {
+    private void rebalanceAfterDeletion(BinTreeNodeRedBlack<T> theCurrentNode) {
+        while (theCurrentNode != root.getLeft() && colorOf(theCurrentNode) == BinTreeNodeRedBlack.BLACK) {
             if (theCurrentNode == leftOf(parentOf(theCurrentNode))) {
-                BinTreeNodeRB<T> sib = (BinTreeNodeRB<T>) rightOf(parentOf(theCurrentNode));
-                if (colorOf(sib) == BinTreeNodeRB.RED) {
-                    setColor(sib, BinTreeNodeRB.BLACK);
-                    setColor((BinTreeNodeRB<T>) parentOf(theCurrentNode), BinTreeNodeRB.RED);
+                BinTreeNodeRedBlack<T> sib = (BinTreeNodeRedBlack<T>) rightOf(parentOf(theCurrentNode));
+                if (colorOf(sib) == BinTreeNodeRedBlack.RED) {
+                    setColor(sib, BinTreeNodeRedBlack.BLACK);
+                    setColor((BinTreeNodeRedBlack<T>) parentOf(theCurrentNode), BinTreeNodeRedBlack.RED);
                     rotateLeft(parentOf(theCurrentNode));
-                    sib = (BinTreeNodeRB<T>) rightOf(parentOf(theCurrentNode));
+                    sib = (BinTreeNodeRedBlack<T>) rightOf(parentOf(theCurrentNode));
                 }
-                if (colorOf((BinTreeNodeRB<T>) leftOf(sib)) == BinTreeNodeRB.BLACK &&
-                        colorOf((BinTreeNodeRB<T>) rightOf(sib)) == BinTreeNodeRB.BLACK) {
-                    setColor(sib, BinTreeNodeRB.RED);
-                    theCurrentNode = (BinTreeNodeRB<T>) parentOf(theCurrentNode);
+                if (colorOf((BinTreeNodeRedBlack<T>) leftOf(sib)) == BinTreeNodeRedBlack.BLACK &&
+                        colorOf((BinTreeNodeRedBlack<T>) rightOf(sib)) == BinTreeNodeRedBlack.BLACK) {
+                    setColor(sib, BinTreeNodeRedBlack.RED);
+                    theCurrentNode = (BinTreeNodeRedBlack<T>) parentOf(theCurrentNode);
                 } else {
-                    if (colorOf((BinTreeNodeRB<T>) rightOf(sib)) == BinTreeNodeRB.BLACK) {
-                        setColor((BinTreeNodeRB<T>) leftOf(sib), BinTreeNodeRB.BLACK);
-                        setColor(sib, BinTreeNodeRB.RED);
+                    if (colorOf((BinTreeNodeRedBlack<T>) rightOf(sib)) == BinTreeNodeRedBlack.BLACK) {
+                        setColor((BinTreeNodeRedBlack<T>) leftOf(sib), BinTreeNodeRedBlack.BLACK);
+                        setColor(sib, BinTreeNodeRedBlack.RED);
                         rotateRight(sib);
-                        sib = (BinTreeNodeRB<T>) rightOf(parentOf(theCurrentNode));
+                        sib = (BinTreeNodeRedBlack<T>) rightOf(parentOf(theCurrentNode));
                     }
-                    setColor(sib, colorOf((BinTreeNodeRB<T>) parentOf(theCurrentNode)));
-                    setColor((BinTreeNodeRB<T>) parentOf(theCurrentNode), BinTreeNodeRB.BLACK);
-                    setColor((BinTreeNodeRB<T>) rightOf(sib), BinTreeNodeRB.BLACK);
+                    setColor(sib, colorOf((BinTreeNodeRedBlack<T>) parentOf(theCurrentNode)));
+                    setColor((BinTreeNodeRedBlack<T>) parentOf(theCurrentNode), BinTreeNodeRedBlack.BLACK);
+                    setColor((BinTreeNodeRedBlack<T>) rightOf(sib), BinTreeNodeRedBlack.BLACK);
                     rotateLeft(parentOf(theCurrentNode));
-                    theCurrentNode = (BinTreeNodeRB<T>) root.getLeft();
+                    theCurrentNode = (BinTreeNodeRedBlack<T>) root.getLeft();
                 }
             } else {
-                BinTreeNodeRB<T> sib = (BinTreeNodeRB<T>) leftOf(parentOf(theCurrentNode));
-                if (colorOf(sib) == BinTreeNodeRB.RED) {
-                    setColor(sib, BinTreeNodeRB.BLACK);
-                    setColor((BinTreeNodeRB<T>) parentOf(theCurrentNode), BinTreeNodeRB.RED);
+                BinTreeNodeRedBlack<T> sib = (BinTreeNodeRedBlack<T>) leftOf(parentOf(theCurrentNode));
+                if (colorOf(sib) == BinTreeNodeRedBlack.RED) {
+                    setColor(sib, BinTreeNodeRedBlack.BLACK);
+                    setColor((BinTreeNodeRedBlack<T>) parentOf(theCurrentNode), BinTreeNodeRedBlack.RED);
                     rotateRight(parentOf(theCurrentNode));
-                    sib = (BinTreeNodeRB<T>) leftOf(parentOf(theCurrentNode));
+                    sib = (BinTreeNodeRedBlack<T>) leftOf(parentOf(theCurrentNode));
                 }
-                if (colorOf((BinTreeNodeRB<T>) rightOf(sib)) == BinTreeNodeRB.BLACK &&
-                        colorOf((BinTreeNodeRB<T>) leftOf(sib)) == BinTreeNodeRB.BLACK) {
-                    setColor(sib, BinTreeNodeRB.RED);
-                    theCurrentNode = (BinTreeNodeRB<T>) parentOf(theCurrentNode);
+                if (colorOf((BinTreeNodeRedBlack<T>) rightOf(sib)) == BinTreeNodeRedBlack.BLACK &&
+                        colorOf((BinTreeNodeRedBlack<T>) leftOf(sib)) == BinTreeNodeRedBlack.BLACK) {
+                    setColor(sib, BinTreeNodeRedBlack.RED);
+                    theCurrentNode = (BinTreeNodeRedBlack<T>) parentOf(theCurrentNode);
                 } else {
-                    if (colorOf((BinTreeNodeRB<T>) leftOf(sib)) == BinTreeNodeRB.BLACK) {
-                        setColor((BinTreeNodeRB<T>) rightOf(sib), BinTreeNodeRB.BLACK);
-                        setColor(sib, BinTreeNodeRB.RED);
+                    if (colorOf((BinTreeNodeRedBlack<T>) leftOf(sib)) == BinTreeNodeRedBlack.BLACK) {
+                        setColor((BinTreeNodeRedBlack<T>) rightOf(sib), BinTreeNodeRedBlack.BLACK);
+                        setColor(sib, BinTreeNodeRedBlack.RED);
                         rotateLeft(sib);
-                        sib = (BinTreeNodeRB<T>) leftOf(parentOf(theCurrentNode));
+                        sib = (BinTreeNodeRedBlack<T>) leftOf(parentOf(theCurrentNode));
                     }
-                    setColor(sib, colorOf((BinTreeNodeRB<T>) parentOf(theCurrentNode)));
-                    setColor((BinTreeNodeRB<T>) parentOf(theCurrentNode), BinTreeNodeRB.BLACK);
-                    setColor((BinTreeNodeRB<T>) leftOf(sib), BinTreeNodeRB.BLACK);
+                    setColor(sib, colorOf((BinTreeNodeRedBlack<T>) parentOf(theCurrentNode)));
+                    setColor((BinTreeNodeRedBlack<T>) parentOf(theCurrentNode), BinTreeNodeRedBlack.BLACK);
+                    setColor((BinTreeNodeRedBlack<T>) leftOf(sib), BinTreeNodeRedBlack.BLACK);
                     rotateRight(parentOf(theCurrentNode));
-                    theCurrentNode = (BinTreeNodeRB<T>) root.getLeft();
+                    theCurrentNode = (BinTreeNodeRedBlack<T>) root.getLeft();
                 }
             }
         }
-        setColor(theCurrentNode, BinTreeNodeRB.BLACK);
+        setColor(theCurrentNode, BinTreeNodeRedBlack.BLACK);
     }
 
 
-    private BinTreeNodeInterface<T> rebalanceAfterInsertion(BinTreeNodeRB<T> currentNode) {
-        currentNode.color = BinTreeNodeRB.RED;
-        while (currentNode != null && currentNode != root.getLeft() && ((BinTreeNodeRB<T>) currentNode.getParent()).color == BinTreeNodeRB.RED) {
+    private BinTreeNodeInterface<T> rebalanceAfterInsertion(BinTreeNodeRedBlack<T> currentNode) {
+        currentNode.color = BinTreeNodeRedBlack.RED;
+        while (currentNode != null && currentNode != root.getLeft() && ((BinTreeNodeRedBlack<T>) currentNode.getParent()).color == BinTreeNodeRedBlack.RED) {
             if (parentOf(currentNode) == leftOf(parentOf(parentOf(currentNode)))) {
-                BinTreeNodeRB<T> y = (BinTreeNodeRB<T>) rightOf(parentOf(parentOf(currentNode)));
-                if (colorOf(y) == BinTreeNodeRB.RED) {
-                    setColor((BinTreeNodeRB<T>) parentOf(currentNode), BinTreeNodeRB.BLACK);
-                    setColor(y, BinTreeNodeRB.BLACK);
-                    setColor((BinTreeNodeRB<T>) parentOf(parentOf(currentNode)), BinTreeNodeRB.RED);
-                    currentNode = (BinTreeNodeRB<T>) parentOf(parentOf(currentNode));
+                BinTreeNodeRedBlack<T> y = (BinTreeNodeRedBlack<T>) rightOf(parentOf(parentOf(currentNode)));
+                if (colorOf(y) == BinTreeNodeRedBlack.RED) {
+                    setColor((BinTreeNodeRedBlack<T>) parentOf(currentNode), BinTreeNodeRedBlack.BLACK);
+                    setColor(y, BinTreeNodeRedBlack.BLACK);
+                    setColor((BinTreeNodeRedBlack<T>) parentOf(parentOf(currentNode)), BinTreeNodeRedBlack.RED);
+                    currentNode = (BinTreeNodeRedBlack<T>) parentOf(parentOf(currentNode));
                 } else {
                     if (currentNode == rightOf(parentOf(currentNode))) {
-                        currentNode = (BinTreeNodeRB<T>) parentOf(currentNode);
+                        currentNode = (BinTreeNodeRedBlack<T>) parentOf(currentNode);
                         rotateLeft(currentNode);
                     }
-                    setColor((BinTreeNodeRB<T>) BinTreeInterface.parentOf(currentNode), BinTreeNodeRB.BLACK);
-                    setColor((BinTreeNodeRB<T>) parentOf(parentOf(currentNode)), BinTreeNodeRB.RED);
+                    setColor((BinTreeNodeRedBlack<T>) BinTreeInterface.parentOf(currentNode), BinTreeNodeRedBlack.BLACK);
+                    setColor((BinTreeNodeRedBlack<T>) parentOf(parentOf(currentNode)), BinTreeNodeRedBlack.RED);
                     rotateRight(parentOf(parentOf(currentNode)));
                 }
             } else {
-                BinTreeNodeRB<T> y = (BinTreeNodeRB<T>) leftOf(parentOf(parentOf(currentNode)));
-                if (colorOf(y) == BinTreeNodeRB.RED) {
-                    setColor((BinTreeNodeRB<T>) parentOf(currentNode), BinTreeNodeRB.BLACK);
-                    setColor(y, BinTreeNodeRB.BLACK);
-                    setColor((BinTreeNodeRB<T>) parentOf(parentOf(currentNode)), BinTreeNodeRB.RED);
-                    currentNode = (BinTreeNodeRB<T>) parentOf(parentOf(currentNode));
+                BinTreeNodeRedBlack<T> y = (BinTreeNodeRedBlack<T>) leftOf(parentOf(parentOf(currentNode)));
+                if (colorOf(y) == BinTreeNodeRedBlack.RED) {
+                    setColor((BinTreeNodeRedBlack<T>) parentOf(currentNode), BinTreeNodeRedBlack.BLACK);
+                    setColor(y, BinTreeNodeRedBlack.BLACK);
+                    setColor((BinTreeNodeRedBlack<T>) parentOf(parentOf(currentNode)), BinTreeNodeRedBlack.RED);
+                    currentNode = (BinTreeNodeRedBlack<T>) parentOf(parentOf(currentNode));
                 } else {
                     if (currentNode == leftOf(parentOf(currentNode))) {
-                        currentNode = (BinTreeNodeRB<T>) parentOf(currentNode);
+                        currentNode = (BinTreeNodeRedBlack<T>) parentOf(currentNode);
                         rotateRight(currentNode);
                     }
-                    setColor((BinTreeNodeRB<T>) parentOf(currentNode), BinTreeNodeRB.BLACK);
-                    setColor((BinTreeNodeRB<T>) parentOf(parentOf(currentNode)), BinTreeNodeRB.RED);
+                    setColor((BinTreeNodeRedBlack<T>) parentOf(currentNode), BinTreeNodeRedBlack.BLACK);
+                    setColor((BinTreeNodeRedBlack<T>) parentOf(parentOf(currentNode)), BinTreeNodeRedBlack.RED);
                     rotateLeft(parentOf(parentOf(currentNode)));
                 }
             }
         }
-        ((BinTreeNodeRB<T>) root.getLeft()).color = BinTreeNodeRB.BLACK;
+        ((BinTreeNodeRedBlack<T>) root.getLeft()).color = BinTreeNodeRedBlack.BLACK;
         return currentNode;
     }
 
-    private static <T extends Comparable<T>> byte colorOf(BinTreeNodeRB<T> p) {
-        return (p == null ? BinTreeNodeRB.BLACK : p.color);
+    private static <T extends Comparable<T>> byte colorOf(BinTreeNodeRedBlack<T> p) {
+        return (p == null ? BinTreeNodeRedBlack.BLACK : p.color);
     }
 
-    private static <T extends Comparable<T>> void setColor(BinTreeNodeRB<T> p, byte c) {
+    private static <T extends Comparable<T>> void setColor(BinTreeNodeRedBlack<T> p, byte c) {
         if (p != null)
             p.color = c;
     }
@@ -136,12 +136,12 @@ public class RedBlackTree<T extends Comparable<T>> extends BinTreeBase<T> {
     public boolean checkTreeNode(BinTreeCheckPassEvent<T> thePassEvent, BinTreeIterator<T> btiLeft, BinTreeIterator<T> btiRight, BinTreeNodeInterface<T> currentNode, BinTreeNodeInterface<T> previousNode) {
         boolean result = super.checkTreeNode(thePassEvent, btiLeft, btiRight, currentNode, previousNode);
         if (result) {
-            BinTreeNodeRB<T> current = (BinTreeNodeRB<T>) currentNode;
-            BinTreeNodeRB<T> parent = (BinTreeNodeRB<T>) currentNode.getParent();
-            BinTreeNodeRB<T> left = (BinTreeNodeRB<T>) currentNode.getLeft();
-            BinTreeNodeRB<T> right = (BinTreeNodeRB<T>) currentNode.getRight();
+            BinTreeNodeRedBlack<T> current = (BinTreeNodeRedBlack<T>) currentNode;
+            BinTreeNodeRedBlack<T> parent = (BinTreeNodeRedBlack<T>) currentNode.getParent();
+            BinTreeNodeRedBlack<T> left = (BinTreeNodeRedBlack<T>) currentNode.getLeft();
+            BinTreeNodeRedBlack<T> right = (BinTreeNodeRedBlack<T>) currentNode.getRight();
             if (current.isRed()) {
-                if (!(((left == null ? BinTreeNodeRB.BLACK : left.getColor()) == BinTreeNodeRB.BLACK) && ((right == null ? BinTreeNodeRB.BLACK : right.getColor()) == BinTreeNodeRB.BLACK))) {
+                if (!(((left == null ? BinTreeNodeRedBlack.BLACK : left.getColor()) == BinTreeNodeRedBlack.BLACK) && ((right == null ? BinTreeNodeRedBlack.BLACK : right.getColor()) == BinTreeNodeRedBlack.BLACK))) {
                     thePassEvent.setErrorMessage("RedBlackTree: Tree structure invalid, incorrect RED BLACK sequence!");
                     result = false;
                 }
@@ -151,8 +151,8 @@ public class RedBlackTree<T extends Comparable<T>> extends BinTreeBase<T> {
                 }
             }
             if (btiLeft != null && btiRight != null) {
-                BinTreeNodeRB.CountBlackHeight countBlackHeightLeft = (BinTreeNodeRB.CountBlackHeight) btiLeft.getOuterObject();
-                BinTreeNodeRB.CountBlackHeight countBlackHeightRight = (BinTreeNodeRB.CountBlackHeight) btiRight.getOuterObject();
+                BinTreeNodeRedBlack.CountBlackHeight countBlackHeightLeft = (BinTreeNodeRedBlack.CountBlackHeight) btiLeft.getOuterObject();
+                BinTreeNodeRedBlack.CountBlackHeight countBlackHeightRight = (BinTreeNodeRedBlack.CountBlackHeight) btiRight.getOuterObject();
                 if (abs(countBlackHeightLeft.maxBlackHeight - countBlackHeightRight.maxBlackHeight) > 1) {
                     thePassEvent.setErrorMessage("RedBlackTree: Tree structure invalid, black height difference more then 1!");
                     result = false;
