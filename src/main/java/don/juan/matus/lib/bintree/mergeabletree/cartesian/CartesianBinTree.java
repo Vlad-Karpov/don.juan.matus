@@ -11,7 +11,7 @@ public class CartesianBinTree<T extends Comparable<T>> extends BinTreeBase<T> im
     }
 
     @Override
-    public BinTreeNodeCartesianBinTree<T> merge(BinTreeNodeCartesianBinTree<T> left, BinTreeNodeCartesianBinTree<T> right) {
+    public BinTreeNodeCartesianBinTree<T> mergeCartesian(BinTreeNodeCartesianBinTree<T> left, BinTreeNodeCartesianBinTree<T> right) {
         BinTreeNodeCartesianBinTree<T> result = null;
         BinTreeNodeCartesianBinTree<T> current;
         while (left != null && right != null) {
@@ -47,7 +47,7 @@ public class CartesianBinTree<T extends Comparable<T>> extends BinTreeBase<T> im
     }
 
     @Override
-    public void split(MergeParts parts, BinTreeNodeCartesianBinTree<T> tree, T key) {
+    public void splitCartesian(MergeParts parts, BinTreeNodeCartesianBinTree<T> tree, T key) {
         BinTreeNodeCartesianBinTree<T> current = tree;
         parts.leftTree = null;
         parts.rightTree = null;
@@ -56,7 +56,7 @@ public class CartesianBinTree<T extends Comparable<T>> extends BinTreeBase<T> im
                 if (parts.leftTree == null) {
                     parts.leftTree = current;
                 } else {
-                    parts.leftTree = merge(parts.leftTree, current);
+                    parts.leftTree = mergeCartesian(parts.leftTree, current);
                 }
                 current = (BinTreeNodeCartesianBinTree<T>) current.getRight();
                 if (current != null) {
@@ -67,7 +67,7 @@ public class CartesianBinTree<T extends Comparable<T>> extends BinTreeBase<T> im
                 if (parts.rightTree == null) {
                     parts.rightTree = current;
                 } else {
-                    parts.rightTree = merge(current, parts.rightTree);
+                    parts.rightTree = mergeCartesian(current, parts.rightTree);
                 }
                 current = (BinTreeNodeCartesianBinTree<T>) current.getLeft();
                 if (current != null) {
