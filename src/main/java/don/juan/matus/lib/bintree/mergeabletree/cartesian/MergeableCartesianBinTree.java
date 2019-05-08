@@ -2,9 +2,9 @@ package don.juan.matus.lib.bintree.mergeabletree.cartesian;
 
 public interface MergeableCartesianBinTree<T extends Comparable<T>> {
 
-    BinTreeNodeCartesianBinTree<T> merge(MergeParts theParts);
+    BinTreeNodeCartesianBinTree<T> merge(BinTreeNodeCartesianBinTree<T> left, BinTreeNodeCartesianBinTree<T> right);
 
-    MergeParts split(BinTreeNodeCartesianBinTree<T> theRoot, T theKey);
+    void split(MergeParts parts, BinTreeNodeCartesianBinTree<T> tree, T key);
 
     class MergeParts {
 

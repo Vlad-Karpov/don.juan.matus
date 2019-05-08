@@ -11,39 +11,71 @@ public class CartesianBinTree<T extends Comparable<T>> extends BinTreeBase<T> im
     }
 
     @Override
-    public BinTreeNodeCartesianBinTree<T> merge(MergeParts theParts) {
-        BinTreeNodeCartesianBinTree<T> result;
-        if (theParts.leftTree == null) {
-            return theParts.rightTree;
+    public BinTreeNodeCartesianBinTree<T> merge(BinTreeNodeCartesianBinTree<T> left, BinTreeNodeCartesianBinTree<T> right) {
+        BinTreeNodeCartesianBinTree<T> result = null;
+        BinTreeNodeCartesianBinTree<T> current;
+        while (left != null && right != null) {
+            if (left.getPriority() < right.getPriority()) {
+                current = right;
+                if (result == null) result = current;
+                right = (BinTreeNodeCartesianBinTree<T>) current.getLeft();
+                current.setLeft(left);
+                if (left.getParent() != null) {
+                    if (left.getParent().getLeft() == left) {
+                        left.getParent().setLeft(current);
+                    } else {
+                        left.getParent().setRight(current);
+                    }
+                }
+                left.setParent(current);
+            } else {
+                current = left;
+                if (result == null) result = current;
+                left = (BinTreeNodeCartesianBinTree<T>) current.getRight();
+                current.setRight(right);
+                if (right.getParent() != null) {
+                    if (right.getParent().getLeft() == right) {
+                        right.getParent().setLeft(current);
+                    } else {
+                        right.getParent().setRight(current);
+                    }
+                }
+                right.setParent(current);
+            }
         }
-        if (theParts.rightTree == null) {
-            return theParts.leftTree;
-        }
-        MergeParts mp = new MergeParts();
-        if (theParts.leftTree.getPriority() < theParts.rightTree.getPriority()) {
-            mp.rightTree = (BinTreeNodeCartesianBinTree) theParts.rightTree.getLeft();
-            theParts.rightTree.setLeft(null);
-            if (mp.rightTree != null) mp.rightTree.setParent(null);
-            result = theParts.rightTree;
-            result.setLeft(theParts.leftTree);
-            theParts.leftTree.setParent(result);
-            mp.leftTree = theParts.leftTree;
-            return merge(mp);
-        } else {
-            mp.leftTree = (BinTreeNodeCartesianBinTree) theParts.leftTree.getRight();
-            theParts.leftTree.setRight(null);
-            if (mp.leftTree != null) mp.leftTree.setParent(null);
-            result = theParts.leftTree;
-            result.setRight(theParts.rightTree);
-            theParts.rightTree.setParent(result);
-            mp.rightTree = theParts.rightTree;
-            return merge(mp);
-        }
+        return result;
     }
 
     @Override
-    public MergeParts split(BinTreeNodeCartesianBinTree<T> theRoot, T theKey) {
-        return null;
+    public void split(MergeParts parts, BinTreeNodeCartesianBinTree<T> tree, T key) {
+        BinTreeNodeCartesianBinTree<T> current = tree;
+        parts.leftTree = null;
+        parts.rightTree = null;
+        while (current != null) {
+            if (current.getObjectNode().compareTo(key) < 0) {
+                if (parts.leftTree == null) {
+                    parts.leftTree = current;
+                } else {
+                    parts.leftTree = merge(parts.leftTree, current);
+                }
+                current = (BinTreeNodeCartesianBinTree<T>) current.getRight();
+                if (current != null) {
+                    if (current.getParent() != null) current.getParent().setRight(null);
+                    current.setParent(null);
+                }
+            } else {
+                if (parts.rightTree == null) {
+                    parts.rightTree = current;
+                } else {
+                    parts.rightTree = merge(current, parts.rightTree);
+                }
+                current = (BinTreeNodeCartesianBinTree<T>) current.getLeft();
+                if (current != null) {
+                    if (current.getParent() != null) current.getParent().setLeft(null);
+                    current.setParent(null);
+                }
+            }
+        }
     }
 
 }
