@@ -1,5 +1,6 @@
 package don.juan.matus.lib.bintree;
 
+import don.juan.matus.lib.bintree.mergeabletree.cartesian.CartesianBinTree;
 import don.juan.matus.lib.bintree.rotatetree.avl.AVLBinTree;
 import don.juan.matus.lib.bintree.rotatetree.random.RndBinTree;
 import don.juan.matus.lib.bintree.rotatetree.red_black.RedBlackTree;
@@ -39,7 +40,8 @@ del 15
         //btLng.setThreshold((byte)3);
         //BinTreeW<Long> btLng = new BinTreeW<Long>();
         //RndBinTree<Long> btLng = new RndBinTree<Long>();
-        ScapegoatTree<Long> btLng = new ScapegoatTree<Long>();
+        //ScapegoatTree<Long> btLng = new ScapegoatTree<Long>();
+        CartesianBinTree<Long> btLng = new CartesianBinTree<Long>();
         SimpleTest.BinTreeCheckPassEventTest check = new SimpleTest.BinTreeCheckPassEventTest();
         //Long[] rnd = new Long[]{407L,3879L,958L,3899L,4262L,3295L,8258L,8214L,875L,4581L,9733L,164L,2942L,8446L,5083L,7494L,9901L,8354L,3326L,8427L,1407L,4104L,3489L/*,5555L*/};
         //Long[] rnd = new Long[]{9205L,8378L,7395L,6283L,1970L,4425L,5537L,5573L,3508L,5060L,2979L,921L,8387L,5293L,8488L,3405L,4196L,5580L,8660L,1036L,1278L,4456L,4500L,4799L,3347L/*,3114L*/};

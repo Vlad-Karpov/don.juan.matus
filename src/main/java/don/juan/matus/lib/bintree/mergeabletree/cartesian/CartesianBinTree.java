@@ -5,9 +5,36 @@ import don.juan.matus.lib.bintree.BinTreeBase;
 
 public class CartesianBinTree<T extends Comparable<T>> extends BinTreeBase<T> implements MergeableCartesianBinTree<T> {
 
+    private MergeableCartesianBinTree.MergeParts parts;
+    private long mergeCount;
+
     public CartesianBinTree() {
         super();
         root = new BinTreeNodeWithPriorityInNode<>(null, null, null, null);
+        parts = new MergeableCartesianBinTree.MergeParts();
+        mergeCount = 0L;
+    }
+
+    public long getMergeCount() {
+        return mergeCount;
+    }
+
+    public void setMergeCount(long mergeCount) {
+        this.mergeCount = mergeCount;
+    }
+
+    public MergeParts getParts() {
+        return parts;
+    }
+
+    @Override
+    public boolean add(T theObject) {
+        splitCartesian(parts, (BinTreeNodeCartesianBinTree<T>) root.getLeft(), theObject);
+        BinTreeNodeCartesianBinTree<T> newNode = (BinTreeNodeCartesianBinTree<T>) root.createNode(theObject, null, null, null);
+        BinTreeNodeCartesianBinTree<T> newTree = mergeCartesian(mergeCartesian(parts.leftTree, newNode), parts.rightTree);
+        newTree.setParent(root);
+        root.setLeft(newTree);
+        return true;
     }
 
     @Override
@@ -43,6 +70,10 @@ public class CartesianBinTree<T extends Comparable<T>> extends BinTreeBase<T> im
                 right.setParent(current);
             }
         }
+        if (result == null) {
+            result = (left != null ? left : right);
+        }
+        mergeCount++;
         return result;
     }
 
@@ -76,6 +107,7 @@ public class CartesianBinTree<T extends Comparable<T>> extends BinTreeBase<T> im
                 }
             }
         }
+        mergeCount++;
     }
 
 }

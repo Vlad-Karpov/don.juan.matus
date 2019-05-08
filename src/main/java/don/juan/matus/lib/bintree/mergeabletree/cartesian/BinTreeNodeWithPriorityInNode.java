@@ -49,7 +49,7 @@ public class BinTreeNodeWithPriorityInNode<T extends Comparable<T>> extends BinT
     }
 
     public String desc() {
-        return objectNode + "," + priority;
+        return objectNode + "," + String.format("%.4f", priority);
     }
 
 }
