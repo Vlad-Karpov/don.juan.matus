@@ -80,30 +80,32 @@ public class CartesianBinTree<T extends Comparable<T>> extends BinTreeBase<T> im
     @Override
     public void splitCartesian(MergeParts parts, BinTreeNodeCartesianBinTree<T> tree, T key) {
         BinTreeNodeCartesianBinTree<T> current = tree;
+        BinTreeNodeCartesianBinTree<T> tmpTree;
         parts.leftTree = null;
         parts.rightTree = null;
         while (current != null) {
+            tmpTree = current;
             if (current.getObjectNode().compareTo(key) < 0) {
-                if (parts.leftTree == null) {
-                    parts.leftTree = current;
-                } else {
-                    parts.leftTree = mergeCartesian(parts.leftTree, current);
-                }
                 current = (BinTreeNodeCartesianBinTree<T>) current.getRight();
                 if (current != null) {
                     if (current.getParent() != null) current.getParent().setRight(null);
                     current.setParent(null);
                 }
-            } else {
-                if (parts.rightTree == null) {
-                    parts.rightTree = current;
+                if (parts.leftTree == null) {
+                    parts.leftTree = tmpTree;
                 } else {
-                    parts.rightTree = mergeCartesian(current, parts.rightTree);
+                    parts.leftTree = mergeCartesian(parts.leftTree, tmpTree);
                 }
+            } else {
                 current = (BinTreeNodeCartesianBinTree<T>) current.getLeft();
                 if (current != null) {
                     if (current.getParent() != null) current.getParent().setLeft(null);
                     current.setParent(null);
+                }
+                if (parts.rightTree == null) {
+                    parts.rightTree = tmpTree;
+                } else {
+                    parts.rightTree = mergeCartesian(tmpTree, parts.rightTree);
                 }
             }
         }

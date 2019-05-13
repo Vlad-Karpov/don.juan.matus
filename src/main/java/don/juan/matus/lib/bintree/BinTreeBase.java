@@ -500,13 +500,9 @@ public class BinTreeBase<T extends Comparable<T>>
 
     }
 
-    ;
-
     public void afterRotateLeft(BinTreeNodeInterface<T> dadNode, BinTreeNodeInterface<T> currentNode, BinTreeNodeInterface<T> pivotNode) {
 
     }
-
-    ;
 
     public BinTreeNodeInterface<T> rotateRight(BinTreeNodeInterface<T> currentNode) {
         rotateCount++;

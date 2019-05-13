@@ -22,6 +22,10 @@ public class BinTreeGraph<T extends Comparable<T>> {
     private Long maxX = 900L;
     private Long maxY = 700L;
 
+    public BinTreeGraph() {
+       this(new BinTreeBase<T>());
+    }
+
     public BinTreeGraph(BinTreeBase<T> theTree) {
         super();
         tree = theTree;

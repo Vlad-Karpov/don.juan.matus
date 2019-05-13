@@ -50,14 +50,17 @@ del 15
         //Long[] rnd = new Long[]{2L, 8L, 5L, 1L, 9L, 3L, 4L, 7L, 6L, 10L};
         //Long[] rnd = new Long[]{};
         //Long[] rnd = new Long[]{3693L, 5312L, 9701L, 8279L, 7627L, 5996L, 8152L, 9863L, 1212L, 2628L, 9159L, 8584L, 3876L, 2173L, 8627L, 6457L, 6034L, 6967L, 9026L, 8530L, 548L, 7564L, 6746L/*, 8752L*/};
+        //Long[] rnd = new Long[]{4392624L, 2881184L, 9539741L, 3081582L, 1611473L, 5257245L, 7687060L, 662051L, 9912096L, 9489267L, 143672L, 3062267L, 9688194L, 8924794L, 4746615L, 2115122L, 5390092L, 6001589L, 4045300L, 2239590L, 6082371L, 5207546L, 5335956L, 9123370L, 6573253L, 9771302L, 3030685L, 125894L, 3307948L, 4295786L, 30L, 8925390L};
         //for (int i = 0; i < rnd.length; i++) btLng.add(rnd[i]);
-        for (long i = 0; i < CNT; i++) {
-            //Long rnd = Math.round(Math.random() * CNT);
-            //System.out.print(rnd + "L, ");
-            //btLng.add(rnd);
-            btLng.add(i + 1);
-            btLng.checkStructure(check);
-        }
+
+//        for (long i = 0; i < CNT; i++) {
+//            //Long rnd = Math.round(Math.random() * CNT);
+//            //System.out.print(rnd + "L, ");
+//            //btLng.add(rnd);
+//            btLng.add(i + 1);
+//            btLng.checkStructure(check);
+//        }
+
 //        btLng.remove(2L);
 //        btLng.remove(8L);
 //        btLng.remove(19L);
