@@ -1299,14 +1299,14 @@ public class SimpleTest extends TestCase {
             //    System.out.println(i);
             //}
             cLng.add(rnd);
-            if (i % 100000 == 0) System.out.println(i);
+            //if (i % 100000 == 0) System.out.println(i);
             //System.out.print(rnd + "L, ");
-            System.out.print(i);
+            //System.out.print(i);
         }
-        tp = cLng.treePassage();
-        System.out.println("maxLevel = " + tp.heght);
-        System.out.println("mergeCount = " + cLng.getMergeCount());
         cEnd = Calendar.getInstance();
+        //tp = cLng.treePassage();
+        //System.out.println("maxLevel = " + tp.heght);
+        System.out.println("mergeCount = " + cLng.getMergeCount());
         System.out.println("time 2.1 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
         //
         cBegin = Calendar.getInstance();

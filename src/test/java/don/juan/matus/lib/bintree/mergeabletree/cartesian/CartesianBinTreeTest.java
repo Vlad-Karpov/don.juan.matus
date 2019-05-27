@@ -50,4 +50,18 @@ public class CartesianBinTreeTest extends TestCase {
         ct.splitCartesian(parts, tree, key);
     }
 
+    public void testAdd() {
+        LongBinTreeNodeWithPriorityInNode[] values = {
+                new LongBinTreeNodeWithPriorityInNode(0.8741d, 1L)
+                ,new LongBinTreeNodeWithPriorityInNode(0.7317d, 1L)
+                ,new LongBinTreeNodeWithPriorityInNode(0.7274d, 1L)
+                ,new LongBinTreeNodeWithPriorityInNode(0.7003d, 1L)
+        };
+        CartesianBinTree<LongBinTreeNodeWithPriorityInNode> ct = new CartesianBinTree<>();
+        for (LongBinTreeNodeWithPriorityInNode value : values) {
+            ct.add(value);
+        }
+        assertNotNull(ct);
+    }
+
 }
