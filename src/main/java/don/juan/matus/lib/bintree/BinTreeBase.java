@@ -104,7 +104,8 @@ public class BinTreeBase<T extends Comparable<T>>
     }
 
     @Override
-    public void checkStructure(BinTreeCheckPassEvent<T> thePassEvent) {
+    public Long checkStructure(BinTreeCheckPassEvent<T> thePassEvent) {
+        Long result = 0L;
         BinTreeNodeInterface<T> previosNode = null;
         BinTreeIterator<T> bti = new BinTreeIterator<T>(this, root);
         while (bti.hasNext()) {
@@ -122,8 +123,10 @@ public class BinTreeBase<T extends Comparable<T>>
                 thePassEvent.onPass(btiLeft, btiRight, bti.getCurrentNode(), previosNode);
             }
             previosNode = bti.getCurrentNode();
+            result++;
             bti.next();
         }
+        return result;
     }
 
     @Override

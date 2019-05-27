@@ -19,7 +19,7 @@ public interface BinTreeInterface<T extends Comparable<T>> {
 
     void passStraight(BinTreePassEvent<BinTreeNodeInterface<T>> thePassEvent);
 
-    void checkStructure(BinTreeCheckPassEvent<T> thePassEvent);
+    Long checkStructure(BinTreeCheckPassEvent<T> thePassEvent);
 
     boolean checkTreeNode(
             BinTreeCheckPassEvent<T> thePassEvent,

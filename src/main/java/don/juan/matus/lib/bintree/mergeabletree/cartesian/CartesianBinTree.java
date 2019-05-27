@@ -34,6 +34,7 @@ public class CartesianBinTree<T extends Comparable<T>> extends BinTreeBase<T> im
     public boolean add(T theObject) {
         splitCartesian(parts, (BinTreeNodeCartesianBinTree<T>) root.getLeft(), theObject);
         BinTreeNodeCartesianBinTree<T> newNode = (BinTreeNodeCartesianBinTree<T>) root.createNode(theObject, null, null, null);
+        //System.out.println(newNode);
         BinTreeNodeCartesianBinTree<T> newTree = mergeCartesian(mergeCartesian(parts.leftTree, newNode), parts.rightTree);
         newTree.setParent(root);
         root.setLeft(newTree);

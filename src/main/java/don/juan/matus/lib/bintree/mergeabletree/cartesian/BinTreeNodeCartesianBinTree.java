@@ -12,4 +12,5 @@ public class BinTreeNodeCartesianBinTree<T extends Comparable<T>> extends BinTre
     public double getPriority() {
         return 0;
     }
+
 }

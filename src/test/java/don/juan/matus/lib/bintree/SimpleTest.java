@@ -1299,13 +1299,23 @@ public class SimpleTest extends TestCase {
             //    System.out.println(i);
             //}
             cLng.add(rnd);
-            //if (i % 100000 == 0) System.out.println(i);
+            //if (i % 100 == 0) {
+                System.out.print(i);
+                System.out.print(" / ");
+                Long ch = cLng.checkStructure(new BinTreeCheckPassEventTest());
+                System.out.println(ch);
+                if (i + 1 != ch ) {
+                    System.out.println("Oops!");
+                }
+            //}
             //System.out.print(rnd + "L, ");
             //System.out.print(i);
         }
         cEnd = Calendar.getInstance();
-        //tp = cLng.treePassage();
-        //System.out.println("maxLevel = " + tp.heght);
+        cLng.checkStructure(new BinTreeCheckPassEventTest());
+        tp = cLng.treePassage();
+        System.out.println("nodeCount = " + tp.weight);
+        System.out.println("maxLevel = " + tp.heght);
         System.out.println("mergeCount = " + cLng.getMergeCount());
         System.out.println("time 2.1 = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
         //
@@ -1875,6 +1885,8 @@ public class SimpleTest extends TestCase {
             if (!ignor)
                 System.out.println(errorMessage
                         + "\r\n Current node: " + currentNode
+                        + "\r\n Left node: " + currentNode.getLeft()
+                        + "\r\n Right node: " + currentNode.getRight()
                         + "\r\n Previous node: " + previousNode
                         + "\r\n Left iterator: " + leftIterator
                         + "\r\n Right iterator: " + rightIterator);

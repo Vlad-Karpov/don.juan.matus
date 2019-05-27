@@ -1,5 +1,9 @@
 package don.juan.matus.lib.bintree.mergeabletree.cartesian;
 
+import don.juan.matus.lib.bintree.BinTreeCheckPassEvent;
+import don.juan.matus.lib.bintree.BinTreeIterator;
+import don.juan.matus.lib.bintree.BinTreeNodeInterface;
+import don.juan.matus.lib.bintree.SimpleTest;
 import junit.framework.TestCase;
 
 public class CartesianBinTreeTest extends TestCase {
@@ -50,7 +54,7 @@ public class CartesianBinTreeTest extends TestCase {
         ct.splitCartesian(parts, tree, key);
     }
 
-    public void testAdd() {
+    public void testAdd1() {
         LongBinTreeNodeWithPriorityInNode[] values = {
                 new LongBinTreeNodeWithPriorityInNode(0.8741d, 1L)
                 ,new LongBinTreeNodeWithPriorityInNode(0.7317d, 1L)
@@ -63,5 +67,63 @@ public class CartesianBinTreeTest extends TestCase {
         }
         assertNotNull(ct);
     }
+
+    public void testAdd2() {
+        LongBinTreeNodeWithPriorityInNode[] values = {
+                new LongBinTreeNodeWithPriorityInNode(0.9360509543078629d, 4392624L)
+                ,new LongBinTreeNodeWithPriorityInNode(0.2259664993733157d, 2881184L)
+                ,new LongBinTreeNodeWithPriorityInNode(0.7435751784203221d, 9539741L)
+                ,new LongBinTreeNodeWithPriorityInNode(0.7741221648952566d, 3081582L)
+                ,new LongBinTreeNodeWithPriorityInNode(0.22463054099355506d, 1611473L)
+        };
+        CartesianBinTree<LongBinTreeNodeWithPriorityInNode> ct = new CartesianBinTree<>();
+        for (LongBinTreeNodeWithPriorityInNode value : values) {
+            ct.add(value);
+        }
+        assertNotNull(ct);
+        Long ch = ct.checkStructure(new BinTreeCheckPassEventTest());
+        assertEquals(5L, ch.longValue());
+    }
+
+    public static class BinTreeCheckPassEventTest implements BinTreeCheckPassEvent<LongBinTreeNodeWithPriorityInNode> {
+
+        private String errorMessage;
+        private boolean ignor = false;
+
+        public BinTreeCheckPassEventTest() {
+        }
+
+        public BinTreeCheckPassEventTest(boolean ignor) {
+            this.ignor = ignor;
+        }
+
+        @Override
+        public void onPass(
+                BinTreeIterator<LongBinTreeNodeWithPriorityInNode> leftIterator,
+                BinTreeIterator<LongBinTreeNodeWithPriorityInNode> rightIterator,
+                BinTreeNodeInterface<LongBinTreeNodeWithPriorityInNode> currentNode,
+                BinTreeNodeInterface<LongBinTreeNodeWithPriorityInNode> previousNode) {
+            if (!ignor)
+                System.out.println(errorMessage
+                        + "\r\n Current node: " + currentNode
+                        + "\r\n Left node: " + currentNode.getLeft()
+                        + "\r\n Right node: " + currentNode.getRight()
+                        + "\r\n Previous node: " + previousNode
+                        + "\r\n Left iterator: " + leftIterator
+                        + "\r\n Right iterator: " + rightIterator);
+        }
+
+        @Override
+        public void setErrorMessage(String errMsg) {
+            errorMessage = errMsg;
+        }
+
+        @Override
+        public String getErrorMessage() {
+            return errorMessage;
+        }
+    }
+
+
 
 }
