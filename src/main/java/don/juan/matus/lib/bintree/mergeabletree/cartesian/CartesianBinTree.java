@@ -38,42 +38,54 @@ public class CartesianBinTree<T extends Comparable<T>> extends BinTreeBase<T> im
         BinTreeNodeCartesianBinTree<T> newTree = mergeCartesian(mergeCartesian(parts.leftTree, newNode), parts.rightTree);
         newTree.setParent(root);
         root.setLeft(newTree);
+        size++;
         return true;
     }
 
     @Override
     public BinTreeNodeCartesianBinTree<T> mergeCartesian(BinTreeNodeCartesianBinTree<T> left, BinTreeNodeCartesianBinTree<T> right) {
         BinTreeNodeCartesianBinTree<T> result = null;
-        BinTreeNodeCartesianBinTree<T> current;
+        BinTreeNodeCartesianBinTree<T> parent = null;
+        BinTreeNodeCartesianBinTree<T> tmp;
+        boolean isLeft = true;
         while (left != null && right != null) {
             if (left.getPriority() < right.getPriority()) {
-                current = right;
-                if (result == null) result = current;
-                right = (BinTreeNodeCartesianBinTree<T>) current.getLeft();
-                current.setLeft(left);
-                if (left.getParent() != null) {
-                    if (left.getParent().getLeft() == left) {
-                        left.getParent().setLeft(current);
-                    } else {
-                        left.getParent().setRight(current);
-                    }
+                if (result == null) {
+                    result = right;
                 }
-                left.setParent(current);
-                if (right != null) right.setParent(null);
+                if (parent != null) {
+                    right.setParent(parent);
+                    if (isLeft)
+                        parent.setLeft(right);
+                    else
+                        parent.setRight(right);
+                }
+                tmp = (BinTreeNodeCartesianBinTree<T>) right.getLeft();
+                if (tmp != null)tmp.setParent(null);
+                right.setLeft(left);
+                left.setParent(right);
+                parent = right;
+                isLeft = true;
+                right = tmp;
             } else {
-                current = left;
-                if (result == null) result = current;
-                left = (BinTreeNodeCartesianBinTree<T>) current.getRight();
-                current.setRight(right);
-                if (right.getParent() != null) {
-                    if (right.getParent().getLeft() == right) {
-                        right.getParent().setLeft(current);
-                    } else {
-                        right.getParent().setRight(current);
-                    }
+                if (result == null) {
+                    result = left;
+                    parent = (BinTreeNodeCartesianBinTree<T>) left.getParent();
                 }
-                right.setParent(current);
-                if (left != null) left.setParent(null);
+                if (parent != null) {
+                    left.setParent(parent);
+                    if (isLeft)
+                        parent.setLeft(left);
+                    else
+                        parent.setRight(left);
+                }
+                tmp = (BinTreeNodeCartesianBinTree<T>) left.getRight();
+                if (tmp != null) tmp.setParent(null);
+                left.setRight(right);
+                right.setParent(left);
+                parent = left;
+                isLeft = false;
+                left = tmp;
             }
         }
         if (result == null) {

@@ -3,7 +3,6 @@ package don.juan.matus.lib.bintree.mergeabletree.cartesian;
 import don.juan.matus.lib.bintree.BinTreeCheckPassEvent;
 import don.juan.matus.lib.bintree.BinTreeIterator;
 import don.juan.matus.lib.bintree.BinTreeNodeInterface;
-import don.juan.matus.lib.bintree.SimpleTest;
 import junit.framework.TestCase;
 
 public class CartesianBinTreeTest extends TestCase {
@@ -61,11 +60,18 @@ public class CartesianBinTreeTest extends TestCase {
                 ,new LongBinTreeNodeWithPriorityInNode(0.7274d, 1L)
                 ,new LongBinTreeNodeWithPriorityInNode(0.7003d, 1L)
         };
+        BinTreeCheckPassEventTest thePassEvent = new BinTreeCheckPassEventTest();
+        Long ch = 0L, i = 1L;
         CartesianBinTree<LongBinTreeNodeWithPriorityInNode> ct = new CartesianBinTree<>();
         for (LongBinTreeNodeWithPriorityInNode value : values) {
             ct.add(value);
+            ch = ct.checkStructure(thePassEvent);
+            assertEquals(i.longValue(), ch.longValue());
+            i++;
         }
         assertNotNull(ct);
+        ch = ct.checkStructure(thePassEvent);
+        assertEquals(4L, ch.longValue());
     }
 
     public void testAdd2() {
