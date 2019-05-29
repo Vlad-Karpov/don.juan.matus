@@ -443,7 +443,7 @@ public class TreeMapTst<K, V>
         }
         int cmp;
         Entry<K, V> parent;
-        // splitCartesian comparator and comparable paths
+        // split comparator and comparable paths
         Comparator<? super K> cpr = comparator;
         if (cpr != null) {
             do {

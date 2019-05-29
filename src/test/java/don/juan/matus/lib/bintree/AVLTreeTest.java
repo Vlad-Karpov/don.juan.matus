@@ -1,9 +1,11 @@
 package don.juan.matus.lib.bintree;
 
 import don.juan.matus.lib.bintree.mergeabletree.cartesian.CartesianBinTree;
+import don.juan.matus.lib.bintree.mergeabletree.cartesian.RandomMergeBinTree;
 import don.juan.matus.lib.bintree.rotatetree.avl.AVLBinTree;
 import don.juan.matus.lib.bintree.rotatetree.random.RndBinTree;
 import don.juan.matus.lib.bintree.rotatetree.red_black.RedBlackTree;
+import don.juan.matus.lib.bintree.rotatetree.scapegoat.RandomRotateBinTree;
 import don.juan.matus.lib.bintree.rotatetree.scapegoat.ScapegoatTree;
 import don.juan.matus.lib.bintree.rotatetree.waight.BinTreeW;
 import junit.framework.TestCase;
@@ -32,7 +34,7 @@ del 15
  */
 
 
-    public static final long CNT = 360L;
+    public static final long CNT = 36L;
 
     public static void main(String[] args) {
         //AVLBinTree<Long> btLng = new AVLBinTree<Long>();
@@ -41,7 +43,9 @@ del 15
         //BinTreeW<Long> btLng = new BinTreeW<Long>();
         //RndBinTree<Long> btLng = new RndBinTree<Long>();
         //ScapegoatTree<Long> btLng = new ScapegoatTree<Long>();
-        CartesianBinTree<Long> btLng = new CartesianBinTree<Long>();
+        //CartesianBinTree<Long> btLng = new CartesianBinTree<Long>();
+        //RandomMergeBinTree<Long> btLng = new RandomMergeBinTree<Long>();
+        RandomRotateBinTree<Long> btLng = new RandomRotateBinTree<Long>();
         SimpleTest.BinTreeCheckPassEventTest check = new SimpleTest.BinTreeCheckPassEventTest();
         //Long[] rnd = new Long[]{407L,3879L,958L,3899L,4262L,3295L,8258L,8214L,875L,4581L,9733L,164L,2942L,8446L,5083L,7494L,9901L,8354L,3326L,8427L,1407L,4104L,3489L/*,5555L*/};
         //Long[] rnd = new Long[]{9205L,8378L,7395L,6283L,1970L,4425L,5537L,5573L,3508L,5060L,2979L,921L,8387L,5293L,8488L,3405L,4196L,5580L,8660L,1036L,1278L,4456L,4500L,4799L,3347L/*,3114L*/};
@@ -54,10 +58,10 @@ del 15
         //for (int i = 0; i < rnd.length; i++) btLng.add(rnd[i]);
 
         for (long i = 0; i < CNT; i++) {
-            Long rnd = Math.round(Math.random() * CNT);
-            System.out.print(rnd + "L, ");
-            btLng.add(rnd);
-            //btLng.add(i + 1);
+//            Long rnd = Math.round(Math.random() * CNT);
+//            System.out.print(rnd + "L, ");
+//            btLng.add(rnd);
+            btLng.add(i + 1);
             btLng.checkStructure(check);
         }
 

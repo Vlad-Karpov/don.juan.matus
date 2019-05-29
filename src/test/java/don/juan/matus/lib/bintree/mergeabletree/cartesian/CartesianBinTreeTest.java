@@ -46,12 +46,12 @@ public class CartesianBinTreeTest extends TestCase {
         ((BinTreeNodeWithPriorityInNode<Long>) rightTree.getLeft()).setPriority(6.0d);
         rightTree.setRight(new BinTreeNodeWithPriorityInNode<>(6L, null, rightTree, null));
         ((BinTreeNodeWithPriorityInNode<Long>) rightTree.getRight()).setPriority(5.0d);
-        return (BinTreeNodeWithPriorityInNode<Long>) ct.mergeCartesian(leftTree, rightTree);
+        return (BinTreeNodeWithPriorityInNode<Long>) ct.merge(leftTree, rightTree);
     }
 
     private void someSplit(MergeableBinTree.MergeParts parts, BinTreeNodeCartesianBinTree<Long> tree, Long key) {
         CartesianBinTree ct = new CartesianBinTree();
-        ct.splitCartesian(parts, tree, key);
+        ct.split(parts, tree, key);
     }
 
     public void testAdd1() {

@@ -1,25 +1,15 @@
 package don.juan.matus.lib.bintree.mergeabletree.cartesian;
 
 import don.juan.matus.lib.bintree.*;
+import don.juan.matus.lib.bintree.mergeabletree.MergeableBaseBinTree;
 
 
-public class CartesianBinTree<T extends Comparable<T>> extends BinTreeBase<T> implements MergeableBinTree<T> {
+public class CartesianBinTree<T extends Comparable<T>> extends MergeableBaseBinTree<T> {
 
     public CartesianBinTree() {
         super();
         root = new BinTreeNodeWithPriorityInNode<>(null, null, null, null);
         mergeStrategy = (left, right) -> ((BinTreeNodeCartesianBinTree<T>) left).getPriority() < ((BinTreeNodeCartesianBinTree<T>) right).getPriority();
-    }
-
-    @Override
-    public boolean add(T theObject) {
-        splitCartesian(parts, (BinTreeNodeCartesianBinTree<T>) root.getLeft(), theObject);
-        BinTreeNodeCartesianBinTree<T> newNode = (BinTreeNodeCartesianBinTree<T>) root.createNode(theObject, null, null, null);
-        BinTreeNodeCartesianBinTree<T> newTree = (BinTreeNodeCartesianBinTree<T>) mergeCartesian(mergeCartesian(parts.leftTree, newNode), parts.rightTree);
-        newTree.setParent(root);
-        root.setLeft(newTree);
-        size++;
-        return true;
     }
 
     @Override

@@ -211,7 +211,7 @@ public class BinTreeBase<T extends Comparable<T>>
     }
 
     @Override
-    public BinTreeNodeInterface<T> mergeCartesian(BinTreeNodeInterface<T> left, BinTreeNodeInterface<T> right) {
+    public BinTreeNodeInterface<T> merge(BinTreeNodeInterface<T> left, BinTreeNodeInterface<T> right) {
         BinTreeNodeInterface<T> result = null;
         BinTreeNodeInterface<T> parent = null;
         BinTreeNodeInterface<T> tmp;
@@ -264,7 +264,7 @@ public class BinTreeBase<T extends Comparable<T>>
     }
 
     @Override
-    public void splitCartesian(MergeParts parts, BinTreeNodeInterface<T> tree, T key) {
+    public void split(MergeParts parts, BinTreeNodeInterface<T> tree, T key) {
         BinTreeNodeInterface<T> current = tree;
         BinTreeNodeInterface<T> tmpTree;
         BinTreeNodeInterface<T> leftPart = null;
