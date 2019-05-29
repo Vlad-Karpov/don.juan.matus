@@ -3,6 +3,7 @@ package don.juan.matus.lib.bintree.mergeabletree.cartesian;
 import don.juan.matus.lib.bintree.BinTreeCheckPassEvent;
 import don.juan.matus.lib.bintree.BinTreeIterator;
 import don.juan.matus.lib.bintree.BinTreeNodeInterface;
+import don.juan.matus.lib.bintree.MergeableBinTree;
 import junit.framework.TestCase;
 
 public class CartesianBinTreeTest extends TestCase {
@@ -20,7 +21,7 @@ public class CartesianBinTreeTest extends TestCase {
 
     public void testSplit() {
         BinTreeNodeWithPriorityInNode<Long> tree = someMerge();
-        MergeableCartesianBinTree.MergeParts parts = new MergeableCartesianBinTree.MergeParts();
+        MergeableBinTree.MergeParts parts = new MergeableBinTree.MergeParts();
         someSplit(parts, tree, 4L);
         assertEquals("parts.leftTree.getObjectNode() != 2L", 2L, (long) parts.leftTree.getObjectNode());
         assertEquals("parts.leftTree.getLeft().getObjectNode() != 1L", 1L, (long) parts.leftTree.getLeft().getObjectNode());
@@ -48,7 +49,7 @@ public class CartesianBinTreeTest extends TestCase {
         return (BinTreeNodeWithPriorityInNode<Long>) ct.mergeCartesian(leftTree, rightTree);
     }
 
-    private void someSplit(MergeableCartesianBinTree.MergeParts parts, BinTreeNodeCartesianBinTree<Long> tree, Long key) {
+    private void someSplit(MergeableBinTree.MergeParts parts, BinTreeNodeCartesianBinTree<Long> tree, Long key) {
         CartesianBinTree ct = new CartesianBinTree();
         ct.splitCartesian(parts, tree, key);
     }

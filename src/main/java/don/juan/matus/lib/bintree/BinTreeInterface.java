@@ -7,6 +7,12 @@ import java.util.Iterator;
  */
 public interface BinTreeInterface<T extends Comparable<T>> {
 
+    long getMergeCount();
+
+    void setMergeCount(long mergeCount);
+
+    MergeableBinTree.MergeParts getParts();
+
     BinTreeNodeInterface<T> getRoot();
 
     Long getMaxLevel();

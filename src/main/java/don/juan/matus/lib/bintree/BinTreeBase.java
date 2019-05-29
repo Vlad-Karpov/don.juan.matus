@@ -10,6 +10,7 @@ public class BinTreeBase<T extends Comparable<T>>
         implements BinTreeInterface<T>
         , NavigableSet<T>
         , RotateBalancedBinTree<T>
+        , MergeableBinTree<T>
         , Cloneable
         , java.io.Serializable {
 
@@ -21,13 +22,12 @@ public class BinTreeBase<T extends Comparable<T>>
     protected Long level;
     protected Long size;
     protected Long rotateCount;
-    private GeneralCall<T> removeGeneralCall = new GeneralCall<T>() {
-
-        @Override
-        public void generalCall(Boolean theResult, Integer theCmp, BinTreeNodeInterface<T> resultNode, Object generalObject) {
-            if (theResult) removeNode(false, resultNode, null);
-        }
+    private GeneralCall<T> removeGeneralCall = (theResult, theCmp, resultNode, generalObject) -> {
+        if (theResult) removeNode(false, resultNode, null);
     };
+    protected MergeStrategy<T> mergeStrategy = (left, right) -> false;
+    protected MergeableBinTree.MergeParts parts;
+    protected long mergeCount;
 
     public BinTreeBase() {
         super();
@@ -36,7 +36,25 @@ public class BinTreeBase<T extends Comparable<T>>
         level = 0L;
         size = 0L;
         rotateCount = 0L;
+        parts = new MergeableBinTree.MergeParts();
+        mergeCount = 0L;
     }
+
+    @Override
+    public long getMergeCount() {
+        return mergeCount;
+    }
+
+    @Override
+    public void setMergeCount(long mergeCount) {
+        this.mergeCount = mergeCount;
+    }
+
+    @Override
+    public MergeableBinTree.MergeParts getParts() {
+        return parts;
+    }
+
 
     @Override
     public BinTreeNodeInterface<T> getRoot() {
@@ -190,6 +208,103 @@ public class BinTreeBase<T extends Comparable<T>>
             result.heght = maxHeght;
         }
         return result;
+    }
+
+    @Override
+    public BinTreeNodeInterface<T> mergeCartesian(BinTreeNodeInterface<T> left, BinTreeNodeInterface<T> right) {
+        BinTreeNodeInterface<T> result = null;
+        BinTreeNodeInterface<T> parent = null;
+        BinTreeNodeInterface<T> tmp;
+        boolean isLeft = true;
+        while (left != null && right != null) {
+            if (mergeStrategy.solveIt(left, right)) {
+                if (result == null) {
+                    result = right;
+                }
+                if (parent != null) {
+                    right.setParent(parent);
+                    if (isLeft)
+                        parent.setLeft(right);
+                    else
+                        parent.setRight(right);
+                }
+                tmp = right.getLeft();
+                if (tmp != null)tmp.setParent(null);
+                right.setLeft(left);
+                left.setParent(right);
+                parent = right;
+                isLeft = true;
+                right = tmp;
+            } else {
+                if (result == null) {
+                    result = left;
+                    parent = left.getParent();
+                }
+                if (parent != null) {
+                    left.setParent(parent);
+                    if (isLeft)
+                        parent.setLeft(left);
+                    else
+                        parent.setRight(left);
+                }
+                tmp = left.getRight();
+                if (tmp != null) tmp.setParent(null);
+                left.setRight(right);
+                right.setParent(left);
+                parent = left;
+                isLeft = false;
+                left = tmp;
+            }
+        }
+        if (result == null) {
+            result = (left != null ? left : right);
+        }
+        mergeCount++;
+        return result;
+    }
+
+    @Override
+    public void splitCartesian(MergeParts parts, BinTreeNodeInterface<T> tree, T key) {
+        BinTreeNodeInterface<T> current = tree;
+        BinTreeNodeInterface<T> tmpTree;
+        BinTreeNodeInterface<T> leftPart = null;
+        BinTreeNodeInterface<T> rightPart = null;
+        parts.leftTree = null;
+        parts.rightTree = null;
+        while (current != null) {
+            tmpTree = current;
+            if (current.getObjectNode().compareTo(key) < 0) {
+                current = current.getRight();
+                if (current != null) {
+                    tmpTree.setRight(null);
+                    current.setParent(null);
+                }
+                if (parts.leftTree == null) {
+                    parts.leftTree = tmpTree;
+                    leftPart = parts.leftTree;
+                } else {
+                    leftPart.setRight(tmpTree);
+                    tmpTree.setParent(leftPart);
+                    leftPart = tmpTree;
+                }
+            } else {
+                current = current.getLeft();
+                if (current != null) {
+                    tmpTree.setLeft(null);
+                    current.setParent(null);
+                }
+                if (parts.rightTree == null) {
+                    parts.rightTree = tmpTree;
+                    rightPart = parts.rightTree;
+                } else {
+                    rightPart.setLeft(tmpTree);
+                    tmpTree.setParent(rightPart);
+                    rightPart = tmpTree;
+
+                }
+            }
+        }
+        mergeCount++;
     }
 
     public static class TreeProps {
