@@ -95,6 +95,6 @@ public interface BinTreeInterface<T extends Comparable<T>> {
 
     void rebalanceTree();
 
-    void splay(final BinTreeNodeInterface<T> currentNode);
+    void splay(final BinTreeNodeInterface<T> theRoot, final BinTreeNodeInterface<T> currentNode);
 
 }

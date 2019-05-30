@@ -11,10 +11,10 @@ Splay tree
 public class SplayTree<T extends Comparable<T>> extends BinTreeBase<T> {
 
     @Override
-    public void splay(final BinTreeNodeInterface<T> currentNode) {
-        while (parentOf(currentNode) != root)  {
+    public void splay(final BinTreeNodeInterface<T> theRoot, final BinTreeNodeInterface<T> currentNode) {
+        while (parentOf(currentNode) != theRoot)  {
             if (currentNode == parentOf(currentNode).getLeft()) {
-                if (parentOf(parentOf(currentNode)) == root) {
+                if (parentOf(parentOf(currentNode)) == theRoot) {
                     rotateRight(parentOf(currentNode));
                 } else if (parentOf(currentNode) == parentOf(parentOf(currentNode)).getLeft()) {
                     rotateRight(parentOf(parentOf(currentNode)));
@@ -24,7 +24,7 @@ public class SplayTree<T extends Comparable<T>> extends BinTreeBase<T> {
                     rotateLeft(parentOf(currentNode));
                 }
             } else {
-                if (parentOf(parentOf(currentNode)) == root) {
+                if (parentOf(parentOf(currentNode)) == theRoot) {
                     rotateLeft(parentOf(currentNode));
                 } else if (parentOf(currentNode) == parentOf(parentOf(currentNode)).getRight()) {
                     rotateLeft(parentOf(parentOf(currentNode)));
@@ -44,22 +44,24 @@ public class SplayTree<T extends Comparable<T>> extends BinTreeBase<T> {
             extreme = left;
             while (extreme.getRight() != null)
                 extreme = extreme.getRight();
-            splay(extreme);
+            splay(parentOf(left), extreme);
             extreme.setRight(right);
+            if (right != null) right.setParent(extreme);
         } else {
             if (right != null) {
                 extreme = right;
                 while (extreme.getLeft() != null)
                     extreme = extreme.getLeft();
-                splay(extreme);
+                splay(parentOf(right), extreme);
                 extreme.setLeft(left);
+                if (left != null) left.setParent(extreme);
             }
         }
         return extreme;
     }
 
     private void splitSplay(MergeParts parts, BinTreeNodeInterface<T> node) {
-        splay(node);
+        splay(root, node);
         parts.leftTree = node.getLeft();
         if (parts.leftTree != null) {
             parts.leftTree.setParent(null);
@@ -74,19 +76,20 @@ public class SplayTree<T extends Comparable<T>> extends BinTreeBase<T> {
             BinTreeNodeInterface<T> currentNode,
             BinTreeNodeInterface<T> nextNode) {
         BinTreeNodeInterface<T> result = nextNode;
-        splay(currentNode);
-//        result = currentNode.getRight();
-//        while (result.getLeft() != null)
-//            result = result.getLeft();
+        splay(root, currentNode);
+        result = currentNode.getRight();
+        while (result.getLeft() != null)
+            result = result.getLeft();
         currentNode = mergeSplay(currentNode.getLeft(), currentNode.getRight());
         currentNode.setParent(root);
         root.setLeft(currentNode);
+        size--;
         return result;
     }
 
         @Override
     protected BinTreeNodeInterface<T> postAddLoop(final BinTreeNodeInterface<T> currentNode) {
-        splay(currentNode);
+        splay(root, currentNode);
         return currentNode;
     }
 

@@ -251,7 +251,8 @@ public class SimpleTest extends TestCase {
 
     public void testAvlBinTreeRemove() {
         ArrayList<Long> ar = new ArrayList<Long>();
-        AVLBinTree<Long> btLng = new AVLBinTree<Long>();
+        //AVLBinTree<Long> btLng = new AVLBinTree<Long>();
+        SplayTree<Long> btLng = new SplayTree<Long>();
         Long[] rnd = new Long[]{2L, 8L, 5L, 1L, 9L, 3L, 4L, 7L, 6L, 10L, 15L, 12L, 14L, 13L, 18L, 16L, 20L, 17L, 19L, 11L};
         for (int i = 0; i < rnd.length; i++) {
             if (i == 15) {

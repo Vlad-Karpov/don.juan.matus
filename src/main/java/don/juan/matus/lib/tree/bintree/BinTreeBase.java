@@ -506,7 +506,7 @@ public class BinTreeBase<T extends Comparable<T>>
                     int cmp = theObject.compareTo(current.getObjectNode());
                     if (cmp == 0) {
                         result = true;
-                        splay(current);
+                        splay(root, current);
                         if (generalCallObject != null) generalCallObject.generalCall(result, cmp, current, null);
                         break;
                     } else if (cmp < 0) {
@@ -533,7 +533,7 @@ public class BinTreeBase<T extends Comparable<T>>
     }
 
     @Override
-    public void splay(final BinTreeNodeInterface<T> currentNode) {
+    public void splay(final BinTreeNodeInterface<T> theRoot, final BinTreeNodeInterface<T> currentNode) {
     }
 
     @Override
