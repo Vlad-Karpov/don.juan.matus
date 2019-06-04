@@ -38,6 +38,41 @@ public interface BinTreeInterface<T extends Comparable<T>> {
 
     Boolean seekLoop(T theObject, BinTreeNodeInterface<T> currentNode, GeneralCall<T> generalCallObject);
 
+    static <T extends Comparable<T>> BinTreeNodeInterface<T> seekLoop(T theObject, BinTreeNodeInterface<T> currentNode) {
+        BinTreeNodeInterface<T> result = null;
+        BinTreeNodeInterface<T> current = currentNode;
+        if (current != null) {
+            do {
+                if (current.getObjectNode() == null) {
+                    if (current.getLeft() != null) {
+                        current = current.getLeft();
+                    } else {
+                        break;
+                    }
+                } else {
+                    int cmp = theObject.compareTo(current.getObjectNode());
+                    if (cmp == 0) {
+                        result = current;
+                        break;
+                    } else if (cmp < 0) {
+                        if (current.getLeft() != null) {
+                            current = current.getLeft();
+                        } else {
+                            break;
+                        }
+                    } else {
+                        if (current.getRight() != null) {
+                            current = current.getRight();
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            } while (true);
+        }
+        return result;
+    };
+
     BinTreeBase.TreeProps treePassage();
 
     Iterator<T> iterator();
