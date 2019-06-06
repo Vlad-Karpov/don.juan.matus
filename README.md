@@ -11,7 +11,7 @@ Binary searche tree classes:
   - Scapegoat (don.juan.matus.lib.tree.bintree.rotatetree.scapegoat.ScapegoatTree)
   - Weight balanced tree (don.juan.matus.lib.tree.bintree.rotatetree.waight.BinTreeW)
   - Randomizing tree (don.juan.matus.lib.tree.bintree.rotatetree.random.RndBinTree)
-  - Cartesian tree (don.juan.matus.lib.tree.bintree.mergeabletree.cartesian.CartesianBinTree) - under construction
-  - Splay tree - in future
+  - Cartesian tree (don.juan.matus.lib.tree.bintree.mergeabletree.cartesian.CartesianBinTree)
+  - Splay tree
 
 and others...
