@@ -60,5 +60,51 @@ public class AATreeTest extends TestCase {
         Assert.assertNull(r1);
     }
 
+    public void testSplit1() {
+        AATree<Character> tree = new AATree<>();
+        BinTreeNodeAA<Character> p = new BinTreeNodeAA<>('P', null, null, null);
+        BinTreeNodeAA<Character> a = new BinTreeNodeAA<>('A', null, null, null);
+        BinTreeNodeAA<Character> r = new BinTreeNodeAA<>('R', null, null, null);
+        BinTreeNodeAA<Character> t = new BinTreeNodeAA<>('T', a, p, r);
+        r.setParent(t);
+        a.setParent(t);
+        p.setRight(t);
+        BinTreeNodeAA<Character> b = new BinTreeNodeAA<>('B', null, r, null);
+        r.setLeft(b);
+        BinTreeNodeAA<Character> x = new BinTreeNodeAA<>('X', null, r, null);
+        r.setRight(x);
+        BinTreeNodeAA<Character> result = tree.split(t);
+        Assert.assertEquals('P', (char)result.getParent().getObjectNode());
+        Assert.assertEquals('R', (char)result.getParent().getRight().getObjectNode());
+        Assert.assertEquals('R', (char)result.getObjectNode());
+        Assert.assertEquals('T', (char)result.getLeft().getObjectNode());
+        Assert.assertEquals('R', (char)result.getLeft().getParent().getObjectNode());
+        Assert.assertEquals('X', (char)result.getRight().getObjectNode());
+        Assert.assertEquals('R', (char)result.getRight().getParent().getObjectNode());
+        Assert.assertEquals('A', (char)result.getLeft().getLeft().getObjectNode());
+        Assert.assertEquals('T', (char)result.getLeft().getLeft().getParent().getObjectNode());
+        Assert.assertEquals('B', (char)result.getLeft().getRight().getObjectNode());
+        Assert.assertEquals('T', (char)result.getLeft().getRight().getParent().getObjectNode());
+    }
+
+    public void testSplit2() {
+        AATree<Character> tree = new AATree<>();
+        BinTreeNodeAA<Character> p = new BinTreeNodeAA<>('P', null, null, null);
+        BinTreeNodeAA<Character> r = new BinTreeNodeAA<>('R', null, null, null);
+        BinTreeNodeAA<Character> t = new BinTreeNodeAA<>('T', null, p, r);
+        r.setParent(t);
+        p.setRight(t);
+        BinTreeNodeAA<Character> x = new BinTreeNodeAA<>('X', null, r, null);
+        r.setRight(x);
+        BinTreeNodeAA<Character> result = tree.split(t);
+        Assert.assertEquals('P', (char)result.getParent().getObjectNode());
+        Assert.assertEquals('R', (char)result.getParent().getRight().getObjectNode());
+        Assert.assertEquals('R', (char)result.getObjectNode());
+        Assert.assertEquals('T', (char)result.getLeft().getObjectNode());
+        Assert.assertEquals('R', (char)result.getLeft().getParent().getObjectNode());
+        Assert.assertEquals('X', (char)result.getRight().getObjectNode());
+        Assert.assertEquals('R', (char)result.getRight().getParent().getObjectNode());
+    }
+
 
 }

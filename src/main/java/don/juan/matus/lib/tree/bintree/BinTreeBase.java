@@ -597,6 +597,11 @@ public class BinTreeBase<T extends Comparable<T>>
         current.setLeft(null);
         current.setRight(null);
         size--;
+        changeNodeAfter(parent);
+    }
+
+    protected void changeNodeAfter(BinTreeNodeInterface<T> currentNode) {
+        //
     }
 
     @Override

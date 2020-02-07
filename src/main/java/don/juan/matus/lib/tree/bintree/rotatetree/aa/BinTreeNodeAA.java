@@ -2,7 +2,6 @@ package don.juan.matus.lib.tree.bintree.rotatetree.aa;
 
 import don.juan.matus.lib.tree.bintree.BinTreeNodeBase;
 import don.juan.matus.lib.tree.bintree.BinTreeNodeInterface;
-import don.juan.matus.lib.tree.bintree.rotatetree.red_black.BinTreeNodeRedBlack;
 
 public class BinTreeNodeAA<T extends Comparable<T>> extends BinTreeNodeBase<T> {
 
@@ -21,9 +20,9 @@ public class BinTreeNodeAA<T extends Comparable<T>> extends BinTreeNodeBase<T> {
             BinTreeNodeInterface<T> theRight) {
         return new BinTreeNodeAA(
                 theObject,
-                (BinTreeNodeRedBlack<T>) theLeft,
-                (BinTreeNodeRedBlack<T>) theParent,
-                (BinTreeNodeRedBlack<T>) theRight);
+                (BinTreeNodeAA<T>) theLeft,
+                (BinTreeNodeAA<T>) theParent,
+                (BinTreeNodeAA<T>) theRight);
     }
 
     @Override
@@ -44,6 +43,14 @@ public class BinTreeNodeAA<T extends Comparable<T>> extends BinTreeNodeBase<T> {
 
     public void setLevel(short level) {
         this.level = level;
+    }
+
+    public short incLevel() {
+        return this.level++;
+    }
+
+    public short decLevel() {
+        return this.level--;
     }
 
 }
