@@ -63,7 +63,7 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
         ((BinTreeNodeBalanceFactor<T>) dadNode).setBalanceFactor((byte) dbn);
     }
 
-    protected BinTreeNodeInterface<T> rebalanceTree(final BinTreeNodeBalanceFactor<T> currentNode, int theIncHeight, int theSign) {
+    private BinTreeNodeInterface<T> balanceTree(final BinTreeNodeBalanceFactor<T> currentNode, int theIncHeight, int theSign) {
         BinTreeNodeBalanceFactor<T> parent;
         BinTreeNodeBalanceFactor<T> cursor = currentNode;
         int incHeight = theIncHeight;
@@ -155,14 +155,14 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
     protected BinTreeNodeInterface<T> postAddLoop(final BinTreeNodeInterface<T> currentNode) {
         BinTreeNodeBalanceFactor<T> cursor = (BinTreeNodeBalanceFactor<T>) currentNode;
         BinTreeNodeBalanceFactor<T> parent = (BinTreeNodeBalanceFactor<T>) cursor.getParent();
-        return rebalanceTree(cursor, parent.getLeft() == cursor ? 1 : -1, 1);
+        return balanceTree(cursor, parent.getLeft() == cursor ? 1 : -1, 1);
     }
 
     @Override
     protected void changeNode(BinTreeNodeInterface<T> theCurrentNode) {
         BinTreeNodeBalanceFactor<T> cursor = (BinTreeNodeBalanceFactor<T>) theCurrentNode;
         BinTreeNodeBalanceFactor<T> parent = (BinTreeNodeBalanceFactor<T>) cursor.getParent();
-        rebalanceTree((BinTreeNodeBalanceFactor<T>) theCurrentNode, parent.getLeft() == cursor ? -1 : 1, -1);
+        balanceTree((BinTreeNodeBalanceFactor<T>) theCurrentNode, parent.getLeft() == cursor ? -1 : 1, -1);
     }
 
 
