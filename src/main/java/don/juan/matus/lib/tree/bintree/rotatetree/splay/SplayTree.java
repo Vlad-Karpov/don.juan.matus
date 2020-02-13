@@ -12,6 +12,7 @@ public class SplayTree<T extends Comparable<T>> extends BinTreeBase<T> {
 
     @Override
     public void splay(final BinTreeNodeInterface<T> theRoot, final BinTreeNodeInterface<T> currentNode) {
+        level = 0L;
         while (parentOf(currentNode) != theRoot) {
             if (currentNode == parentOf(currentNode).getLeft()) {
                 if (parentOf(parentOf(currentNode)) == theRoot) {
@@ -33,8 +34,9 @@ public class SplayTree<T extends Comparable<T>> extends BinTreeBase<T> {
                     rotateLeft(parentOf(currentNode));
                     rotateRight(parentOf(currentNode));
                 }
-
             }
+            level++;
+            if (maxLevel < level) maxLevel = level;
         }
     }
 
