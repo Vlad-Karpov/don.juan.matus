@@ -1,6 +1,7 @@
 package don.juan.matus.lib.collection.sorted.tree.bintree;
 
 import don.juan.matus.lib.collection.sorted.tree.TreeBase;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 
@@ -321,14 +322,16 @@ public class BinTreeBase<T extends Comparable<T>>
         return treePassage(root.getLeft());
     }
 
+    @NotNull
     @Override
     public Iterator<T> iterator() {
-        return new BinTreeIterator(this, root);
+        return new BinTreeIterator<>(this, root);
     }
 
+    @NotNull
     @Override
     public Iterator<T> descendingIterator() {
-        return new DescendingBinTreeIterator(this, root);
+        return new DescendingBinTreeIterator<>(this, root);
     }
 
     @Override
@@ -336,14 +339,16 @@ public class BinTreeBase<T extends Comparable<T>>
         return size.intValue();
     }
 
+    @NotNull
     @Override
     public Iterator<T> iterator(T theObject) {
-        return new BinTreeIterator(this, root, theObject);
+        return new BinTreeIterator<>(this, root, theObject);
     }
 
+    @NotNull
     @Override
     public Iterator<T> descendingIterator(T theObject) {
-        return new DescendingBinTreeIterator(this, root, theObject);
+        return new DescendingBinTreeIterator<>(this, root, theObject);
     }
 
     @Override
@@ -399,8 +404,8 @@ public class BinTreeBase<T extends Comparable<T>>
     }
 
     @Override
-    public void remove(T theObject) {
-        seekLoop(theObject, root, removeGeneralCall);
+    public boolean remove(Object theObject) {
+        return seekLoop((T)theObject, root, removeGeneralCall);
     }
 
     @Override
