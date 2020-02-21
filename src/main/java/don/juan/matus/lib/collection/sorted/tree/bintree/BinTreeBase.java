@@ -20,7 +20,6 @@ public class BinTreeBase<T extends Comparable<T>>
     protected BinTreeNodeInterface<T> root;
     protected Long maxLevel;
     protected Long level;
-    protected Long size;
     protected Long rotateCount;
     private GeneralCall<T> removeGeneralCall = (theResult, theCmp, resultNode, generalObject) -> {
         if (theResult) removeNode(false, resultNode, null);

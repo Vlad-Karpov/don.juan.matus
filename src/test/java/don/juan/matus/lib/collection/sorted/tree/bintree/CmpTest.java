@@ -1,5 +1,7 @@
 package don.juan.matus.lib.collection.sorted.tree.bintree;
 
+import don.juan.matus.lib.collection.sorted.SortedCollectionBase;
+import don.juan.matus.lib.collection.sorted.skiplist.SkipList;
 import don.juan.matus.lib.collection.sorted.tree.bintree.mergeabletree.cartesian.CartesianBinTree;
 import don.juan.matus.lib.collection.sorted.tree.bintree.mergeabletree.cartesian.RandomMergeBinTree;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.aa.AATree;
@@ -22,6 +24,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NavigableMap;
+import java.util.TreeMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 public class CmpTest extends TestCase {
 
@@ -72,12 +77,23 @@ public class CmpTest extends TestCase {
         System.gc();
     }
 
-    public void testBinTreeBinTreeBase() {
-        addSeekRemove("BinTreeBase", rList, new BinTreeBase<>());
+//    public void testBinTreeTreeMapTst() {
+//        addSeekRemove(rList, new TreeMapTst<>());
+//    }
+//    public void testConcarrentSkipListMap() {
+//        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
+//    }
+//    public void testTreeMap() {
+//        addSeekRemove("TreeMap", rList, new TreeMap<>());
+//    }
+
+
+    public void testSortedCollectionSkipList() {
+        addSeekRemove("SkipList", rList, new SkipList<>());
     }
 
-    public void testBinTreeTreeMapTst() {
-        addSeekRemove(rList, new TreeMapTst<>());
+    public void testBinTreeBinTreeBase() {
+        addSeekRemove("BinTreeBase", rList, new BinTreeBase<>());
     }
 
     public void testBinTreeBinTreeW() {
@@ -118,6 +134,35 @@ public class CmpTest extends TestCase {
 
     public void testBinTreeRandomRotateBinTree() {
         addSeekRemove("RandomRotateBinTree", rList, new RandomRotateBinTree<>());
+    }
+
+    private <T extends Comparable<T>> void addSeekRemove(String nameSortedCollection, List<T> rList, NavigableMap<T, T> sortedMap) {
+        Calendar cBegin;
+        Calendar cEnd;
+        T rnd;
+        int j;
+        Iterator<T> it;
+        System.out.println(nameSortedCollection);
+        cBegin = Calendar.getInstance();
+        for (int i = 0; i < maxRandomDataFile; i++) {
+            rnd = rList.get(i);
+            sortedMap.put(rnd, rnd);
+        }
+        cEnd = Calendar.getInstance();
+        System.out.println("time 2.1 (add) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
+        //
+        cBegin = Calendar.getInstance();
+        it = sortedMap.keySet().iterator();
+        j = 0;
+        while (it.hasNext()) {
+            it.next();
+            j++;
+        }
+        cEnd = Calendar.getInstance();
+        System.out.println("time 3.1 (iterate) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + sortedMap.size());
+        //
+        System.out.println("<=========================================================================================>");
+        System.gc();
     }
 
     private <T extends Comparable<T>> void addSeekRemove(List<T> rList, TreeMapTst<T, T> tree) {
@@ -185,6 +230,35 @@ public class CmpTest extends TestCase {
         System.out.println(", maxLevel = " + tree.maxLevel + ", RotateCount = " + tree.rotateCount);
         //
         System.out.println("time 7.1 (check) = " + 0 + " " + tree.size());
+        System.out.println("<=========================================================================================>");
+        System.gc();
+    }
+
+    private <T extends Comparable<T>> void addSeekRemove(String nameSortedCollection, List<T> rList, SortedCollectionBase<T> sortedCollection) {
+        Calendar cBegin;
+        Calendar cEnd;
+        T rnd;
+        int j;
+        Iterator<T> it;
+        System.out.println(nameSortedCollection);
+        cBegin = Calendar.getInstance();
+        for (int i = 0; i < maxRandomDataFile; i++) {
+            rnd = rList.get(i);
+            sortedCollection.add(rnd);
+        }
+        cEnd = Calendar.getInstance();
+        System.out.println("time 2.1 (add) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
+        //
+        cBegin = Calendar.getInstance();
+        it = sortedCollection.iterator();
+        j = 0;
+        while (it.hasNext()) {
+            it.next();
+            j++;
+        }
+        cEnd = Calendar.getInstance();
+        System.out.println("time 3.1 (iterate) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + sortedCollection.size());
+        //
         System.out.println("<=========================================================================================>");
         System.gc();
     }

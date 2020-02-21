@@ -1,43 +1,12 @@
 package don.juan.matus.lib.collection.sorted;
 
 import don.juan.matus.lib.collection.CollectionBase;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.SortedSet;
 
 public class SortedCollectionBase<T extends Comparable<T>> extends CollectionBase<T> implements NavigableSet<T> {
-
-    @Override
-    public int size() {
-        return 0;
-    }
-
-    @NotNull
-    @Override
-    public Iterator<T> iterator() {
-        return new NullIterator<>();
-    }
-
-    @NotNull
-    @Override
-    public Iterator<T> iterator(T theObject) {
-        return new NullIterator<>();
-    }
-
-    @NotNull
-    @Override
-    public Iterator<T> descendingIterator() {
-        return new NullIterator<>();
-    }
-
-    @NotNull
-    @Override
-    public Iterator<T> descendingIterator(T theObject) {
-        return new NullIterator<>();
-    }
 
     @Override
     public T lower(T t) {
