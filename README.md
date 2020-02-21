@@ -16,5 +16,9 @@ Binary searche tree classes:
   - Cartesian tree (don.juan.matus.lib.collection.sorted.tree.bintree.mergeabletree.cartesian.CartesianBinTree)
   - RandomMergeBinTree (don.juan.matus.lib.collection.sorted.tree.bintree.mergeabletree.cartesian.RandomMergeBinTree)
   - Splay tree (don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.splay.SplayTree)
+  
+Other order collections:
+
+   - Skip list (don.juan.matus.lib.collection.sorted.skiplist.SkipList)  
 
 and others...
