@@ -1,11 +1,13 @@
 package don.juan.matus.lib.collection.sorted.tree.bintree;
 
+import don.juan.matus.lib.collection.CollectionBaseInterface;
+
 import java.util.Iterator;
 
 /**
  * Interface binary tree.
  */
-public interface BinTreeInterface<T extends Comparable<T>> {
+public interface BinTreeInterface<T extends Comparable<T>> extends CollectionBaseInterface<T> {
 
     long getMergeCount();
 
@@ -74,18 +76,6 @@ public interface BinTreeInterface<T extends Comparable<T>> {
     };
 
     BinTreeBase.TreeProps treePassage();
-
-    Iterator<T> iterator();
-
-    Iterator<T> iterator(T theObject);
-
-    Iterator<T> descendingIterator();
-
-    Iterator<T> descendingIterator(T theObject);
-
-    boolean add(T theObject);
-
-    void remove(T theObject);
 
     BinTreeNodeInterface<T> removeNode(
             Boolean theDescending,

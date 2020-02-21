@@ -3,26 +3,10 @@ package don.juan.matus.lib.collection.sorted;
 import don.juan.matus.lib.collection.CollectionBase;
 
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.SortedSet;
 
-public class SortedCollectionBase<T extends Comparable<T>> extends CollectionBase<T>  implements NavigableSet<T> {
-
-    @Override
-    public int size() {
-        return 0;
-    }
-
-    @Override
-    public Iterator<T> iterator() {
-        return null;
-    }
-
-    @Override
-    public Iterator<T> descendingIterator() {
-        return null;
-    }
+public class SortedCollectionBase<T extends Comparable<T>> extends CollectionBase<T> implements NavigableSet<T> {
 
     @Override
     public T lower(T t) {
