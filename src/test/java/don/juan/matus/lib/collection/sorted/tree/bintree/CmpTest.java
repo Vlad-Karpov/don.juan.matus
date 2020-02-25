@@ -80,14 +80,24 @@ public class CmpTest extends TestCase {
 //    public void testBinTreeTreeMapTst() {
 //        addSeekRemove(rList, new TreeMapTst<>());
 //    }
-//    public void testConcarrentSkipListMap() {
-//        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
-//    }
+    public void testConcarrentSkipListMap() {
+        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
+        addSeekRemove("SkipList", rList, new SkipList<>());
+        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
+        addSeekRemove("SkipList", rList, new SkipList<>());
+        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
+        addSeekRemove("SkipList", rList, new SkipList<>());
+        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
+        addSeekRemove("SkipList", rList, new SkipList<>());
+        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
+        addSeekRemove("SkipList", rList, new SkipList<>());
+    }
 //    public void testTreeMap() {
 //        addSeekRemove("TreeMap", rList, new TreeMap<>());
 //    }
 
 
+/*
     public void testSortedCollectionSkipList() {
         addSeekRemove("SkipList", rList, new SkipList<>());
     }
@@ -135,6 +145,7 @@ public class CmpTest extends TestCase {
     public void testBinTreeRandomRotateBinTree() {
         addSeekRemove("RandomRotateBinTree", rList, new RandomRotateBinTree<>());
     }
+*/
 
     private <T extends Comparable<T>> void addSeekRemove(String nameSortedCollection, List<T> rList, NavigableMap<T, T> sortedMap) {
         Calendar cBegin;

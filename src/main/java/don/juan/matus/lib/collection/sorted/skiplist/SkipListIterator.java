@@ -14,7 +14,7 @@ public class SkipListIterator<T extends Comparable<T>> implements Iterator<T> {
 
     public SkipListIterator(SkipList<T> ts, T theObject) {
         skipList = ts;
-        initIterator();
+        current = skipList.seek(theObject);
     }
 
     private void initIterator() {
@@ -26,14 +26,18 @@ public class SkipListIterator<T extends Comparable<T>> implements Iterator<T> {
 
     @Override
     public boolean hasNext() {
-        return current.getRight() != null;
+        return current != null && current.getRight() != null;
     }
 
     @Override
     public T next() {
-        T result = current.getElement();
-        current = (SkipList.SkipListNodeInterface<T>) current.getRight();
-        return result;
+        if (current != null) {
+            T result = current.getElement();
+            current = (SkipList.SkipListNodeInterface<T>) current.getRight();
+            return result;
+        } else {
+            return null;
+        }
     }
 
 }

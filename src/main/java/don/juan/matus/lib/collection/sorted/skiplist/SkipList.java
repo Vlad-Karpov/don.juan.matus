@@ -28,7 +28,44 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
         endLaneNode.setListNode(endListNode);
         endLaneNode.setDown(endListNode);
         beginListNode.setRight(endListNode);
+        endListNode.setDown(beginListNode);
         size = 0L;
+    }
+
+    public ListNode<T> seek(T theObject) {
+        ListNode<T> result = null;
+        int index = tower.size() - 1;
+        SkipListNodeBaseInterface<T> prev = tower.get(index);
+        SkipListNodeBaseInterface<T> node = prev.getRight();
+        while (node != null) {
+            if (node instanceof LaneNodeInterface) {
+                LaneNodeInterface<T> laneNode = (LaneNodeInterface<T>) node;
+                if (laneNode.getListNode().getElement() != null) {
+                    if (laneNode.getListNode().getElement().compareTo(theObject) > 0) {
+                        node = prev.getDown();
+                    }
+                } else {
+                    node = prev.getDown();
+                }
+            } else if (node instanceof SkipListNodeInterface) {
+                SkipListNodeInterface<T> listPrev = (SkipListNodeInterface<T>) prev;
+                SkipListNodeInterface<T> listNode = (SkipListNodeInterface<T>) node;
+                if (listNode.getElement() != null) {
+                    if (listNode.getElement().compareTo(theObject) == 0) {
+                        result = (ListNode<T>) listNode;
+                        break;
+                    }
+                    if (listNode.getElement().compareTo(theObject) > 0) {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+            prev = node;
+            node = prev.getRight();
+        }
+        return result;
     }
 
     @NotNull
@@ -127,6 +164,8 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
         newNode.setElement(theObject);
         listPrev.setRight(newNode);
         newNode.setRight(listNode);
+        newNode.setDown(listPrev);
+        listNode.setDown(newNode);
         insertLane(newNode);
         size++;
     }
@@ -266,6 +305,8 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
 
     static class ListNode<T extends Comparable<T>> extends NavigatableNode<T> implements SkipListNodeBaseInterface<T>, SkipListNodeInterface<T> {
 
+        SkipListNodeBaseInterface<T> left;
+
         T element;
 
         @Override
@@ -280,11 +321,12 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
 
         @Override
         public SkipListNodeBaseInterface<T> getDown() {
-            return null;
+            return left;
         }
 
         @Override
         public void setDown(SkipListNodeBaseInterface<T> down) {
+            left = down;
         }
 
         @Override
