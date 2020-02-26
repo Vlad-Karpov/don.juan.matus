@@ -18,25 +18,25 @@ public class DescendingSkipListIterator<T extends Comparable<T>> implements Iter
     }
 
     private void initIterator() {
-        SkipList.SkipListNodeBaseInterface<T> laneNode = skipList.tower.get(0);
+        SkipList.NavigableLaneNodeBaseInterface<T> laneNode = skipList.tower.get(0);
         while (laneNode.getRight() != null) {
-            laneNode = laneNode.getRight();
+            laneNode = (SkipList.NavigableLaneNodeBaseInterface<T>) laneNode.getRight();
         }
-        while(laneNode instanceof SkipList.LaneNode) laneNode = laneNode.getDown();
-        current = (SkipList.SkipListNodeInterface<T>) laneNode.getDown();
+        while (laneNode instanceof SkipList.LaneNodeInterface) laneNode = laneNode.getDown();
+        current = (SkipList.SkipListNodeInterface<T>) laneNode.getLeft();
     }
 
 
     @Override
     public boolean hasNext() {
-        return current != null && current.getDown() != null;
+        return current != null && current.getLeft() != null;
     }
 
     @Override
     public T next() {
         if (current != null) {
             T result = current.getElement();
-            current = (SkipList.SkipListNodeInterface<T>) current.getDown();
+            current = (SkipList.SkipListNodeInterface<T>) current.getLeft();
             return result;
         } else {
             return null;

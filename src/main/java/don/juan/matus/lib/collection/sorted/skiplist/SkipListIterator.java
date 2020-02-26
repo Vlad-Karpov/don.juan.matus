@@ -18,8 +18,8 @@ public class SkipListIterator<T extends Comparable<T>> implements Iterator<T> {
     }
 
     private void initIterator() {
-        SkipList.SkipListNodeBaseInterface<T> laneNode = skipList.tower.get(0);
-        while(laneNode.getDown() != null) laneNode = laneNode.getDown();
+        SkipList.NavigableLaneNodeBaseInterface<T> laneNode = skipList.tower.get(0);
+        while (laneNode.getDown() != null) laneNode = laneNode.getDown();
         current = (SkipList.SkipListNodeInterface<T>) laneNode.getRight();
     }
 
@@ -38,6 +38,10 @@ public class SkipListIterator<T extends Comparable<T>> implements Iterator<T> {
         } else {
             return null;
         }
+    }
+
+    public void remove() {
+        current = skipList.removeNode((SkipList.ListNode<T>) current);
     }
 
 }

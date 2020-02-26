@@ -12,40 +12,76 @@ import java.util.Random;
 
 public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
 
-    List<LaneNode<T>> tower = new ArrayList<>();
-    Map<Integer, SkipListNodeBaseInterface<T>> steckPrev = new HashMap<>();
-    private Random rnd = new Random();
+    List<LaneNode<T>> tower;
+    Map<Integer, NavigableLaneNodeBaseInterface<T>> steckPrev;
+    private Random rnd;
 
     public SkipList() {
+        initList();
+    }
+
+    private void initList() {
+        rnd = new Random();
+        steckPrev = new HashMap<>();
+        tower = new ArrayList<>();
         LaneNode<T> beginLaneNode = new LaneNode<>();
         tower.add(beginLaneNode);
         LaneNode<T> endLaneNode = new LaneNode<>();
         beginLaneNode.setRight(endLaneNode);
         ListNode<T> beginListNode = new ListNode<>();
         beginLaneNode.setListNode(beginListNode);
-        beginLaneNode.setDown(beginListNode);
+        beginLaneNode.setDown((NavigableLaneNodeBaseInterface<T>) beginListNode);
         ListNode<T> endListNode = new ListNode<>();
         endLaneNode.setListNode(endListNode);
-        endLaneNode.setDown(endListNode);
+        endLaneNode.setDown((NavigableLaneNodeBaseInterface<T>) endListNode);
         beginListNode.setRight(endListNode);
-        endListNode.setDown(beginListNode);
+        endListNode.setLeft(beginListNode);
         size = 0L;
+    }
+
+    public void clear() {
+        initList();
+    }
+
+    public boolean contains(Object o) {
+        ListNode<T> node = seek((T) o);
+        if (node != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean remove(Object o) {
+        ListNode<T> node = seek((T) o);
+        if (node != null) {
+            removeNode(node);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public ListNode<T> removeNode(ListNode<T> removeNode) {
+        //todo:
+        return removeNode;
     }
 
     public ListNode<T> seek(T theObject) {
         ListNode<T> result = null;
         int index = tower.size() - 1;
-        SkipListNodeBaseInterface<T> prev = tower.get(index);
-        SkipListNodeBaseInterface<T> node = prev.getRight();
+        NavigableNodeBaseInterface<T> prev = tower.get(index);
+        NavigableNodeBaseInterface<T> node = prev.getRight();
         while (node != null) {
-            if (node instanceof LaneNodeInterface) {
+            if (node instanceof SkipList.LaneNodeInterface) {
                 LaneNodeInterface<T> laneNode = (LaneNodeInterface<T>) node;
+                LaneNodeInterface<T> prevNode = (LaneNodeInterface<T>) prev;
                 if (laneNode.getListNode().getElement() != null) {
                     if (laneNode.getListNode().getElement().compareTo(theObject) > 0) {
-                        node = prev.getDown();
+                        node = prevNode.getDown();
                     }
                 } else {
-                    node = prev.getDown();
+                    node = prevNode.getDown();
                 }
             } else if (node instanceof SkipListNodeInterface) {
                 SkipListNodeInterface<T> listPrev = (SkipListNodeInterface<T>) prev;
@@ -93,7 +129,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
     }
 
     public void showMustGoOn() {
-        SkipListNodeBaseInterface<T> laneNode = tower.get(tower.size() - 1);
+        NavigableLaneNodeBaseInterface<T> laneNode = tower.get(tower.size() - 1);
         while (laneNode.getDown() != null) laneNode = laneNode.getDown();
         SkipListNodeInterface<T> current = (SkipListNodeInterface<T>) laneNode.getRight();
         while (current != null) {
@@ -104,13 +140,13 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
         }
         System.out.println();
         tower.forEach(l -> {
-            SkipListNodeBaseInterface<T> r = l;
+            NavigableNodeBaseInterface<T> r = l;
             while (r != null) {
                 if (r instanceof SkipListNodeInterface) {
                     SkipListNodeInterface<T> n = ((SkipListNodeInterface<T>) r);
                     System.out.print(n.toString() + ", ");
                 }
-                if (r instanceof LaneNodeInterface) {
+                if (r instanceof SkipList.LaneNodeInterface) {
                     LaneNodeInterface<T> n = ((LaneNodeInterface<T>) r);
                     System.out.print(n.toString() + ", ");
                 }
@@ -124,21 +160,22 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
     public boolean add(T theObject) {
         steckPrev.clear();
         int index = tower.size() - 1;
-        SkipListNodeBaseInterface<T> prev = tower.get(index);
-        SkipListNodeBaseInterface<T> node = prev.getRight();
+        NavigableNodeBaseInterface<T> prev = tower.get(index);
+        NavigableNodeBaseInterface<T> node = prev.getRight();
         while (node != null) {
-            if (node instanceof LaneNodeInterface) {
+            if (node instanceof SkipList.LaneNodeInterface) {
                 LaneNodeInterface<T> laneNode = (LaneNodeInterface<T>) node;
+                LaneNodeInterface<T> prevNode = (LaneNodeInterface<T>) prev;
                 if (laneNode.getListNode().getElement() != null) {
                     if (laneNode.getListNode().getElement().compareTo(theObject) > 0) {
-                        steckPrev.put(index, prev);
+                        steckPrev.put(index, prevNode);
                         index--;
-                        node = prev.getDown();
+                        node = prevNode.getDown();
                     }
                 } else {
-                    steckPrev.put(index, prev);
+                    steckPrev.put(index, prevNode);
                     index--;
-                    node = prev.getDown();
+                    node = prevNode.getDown();
                 }
             } else if (node instanceof SkipListNodeInterface) {
                 SkipListNodeInterface<T> listPrev = (SkipListNodeInterface<T>) prev;
@@ -164,8 +201,8 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
         newNode.setElement(theObject);
         listPrev.setRight(newNode);
         newNode.setRight(listNode);
-        newNode.setDown(listPrev);
-        listNode.setDown(newNode);
+        newNode.setLeft(listPrev);
+        listNode.setLeft(newNode);
         insertLane(newNode);
         size++;
     }
@@ -190,7 +227,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
         return insertLaneNode(prev, node, newNode, newLaneNode);
     }
 
-    private LaneNode<T> insertLaneNode(LaneNodeInterface<T> prev, LaneNodeInterface<T> node, ListNode<T> newNode, LaneNode<T> newLaneNodeLower) {
+    private LaneNode<T> insertLaneNode(LaneNodeInterface<T> prev, LaneNodeInterface<T> node, SkipListNodeInterface<T> newNode, LaneNodeInterface<T> newLaneNodeLower) {
         LaneNode<T> newLaneNode = new LaneNode<T>();
         prev.setRight(newLaneNode);
         newLaneNode.setRight(node);
@@ -198,7 +235,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
         if (newLaneNodeLower != null) {
             newLaneNode.setDown(newLaneNodeLower);
         } else {
-            newLaneNode.setDown(newNode);
+            newLaneNode.setDown((NavigableLaneNodeBaseInterface<T>) newNode);
         }
         return newLaneNode;
     }
@@ -222,68 +259,114 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
         insertLane(newNode, newLaneNode, index + 1);
     }
 
-    interface SkipListNodeBaseInterface<T extends Comparable<T>> {
-        SkipListNodeBaseInterface<T> getDown();
+    interface NavigableNodeBaseInterface<T extends Comparable<T>> {
 
-        void setDown(SkipListNodeBaseInterface<T> down);
+        NavigableNodeBaseInterface<T> getRight();
 
-        SkipListNodeBaseInterface<T> getRight();
+        void setRight(NavigableNodeBaseInterface<T> right);
 
-        void setRight(SkipListNodeBaseInterface<T> right);
 
-        int countRight();
-    }
+        NavigableNodeBaseInterface<T> getUp();
 
-    interface SkipListNodeInterface<T extends Comparable<T>> extends SkipListNodeBaseInterface<T> {
-        T getElement();
+        void setUp(NavigableNodeBaseInterface<T> up);
 
-        void setElement(T element);
-    }
+        NavigableNodeBaseInterface<T> getLeft();
 
-    interface LaneNodeInterface<T extends Comparable<T>> extends SkipListNodeBaseInterface<T> {
-        SkipListNodeInterface<T> getListNode();
+        void setLeft(NavigableNodeBaseInterface<T> left);
 
-        void setListNode(SkipListNodeInterface<T> listNode);
-    }
-
-    static class NavigatableNode<T extends Comparable<T>> implements SkipListNodeBaseInterface<T> {
-
-        SkipListNodeBaseInterface<T> right;
-        SkipListNodeBaseInterface<T> down;
-
-        @Override
-        public SkipListNodeBaseInterface<T> getDown() {
-            return down;
-        }
-
-        @Override
-        public void setDown(SkipListNodeBaseInterface<T> down) {
-            this.down = down;
-        }
-
-        @Override
-        public SkipListNodeBaseInterface<T> getRight() {
-            return right;
-        }
-
-        @Override
-        public void setRight(SkipListNodeBaseInterface<T> right) {
-            this.right = right;
-        }
-
-        @Override
-        public int countRight() {
+        default int countRight() {
             int result = 0;
-            SkipListNodeBaseInterface<T> r = this;
+            NavigableNodeBaseInterface<T> r = this;
             while (r != null) {
                 result++;
                 r = r.getRight();
             }
             return result;
         }
+
+        ;
+
     }
 
-    static class LaneNode<T extends Comparable<T>> extends NavigatableNode<T> implements SkipListNodeBaseInterface<T>, LaneNodeInterface<T> {
+    interface NavigableLaneNodeBaseInterface<T extends Comparable<T>> extends NavigableNodeBaseInterface<T> {
+
+        NavigableLaneNodeBaseInterface<T> getDown();
+
+        void setDown(NavigableLaneNodeBaseInterface<T> down);
+
+    }
+
+    interface SkipListNodeInterface<T extends Comparable<T>> extends NavigableNodeBaseInterface<T> {
+
+        T getElement();
+
+        void setElement(T element);
+
+    }
+
+    interface LaneNodeInterface<T extends Comparable<T>> extends NavigableLaneNodeBaseInterface<T> {
+
+        SkipListNodeInterface<T> getListNode();
+
+        void setListNode(SkipListNodeInterface<T> listNode);
+
+    }
+
+    static class NavigableNodeBaseClass<T extends Comparable<T>> implements NavigableNodeBaseInterface<T> {
+
+        NavigableNodeBaseInterface<T> right;
+        NavigableNodeBaseInterface<T> left;
+        NavigableNodeBaseInterface<T> up;
+
+        @Override
+        public NavigableNodeBaseInterface<T> getRight() {
+            return right;
+        }
+
+        @Override
+        public void setRight(NavigableNodeBaseInterface<T> right) {
+            this.right = right;
+        }
+
+        @Override
+        public NavigableNodeBaseInterface<T> getUp() {
+            return up;
+        }
+
+        @Override
+        public void setUp(NavigableNodeBaseInterface<T> up) {
+            this.up = up;
+        }
+
+        @Override
+        public NavigableNodeBaseInterface<T> getLeft() {
+            return left;
+        }
+
+        @Override
+        public void setLeft(NavigableNodeBaseInterface<T> left) {
+            this.left = left;
+        }
+
+    }
+
+    static class NavigableLaneNodeClass<T extends Comparable<T>> extends NavigableNodeBaseClass<T> implements NavigableNodeBaseInterface<T>, NavigableLaneNodeBaseInterface<T> {
+
+        NavigableLaneNodeBaseInterface<T> down;
+
+        @Override
+        public NavigableLaneNodeBaseInterface<T> getDown() {
+            return down;
+        }
+
+        @Override
+        public void setDown(NavigableLaneNodeBaseInterface<T> down) {
+            this.down = down;
+        }
+
+    }
+
+    static class LaneNode<T extends Comparable<T>> extends NavigableLaneNodeClass<T> implements NavigableNodeBaseInterface<T>, NavigableLaneNodeBaseInterface<T>, LaneNodeInterface<T> {
 
         SkipListNodeInterface<T> listNode;
 
@@ -303,9 +386,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
         }
     }
 
-    static class ListNode<T extends Comparable<T>> extends NavigatableNode<T> implements SkipListNodeBaseInterface<T>, SkipListNodeInterface<T> {
-
-        SkipListNodeBaseInterface<T> left;
+    static class ListNode<T extends Comparable<T>> extends NavigableNodeBaseClass<T> implements NavigableNodeBaseInterface<T>, NavigableLaneNodeBaseInterface<T>, SkipListNodeInterface<T> {
 
         T element;
 
@@ -320,19 +401,19 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
         }
 
         @Override
-        public SkipListNodeBaseInterface<T> getDown() {
-            return left;
-        }
-
-        @Override
-        public void setDown(SkipListNodeBaseInterface<T> down) {
-            left = down;
-        }
-
-        @Override
         public String toString() {
             return "ListNode{" + element + '}';
         }
+
+        @Override
+        public NavigableLaneNodeBaseInterface<T> getDown() {
+            return null;
+        }
+
+        @Override
+        public void setDown(NavigableLaneNodeBaseInterface<T> down) {
+        }
+
     }
 
 }
