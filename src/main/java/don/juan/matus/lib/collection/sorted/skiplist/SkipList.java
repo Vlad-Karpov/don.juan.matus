@@ -88,6 +88,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
             removeNode.setRight(null);
             removeNode = up;
         } while (up != null);
+        size--;
         return result;
     }
 

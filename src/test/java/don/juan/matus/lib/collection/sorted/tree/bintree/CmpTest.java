@@ -81,16 +81,16 @@ public class CmpTest extends TestCase {
 //        addSeekRemove(rList, new TreeMapTst<>());
 //    }
     public void testConcarrentSkipListMap() {
-        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
+        //addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
         addSeekRemove("SkipList", rList, new SkipList<>());
-        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
-        addSeekRemove("SkipList", rList, new SkipList<>());
-        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
-        addSeekRemove("SkipList", rList, new SkipList<>());
-        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
-        addSeekRemove("SkipList", rList, new SkipList<>());
-        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
-        addSeekRemove("SkipList", rList, new SkipList<>());
+//        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
+//        addSeekRemove("SkipList", rList, new SkipList<>());
+//        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
+//        addSeekRemove("SkipList", rList, new SkipList<>());
+//        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
+//        addSeekRemove("SkipList", rList, new SkipList<>());
+//        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
+//        addSeekRemove("SkipList", rList, new SkipList<>());
     }
 //    public void testTreeMap() {
 //        addSeekRemove("TreeMap", rList, new TreeMap<>());
@@ -171,6 +171,46 @@ public class CmpTest extends TestCase {
         }
         cEnd = Calendar.getInstance();
         System.out.println("time 3.1 (iterate) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + sortedMap.size());
+        //
+
+        cBegin = Calendar.getInstance();
+        cEnd = Calendar.getInstance();
+        System.out.println("time 4.1 (check) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " " + sortedMap.size());
+        //
+        cBegin = Calendar.getInstance();
+        for (int i = 0; i < maxRandomDataFile; i += 100) {
+            for (int l = 0; l < 10; l++) {
+                for (int k = 0; k < 99; k++) {
+                    if (i + k < maxRandomDataFile) {
+                        rnd = rList.get(i + k);
+                        if (!sortedMap.keySet().contains(rnd)) {
+                            System.out.println(String.format("%s not found!", rnd));
+                        }
+                    }
+                }
+            }
+        }
+        cEnd = Calendar.getInstance();
+        System.out.print("time 5.1 (seek)  = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
+        //
+        cBegin = Calendar.getInstance();
+        it = sortedMap.keySet().iterator();
+        j = 0;
+        int r = 0;
+        while (it.hasNext()) {
+            if ((j & 1) == 1) {
+                it.remove();
+                r++;
+            }
+            it.next();
+            j++;
+        }
+        cEnd = Calendar.getInstance();
+        System.out.print("time 6.1 (remove) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + r + ") " + sortedMap.size() + ", - " + (r + sortedMap.size()));
+        //
+        cBegin = Calendar.getInstance();
+        cEnd = Calendar.getInstance();
+        System.out.println("time 7.1 (check) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " " + sortedMap.size());
         //
         System.out.println("<=========================================================================================>");
         System.gc();
@@ -269,6 +309,49 @@ public class CmpTest extends TestCase {
         }
         cEnd = Calendar.getInstance();
         System.out.println("time 3.1 (iterate) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + sortedCollection.size());
+        //
+        cBegin = Calendar.getInstance();
+        //sortedCollection.checkStructure(new BinTreeCheckPassEventTest<>());
+        cEnd = Calendar.getInstance();
+        System.out.println("time 4.1 (check) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " " + sortedCollection.size());
+        //
+        int nf = 0;
+        cBegin = Calendar.getInstance();
+        for (int i = 0; i < maxRandomDataFile; i += 100) {
+            for (int l = 0; l < 10; l++) {
+                for (int k = 0; k < 99; k++) {
+                    if (i + k < maxRandomDataFile) {
+                        rnd = rList.get(i + k);
+                        if (!sortedCollection.contains(rnd)) {
+                            nf++;
+                            //System.out.println(String.format("%s not found!", rnd));
+                        }
+                    }
+                }
+            }
+        }
+        cEnd = Calendar.getInstance();
+        System.out.println("time 5.1 (seek)  = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + ", not found = " + nf);
+        //
+        cBegin = Calendar.getInstance();
+        it = sortedCollection.iterator();
+        j = 0;
+        int r = 0;
+        while (it.hasNext()) {
+            if ((j & 1) == 1) {
+                it.remove();
+                r++;
+            }
+            it.next();
+            j++;
+        }
+        cEnd = Calendar.getInstance();
+        System.out.println("time 6.1 (remove) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + r + ") " + sortedCollection.size() + ", - " + (r + sortedCollection.size()));
+        //
+        cBegin = Calendar.getInstance();
+        //sortedCollection.checkStructure(new BinTreeCheckPassEventTest<>());
+        cEnd = Calendar.getInstance();
+        System.out.println("time 7.1 (check) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " " + sortedCollection.size());
         //
         System.out.println("<=========================================================================================>");
         System.gc();
