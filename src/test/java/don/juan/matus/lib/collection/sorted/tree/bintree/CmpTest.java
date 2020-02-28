@@ -1,6 +1,5 @@
 package don.juan.matus.lib.collection.sorted.tree.bintree;
 
-import don.juan.matus.lib.collection.CollectionNodeFlagInterface;
 import don.juan.matus.lib.collection.sorted.SortedCollectionBase;
 import don.juan.matus.lib.collection.sorted.skiplist.SkipList;
 import don.juan.matus.lib.collection.sorted.tree.bintree.mergeabletree.cartesian.CartesianBinTree;
@@ -28,7 +27,6 @@ import java.util.List;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.function.Consumer;
 
 public class CmpTest extends TestCase {
 
@@ -79,27 +77,18 @@ public class CmpTest extends TestCase {
         System.gc();
     }
 
-//    public void testBinTreeTreeMapTst() throws InterruptedException {
-//        addSeekRemove(rList, new TreeMapTst<>());
-//    }
+    public void testBinTreeTreeMapTst() throws InterruptedException {
+        addSeekRemove(rList, new TreeMapTst<>());
+    }
+
     public void testConcurrentSkipListMap() throws InterruptedException {
         addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
-        addSeekRemove("SkipList", rList, new SkipList<>());
-        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
-        addSeekRemove("SkipList", rList, new SkipList<>());
-        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
-        addSeekRemove("SkipList", rList, new SkipList<>());
-        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
-        addSeekRemove("SkipList", rList, new SkipList<>());
-        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
-        addSeekRemove("SkipList", rList, new SkipList<>());
     }
-//    public void testTreeMap() throws InterruptedException {
-//        addSeekRemove("TreeMap", rList, new TreeMap<>());
-//    }
 
+    public void testTreeMap() throws InterruptedException {
+        addSeekRemove("TreeMap", rList, new TreeMap<>());
+    }
 
-/*
     public void testSortedCollectionSkipList() throws InterruptedException {
         addSeekRemove("SkipList", rList, new SkipList<>());
     }
@@ -147,7 +136,6 @@ public class CmpTest extends TestCase {
     public void testBinTreeRandomRotateBinTree() throws InterruptedException {
         addSeekRemove("RandomRotateBinTree", rList, new RandomRotateBinTree<>());
     }
-*/
 
     private <T extends Comparable<T>> void addSeekRemove(String nameSortedCollection, List<T> rList, NavigableMap<T, T> sortedMap) throws InterruptedException {
         Calendar cBegin;
@@ -437,7 +425,7 @@ public class CmpTest extends TestCase {
         tp = tree.treePassage();
         System.out.println(", maxLevel = " + tp.heght + ", RotateCount = " + tree.getRotateCount());
         //
-        if (tp.heght > (Math.log(maxRandomDataFile)/Math.log(2) * 10000)) {
+        if (tp.heght > (Math.log(maxRandomDataFile) / Math.log(2) * 10000)) {
             System.out.print("rebalance");
             tree.rebalanceTree();
             tp = tree.treePassage();
