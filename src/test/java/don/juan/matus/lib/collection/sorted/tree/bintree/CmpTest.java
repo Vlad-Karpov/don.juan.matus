@@ -1,5 +1,6 @@
 package don.juan.matus.lib.collection.sorted.tree.bintree;
 
+import don.juan.matus.lib.collection.CollectionNodeFlagInterface;
 import don.juan.matus.lib.collection.sorted.SortedCollectionBase;
 import don.juan.matus.lib.collection.sorted.skiplist.SkipList;
 import don.juan.matus.lib.collection.sorted.tree.bintree.mergeabletree.cartesian.CartesianBinTree;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.function.Consumer;
 
 public class CmpTest extends TestCase {
 
@@ -77,77 +79,77 @@ public class CmpTest extends TestCase {
         System.gc();
     }
 
-//    public void testBinTreeTreeMapTst() {
+//    public void testBinTreeTreeMapTst() throws InterruptedException {
 //        addSeekRemove(rList, new TreeMapTst<>());
 //    }
-    public void testConcarrentSkipListMap() {
-        //addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
+    public void testConcurrentSkipListMap() throws InterruptedException {
+        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
         addSeekRemove("SkipList", rList, new SkipList<>());
-//        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
-//        addSeekRemove("SkipList", rList, new SkipList<>());
-//        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
-//        addSeekRemove("SkipList", rList, new SkipList<>());
-//        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
-//        addSeekRemove("SkipList", rList, new SkipList<>());
-//        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
-//        addSeekRemove("SkipList", rList, new SkipList<>());
+        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
+        addSeekRemove("SkipList", rList, new SkipList<>());
+        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
+        addSeekRemove("SkipList", rList, new SkipList<>());
+        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
+        addSeekRemove("SkipList", rList, new SkipList<>());
+        addSeekRemove("ConcurrentSkipListMap", rList, new ConcurrentSkipListMap<>());
+        addSeekRemove("SkipList", rList, new SkipList<>());
     }
-//    public void testTreeMap() {
+//    public void testTreeMap() throws InterruptedException {
 //        addSeekRemove("TreeMap", rList, new TreeMap<>());
 //    }
 
 
 /*
-    public void testSortedCollectionSkipList() {
+    public void testSortedCollectionSkipList() throws InterruptedException {
         addSeekRemove("SkipList", rList, new SkipList<>());
     }
 
-    public void testBinTreeBinTreeBase() {
+    public void testBinTreeBinTreeBase() throws InterruptedException {
         addSeekRemove("BinTreeBase", rList, new BinTreeBase<>());
     }
 
-    public void testBinTreeBinTreeW() {
+    public void testBinTreeBinTreeW() throws InterruptedException {
         addSeekRemove("BinTreeW", rList, new BinTreeW<>());
     }
 
-    public void testBinTreeRedBlackTree() {
+    public void testBinTreeRedBlackTree() throws InterruptedException {
         addSeekRemove("RedBlackTree", rList, new RedBlackTree<>());
     }
 
-    public void testBinTreeAVLBinTree() {
+    public void testBinTreeAVLBinTree() throws InterruptedException {
         addSeekRemove("AVLBinTree", rList, new AVLBinTree<>());
     }
 
-    public void testBinTreeAATree() {
+    public void testBinTreeAATree() throws InterruptedException {
         addSeekRemove("AATree", rList, new AATree<>());
     }
 
-    public void testBinTreeSplayTree() {
+    public void testBinTreeSplayTree() throws InterruptedException {
         addSeekRemove("SplayTree", rList, new SplayTree<>());
     }
 
-    public void testBinTreeScapegoatTree() {
+    public void testBinTreeScapegoatTree() throws InterruptedException {
         addSeekRemove("ScapegoatTree", rList, new ScapegoatTree<>());
     }
 
-    public void testBinTreeCartesianBinTree() {
+    public void testBinTreeCartesianBinTree() throws InterruptedException {
         addSeekRemove("CartesianBinTree", rList, new CartesianBinTree<>());
     }
 
-    public void testBinTreeRandomMergeBinTree() {
+    public void testBinTreeRandomMergeBinTree() throws InterruptedException {
         addSeekRemove("RandomMergeBinTree", rList, new RandomMergeBinTree<>());
     }
 
-    public void testBinTreeRndBinTree() {
+    public void testBinTreeRndBinTree() throws InterruptedException {
         addSeekRemove("RndBinTree", rList, new RndBinTree<>());
     }
 
-    public void testBinTreeRandomRotateBinTree() {
+    public void testBinTreeRandomRotateBinTree() throws InterruptedException {
         addSeekRemove("RandomRotateBinTree", rList, new RandomRotateBinTree<>());
     }
 */
 
-    private <T extends Comparable<T>> void addSeekRemove(String nameSortedCollection, List<T> rList, NavigableMap<T, T> sortedMap) {
+    private <T extends Comparable<T>> void addSeekRemove(String nameSortedCollection, List<T> rList, NavigableMap<T, T> sortedMap) throws InterruptedException {
         Calendar cBegin;
         Calendar cEnd;
         T rnd;
@@ -177,6 +179,7 @@ public class CmpTest extends TestCase {
         cEnd = Calendar.getInstance();
         System.out.println("time 4.1 (check) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " " + sortedMap.size());
         //
+        int nf = 0;
         cBegin = Calendar.getInstance();
         for (int i = 0; i < maxRandomDataFile; i += 100) {
             for (int l = 0; l < 10; l++) {
@@ -184,14 +187,15 @@ public class CmpTest extends TestCase {
                     if (i + k < maxRandomDataFile) {
                         rnd = rList.get(i + k);
                         if (!sortedMap.keySet().contains(rnd)) {
-                            System.out.println(String.format("%s not found!", rnd));
+                            nf++;
+                            //System.out.println(String.format("%s not found!", rnd));
                         }
                     }
                 }
             }
         }
         cEnd = Calendar.getInstance();
-        System.out.print("time 5.1 (seek)  = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
+        System.out.println("time 5.1 (seek)  = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + ", not found = " + nf);
         //
         cBegin = Calendar.getInstance();
         it = sortedMap.keySet().iterator();
@@ -206,7 +210,7 @@ public class CmpTest extends TestCase {
             j++;
         }
         cEnd = Calendar.getInstance();
-        System.out.print("time 6.1 (remove) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + r + ") " + sortedMap.size() + ", - " + (r + sortedMap.size()));
+        System.out.println("time 6.1 (remove) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + r + ") " + sortedMap.size() + ", - " + (r + sortedMap.size()));
         //
         cBegin = Calendar.getInstance();
         cEnd = Calendar.getInstance();
@@ -214,9 +218,10 @@ public class CmpTest extends TestCase {
         //
         System.out.println("<=========================================================================================>");
         System.gc();
+        Thread.sleep(3000L);
     }
 
-    private <T extends Comparable<T>> void addSeekRemove(List<T> rList, TreeMapTst<T, T> tree) {
+    private <T extends Comparable<T>> void addSeekRemove(List<T> rList, TreeMapTst<T, T> tree) throws InterruptedException {
         Calendar cBegin;
         Calendar cEnd;
         T rnd;
@@ -246,20 +251,22 @@ public class CmpTest extends TestCase {
         tree.rotateCount = 0L;
         tree.maxLevel = 0L;
         cBegin = Calendar.getInstance();
+        int nf = 0;
         for (int i = 0; i < maxRandomDataFile; i += 100) {
             for (int l = 0; l < 10; l++) {
                 for (int k = 0; k < 99; k++) {
                     if (i + k < maxRandomDataFile) {
                         rnd = rList.get(i + k);
                         if (!tree.containsKey(rnd)) {
-                            System.out.println(String.format("%s not found!", rnd));
+                            nf++;
+                            //System.out.println(String.format("%s not found!", rnd));
                         }
                     }
                 }
             }
         }
         cEnd = Calendar.getInstance();
-        System.out.print("time 5.1 (seek)  = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()));
+        System.out.print("time 5.1 (seek)  = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + ", not found = " + nf);
         System.out.println(", maxLevel = " + tree.maxLevel + ", RotateCount = " + tree.rotateCount);
         //
         tree.rotateCount = 0L;
@@ -283,9 +290,10 @@ public class CmpTest extends TestCase {
         System.out.println("time 7.1 (check) = " + 0 + " " + tree.size());
         System.out.println("<=========================================================================================>");
         System.gc();
+        Thread.sleep(3000L);
     }
 
-    private <T extends Comparable<T>> void addSeekRemove(String nameSortedCollection, List<T> rList, SortedCollectionBase<T> sortedCollection) {
+    private <T extends Comparable<T>> void addSeekRemove(String nameSortedCollection, List<T> rList, SortedCollectionBase<T> sortedCollection) throws InterruptedException {
         Calendar cBegin;
         Calendar cEnd;
         T rnd;
@@ -311,7 +319,7 @@ public class CmpTest extends TestCase {
         System.out.println("time 3.1 (iterate) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + j + ") " + sortedCollection.size());
         //
         cBegin = Calendar.getInstance();
-        //sortedCollection.checkStructure(new BinTreeCheckPassEventTest<>());
+        sortedCollection.checkStructure(tCollectionNodeFlagInterface -> System.out.println("Illegal structure: " + tCollectionNodeFlagInterface));
         cEnd = Calendar.getInstance();
         System.out.println("time 4.1 (check) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " " + sortedCollection.size());
         //
@@ -349,15 +357,16 @@ public class CmpTest extends TestCase {
         System.out.println("time 6.1 (remove) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " (" + r + ") " + sortedCollection.size() + ", - " + (r + sortedCollection.size()));
         //
         cBegin = Calendar.getInstance();
-        //sortedCollection.checkStructure(new BinTreeCheckPassEventTest<>());
+        sortedCollection.checkStructure(tCollectionNodeFlagInterface -> System.out.println("Illegal structure: " + tCollectionNodeFlagInterface));
         cEnd = Calendar.getInstance();
         System.out.println("time 7.1 (check) = " + (cEnd.getTimeInMillis() - cBegin.getTimeInMillis()) + " " + sortedCollection.size());
         //
         System.out.println("<=========================================================================================>");
         System.gc();
+        Thread.sleep(3000L);
     }
 
-    private <T extends Comparable<T>> void addSeekRemove(String nameTree, List<T> rList, BinTreeBase<T> tree) {
+    private <T extends Comparable<T>> void addSeekRemove(String nameTree, List<T> rList, BinTreeBase<T> tree) throws InterruptedException {
         Calendar cBegin;
         Calendar cEnd;
         T rnd;
@@ -442,6 +451,7 @@ public class CmpTest extends TestCase {
         //
         System.out.println("<=========================================================================================>");
         System.gc();
+        Thread.sleep(3000L);
     }
 
 

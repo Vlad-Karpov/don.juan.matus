@@ -1,5 +1,6 @@
 package don.juan.matus.lib.collection.sorted.skiplist;
 
+import don.juan.matus.lib.collection.CollectionNodeFlagInterface;
 import don.juan.matus.lib.collection.sorted.SortedCollectionBase;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.function.Consumer;
 
 public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
 
@@ -48,11 +50,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
 
     public boolean contains(Object o) {
         ListNode<T> node = seek((T) o, false);
-        if (node != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return node != null;
     }
 
     public boolean remove(Object o) {
@@ -65,12 +63,61 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
         }
     }
 
+    public void checkStructure(Consumer<? super CollectionNodeFlagInterface<T>> consumer) {
+        NavigableLaneNodeBaseInterface<T> currentNode = tower.get(tower.size() - 1);
+        while(currentNode != null) {
+            NavigableLaneNodeBaseInterface<T> currentRightNode = currentNode;
+            while (currentRightNode != null) {
+                if (currentRightNode.getUp() != null) {
+                    if (currentRightNode != ((NavigableLaneNodeBaseInterface<T>)currentRightNode.getUp()).getDown()) {
+                        consumer.accept(currentRightNode);
+                    }
+                }
+                if (currentRightNode.getDown() != null) {
+                    if (currentRightNode != currentRightNode.getDown().getUp()) {
+                        consumer.accept(currentRightNode);
+                    }
+                }
+                if (currentRightNode.getLeft() != null) {
+                    if (currentRightNode != currentRightNode.getLeft().getRight()) {
+                        consumer.accept(currentRightNode);
+                    }
+                }
+                if (currentRightNode.getRight() != null) {
+                    if (currentRightNode != currentRightNode.getRight().getLeft()) {
+                        consumer.accept(currentRightNode);
+                    }
+                }
+                if (currentRightNode instanceof LaneNode) {
+                    T value1 = ((LaneNode<T>) currentRightNode).getListNode().getElement();
+                    if (currentRightNode.getRight() != null) {
+                        T value2 = ((LaneNode<T>) currentRightNode.getRight()).getListNode().getElement();
+                        if (value1 != null && value2 != null && value1.compareTo(value2) > 0) {
+                            consumer.accept(currentRightNode);
+                        }
+                    }
+                }
+                if (currentRightNode instanceof ListNode) {
+                    T value1 = ((ListNode<T>) currentRightNode).getElement();
+                    if (currentRightNode.getRight() != null) {
+                        T value2 = ((ListNode<T>) currentRightNode.getRight()).getElement();
+                        if (value1 != null && value2 != null && value1.compareTo(value2) > 0) {
+                            consumer.accept(currentRightNode);
+                        }
+                    }
+                }
+                currentRightNode = (NavigableLaneNodeBaseInterface<T>) currentRightNode.getRight();
+            }
+            currentNode = currentNode.getDown();
+        }
+    }
+
     public NavigableLaneNodeBaseInterface<T> removeNode(NavigableLaneNodeBaseInterface<T> removeNode, boolean asc) {
         NavigableLaneNodeBaseInterface<T> result = null;
         if (asc) {
-            result = (NavigableLaneNodeBaseInterface<T>) removeNode.getRight();
-        } else {
             result = (NavigableLaneNodeBaseInterface<T>) removeNode.getLeft();
+        } else {
+            result = (NavigableLaneNodeBaseInterface<T>) removeNode.getRight();
         }
         NavigableLaneNodeBaseInterface<T> up, down, left, right;
         do {
@@ -102,7 +149,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
                 LaneNodeInterface<T> laneNode = (LaneNodeInterface<T>) node;
                 LaneNodeInterface<T> prevNode = (LaneNodeInterface<T>) prev;
                 if (laneNode.getListNode().getElement() != null) {
-                    if (laneNode.getListNode().getElement().compareTo(theObject) > 0) {
+                    if (laneNode.getListNode().getElement().compareTo(theObject) >= 0) {
                         node = prevNode.getDown();
                     }
                 } else {
@@ -293,7 +340,10 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
         insertLane(newNode, newLaneNode, index + 1);
     }
 
-    interface NavigableNodeBaseInterface<T extends Comparable<T>> {
+    interface ListNodeFlagInterface<T extends Comparable<T>> extends CollectionNodeFlagInterface<T> {
+    }
+
+    interface NavigableNodeBaseInterface<T extends Comparable<T>> extends ListNodeFlagInterface<T> {
 
         NavigableNodeBaseInterface<T> getRight();
 
