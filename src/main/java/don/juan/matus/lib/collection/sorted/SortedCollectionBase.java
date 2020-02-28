@@ -1,10 +1,12 @@
 package don.juan.matus.lib.collection.sorted;
 
 import don.juan.matus.lib.collection.CollectionBase;
+import don.juan.matus.lib.collection.CollectionNodeFlagInterface;
 
 import java.util.Comparator;
 import java.util.NavigableSet;
 import java.util.SortedSet;
+import java.util.function.Consumer;
 
 public class SortedCollectionBase<T extends Comparable<T>> extends CollectionBase<T> implements NavigableSet<T> {
 
@@ -86,6 +88,11 @@ public class SortedCollectionBase<T extends Comparable<T>> extends CollectionBas
     @Override
     public T last() {
         return null;
+    }
+
+    @Override
+    public void checkStructure(Consumer<? super CollectionNodeFlagInterface<T>> consumer) {
+
     }
 
 }

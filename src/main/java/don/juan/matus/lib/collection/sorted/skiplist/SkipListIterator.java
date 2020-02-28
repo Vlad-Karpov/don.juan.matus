@@ -5,7 +5,7 @@ import java.util.Iterator;
 public class SkipListIterator<T extends Comparable<T>> implements Iterator<T> {
 
     SkipList<T> skipList;
-    SkipList.SkipListNodeInterface<T> current;
+    SkipList.NavigableLaneNodeBaseInterface<T> current;
 
     public SkipListIterator(SkipList<T> ts) {
         skipList = ts;
@@ -14,26 +14,35 @@ public class SkipListIterator<T extends Comparable<T>> implements Iterator<T> {
 
     public SkipListIterator(SkipList<T> ts, T theObject) {
         skipList = ts;
-        initIterator();
+        current = skipList.seek(theObject, true);
     }
 
     private void initIterator() {
-        SkipList.SkipListNodeBaseInterface<T> laneNode = skipList.tower.get(0);
-        while(laneNode.getDown() != null) laneNode = laneNode.getDown();
-        current = (SkipList.SkipListNodeInterface<T>) laneNode.getRight();
+        SkipList.NavigableLaneNodeBaseInterface<T> laneNode = skipList.tower.get(0);
+        while (laneNode.getDown() != null) laneNode = laneNode.getDown();
+        current = (SkipList.NavigableLaneNodeBaseInterface<T>) laneNode.getRight();
     }
 
 
     @Override
     public boolean hasNext() {
-        return current.getRight() != null;
+        return current != null && current.getRight() != null;
     }
 
     @Override
     public T next() {
-        T result = current.getElement();
-        current = (SkipList.SkipListNodeInterface<T>) current.getRight();
-        return result;
+        if (current != null) {
+            T result = ((SkipList.SkipListNodeInterface<T>) current).getElement();
+            current = (SkipList.NavigableLaneNodeBaseInterface<T>) current.getRight();
+            return result;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void remove() {
+        current = skipList.removeNode(current, true);
     }
 
 }

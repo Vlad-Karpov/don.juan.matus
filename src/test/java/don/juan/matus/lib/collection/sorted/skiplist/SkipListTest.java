@@ -25,6 +25,47 @@ public class SkipListTest extends TestCase {
         Iterator<Long> iter = sl.iterator();
         iter.forEachRemaining(System.out::println);
 
+        System.out.println("");
+
+        iter = sl.descendingIterator();
+        iter.forEachRemaining(System.out::println);
+
+        System.out.println("");
+
+        iter = sl.iterator(35L);
+        iter.forEachRemaining(System.out::println);
+
+        System.out.println("");
+
+        iter = sl.descendingIterator(35L);
+        iter.forEachRemaining(System.out::println);
+
+        System.out.println("");
+
+        iter = sl.iterator(350L);
+        iter.forEachRemaining(System.out::println);
+
+        System.out.println("");
+
+        iter = sl.descendingIterator(350L);
+        iter.forEachRemaining(System.out::println);
+
+        System.out.println("");
+
+        iter = sl.iterator(35L);
+        iter.next();
+        iter.remove();
+        iter.forEachRemaining(System.out::println);
+
+        System.out.println("");
+
+        iter = sl.iterator(32L);
+        iter.forEachRemaining(System.out::println);
+
+        System.out.println("");
+
+
+
         sl.showMustGoOn();
 
     }
