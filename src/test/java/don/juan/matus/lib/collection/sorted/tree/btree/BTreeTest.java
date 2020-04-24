@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 public class BTreeTest extends TestCase {
 
     public void testBTreeCreate() {
-        BTree<Integer, Integer> tree = new BTree<>(20);
+        BTree<Integer, Integer> tree = new BTree<>((short)20);
         tree.add(new BTreeKeyValuePair<>(1, 1));
     }
 

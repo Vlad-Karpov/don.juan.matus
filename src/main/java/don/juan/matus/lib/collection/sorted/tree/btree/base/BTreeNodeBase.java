@@ -8,8 +8,16 @@ public class BTreeNodeBase<
         P extends BTreeKeyValuePairInterface<K, V>>
         implements BTreeNodeInterface<K, V> {
 
+    BTreeInterface btree;
+
     @SuppressWarnings("unchecked")
-    public BTreeNodeBase(BTreeBase<K, V> ts) {
+    public BTreeNodeBase(BTreeInterface ts) {
+        btree = ts;
+    }
+
+    @Override
+    public BTreeInterface getBtree() {
+        return btree;
     }
 
 }
