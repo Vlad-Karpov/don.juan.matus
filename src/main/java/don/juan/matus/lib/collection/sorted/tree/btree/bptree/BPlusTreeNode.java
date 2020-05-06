@@ -17,10 +17,9 @@ public class BPlusTreeNode<
         PI extends BTreePageIdInterface<PK>>
         extends BTreeNodeBase<K, V, P, PK, PI> implements BTreeNodeInterface<K, V, P, PK, PI> {
 
-    protected BTreePageIdBase left;
-    protected BTreePageIdBase right;
+    protected PI left;
+    protected PI right;
 
-    @SuppressWarnings("unchecked")
     public BPlusTreeNode(BTreeInterface<K, V, PK, PI> ts) {
         super(ts);
         left = null;

@@ -17,7 +17,6 @@ public class BTreeNode<
         extends BTreeNodeBase<K, V, P, PK, PI>
         implements BTreeNodeInterface<K, V, P, PK, PI> {
 
-    @SuppressWarnings("unchecked")
     public BTreeNode(BTreeInterface<K, V, PK, PI> ts) {
         super(ts);
     }
