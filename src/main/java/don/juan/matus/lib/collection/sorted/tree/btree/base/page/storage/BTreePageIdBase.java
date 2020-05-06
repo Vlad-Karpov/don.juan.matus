@@ -9,11 +9,11 @@ public class BTreePageIdBase implements BTreePageIdInterface<CharacterArray> {
     }
 
     public BTreePageIdBase(char[] cid) {
-        characterArray = new CharacterArray(cid);
+        setIdAsCharArray(cid);
     }
 
     public BTreePageIdBase(int id) {
-        characterArray = new CharacterArray(id);
+        setIdAsInt(id);
     }
 
     @Override
@@ -22,13 +22,28 @@ public class BTreePageIdBase implements BTreePageIdInterface<CharacterArray> {
     }
 
     @Override
+    public void setId(CharacterArray id) {
+        characterArray = id;
+    }
+
+    @Override
     public char[] getIdAsCharArray() {
         return characterArray.getIdAsCharArray();
     }
 
     @Override
+    public void setIdAsCharArray(char[] id) {
+        characterArray = new CharacterArray(id);
+    }
+
+    @Override
     public int getIdAsInt() {
         return characterArray.getIdAsInt();
+    }
+
+    @Override
+    public void setIdAsInt(int id) {
+        characterArray = new CharacterArray(id);
     }
 
     @Override

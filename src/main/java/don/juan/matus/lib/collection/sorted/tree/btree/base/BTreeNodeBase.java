@@ -1,23 +1,72 @@
 package don.juan.matus.lib.collection.sorted.tree.btree.base;
 
+import don.juan.matus.lib.collection.sorted.tree.btree.base.page.storage.BTreePageIdInterface;
+
 import java.io.Serializable;
+import java.lang.reflect.Array;
 
 public class BTreeNodeBase<
         K extends Comparable<K> & Serializable,
         V extends Serializable,
-        P extends BTreeKeyValuePairInterface<K, V>>
-        implements BTreeNodeInterface<K, V> {
+        P extends BTreeKeyValuePairInterface<K, V>,
+        PK extends Comparable<PK> & Serializable,
+        PI extends BTreePageIdInterface<PK>>
+        implements BTreeNodeInterface<K, V, P, PK, PI> {
 
-    BTreeInterface btree;
+    protected K[] key;
+    protected V[] value;
+    protected PK[] child;
+    protected BTreeInterface<K, V, PK, PI> btree;
+    protected short size;
 
     @SuppressWarnings("unchecked")
-    public BTreeNodeBase(BTreeInterface ts) {
+    public BTreeNodeBase(BTreeInterface<K, V, PK, PI> ts) {
         btree = ts;
+        size = 0;
+        short length = ts.getPageSize();
+        key = (K[]) Array.newInstance(btree.getKeyClass(), length);
+        value = (V[]) Array.newInstance(btree.getValueClass(), length);
+        child = (PK[]) Array.newInstance(btree.getPageIdClass(), length);
     }
 
     @Override
-    public BTreeInterface getBtree() {
+    public BTreeInterface<K, V, PK, PI> getBtree() {
         return btree;
+    }
+
+    @Override
+    public short getSize() {
+        return size;
+    }
+
+    @Override
+    public K getKey(short s) {
+        return key[s];
+    }
+
+    @Override
+    public V getValue(short s) {
+        return value[s];
+    }
+
+    @Override
+    public PK getPageKey(short s) {
+        return child[s];
+    }
+
+    @Override
+    public K[] getKeys() {
+        return key;
+    }
+
+    @Override
+    public V[] getValues() {
+        return value;
+    }
+
+    @Override
+    public PK[] getPageKeys() {
+        return child;
     }
 
 }
