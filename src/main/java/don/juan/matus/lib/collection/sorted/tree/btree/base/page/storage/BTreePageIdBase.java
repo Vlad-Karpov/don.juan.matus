@@ -57,13 +57,16 @@ public class BTreePageIdBase implements BTreePageIdInterface<CharacterArray> {
     }
 
     @Override
-    public int hashCode() {
-        return characterArray.hashCode();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BTreePageIdBase that = (BTreePageIdBase) o;
+        return characterArray.equals(that.characterArray);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return characterArray.equals(obj);
+    public int hashCode() {
+        return characterArray.hashCode();
     }
 
     @Override
