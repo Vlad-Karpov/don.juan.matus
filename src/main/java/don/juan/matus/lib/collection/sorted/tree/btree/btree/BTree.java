@@ -33,8 +33,8 @@ public class BTree<K extends Comparable<K> & Serializable,
     }
 
     @Override
-    public boolean add(BTreeKeyValuePairInterface<K, V> kvbTreeKeyValuePairInterface) {
-        addInternal(kvbTreeKeyValuePairInterface, root);
+    public boolean add(BTreeKeyValuePairInterface<K, V> keyValuePair) {
+        addInternal(keyValuePair, root);
         return true;
     }
 
