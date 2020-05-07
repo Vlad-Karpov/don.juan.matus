@@ -47,7 +47,7 @@ public class BTree<K extends Comparable<K> & Serializable,
             while (s < page.getSize()) {
                 K key = page.getKey(s);
                 if (key.compareTo(keyValuePair.getKey()) > 0) {
-                    BTreePageIdBase pid = page.getPageId(s);
+                    BTreePageIdBase pid = page.getPageId(this, s);
                     if (pid != null) {
                         addInternal(keyValuePair, pid);
                     }
