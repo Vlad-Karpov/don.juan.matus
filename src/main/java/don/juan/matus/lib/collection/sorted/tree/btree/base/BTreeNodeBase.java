@@ -42,7 +42,12 @@ public class BTreeNodeBase<
 
     @Override
     public PI getPageId(BTreeInterface<K, V, PK, PI> tree, short s) {
-        return getPageIds(tree)[s];
+        PI[] ps = getPageIds(tree);
+        if (ps != null) {
+            return ps[s];
+        } else {
+            return null;
+        }
     }
 
     @Override
