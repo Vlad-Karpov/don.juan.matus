@@ -22,6 +22,10 @@ public interface BTreeInterface<
     Class<V> getValueClass();
 
     short getPageSize();
+    short getRealPageSize();
 
     Class<PI> getPageIdClass();
+
+    PI getNewPageId() throws IllegalAccessException, InstantiationException;
+
 }

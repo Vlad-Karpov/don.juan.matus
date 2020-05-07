@@ -20,12 +20,18 @@ public interface BTreeNodeInterface<
 
     V getValue(short s);
 
-    PI getPageKey(short s);
+    PI getPageId(short s);
+
+    PI getPageIdLeft();
+
+    PI getPageIdRight();
 
     K[] getKeys();
 
     V[] getValues();
 
-    PI[] getPageKeys();
+    PI[] getPageIds();
+
+    boolean isLeaf();
 
 }

@@ -4,7 +4,6 @@ import don.juan.matus.lib.collection.sorted.tree.btree.base.BTreeInterface;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.BTreeKeyValuePairInterface;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.BTreeNodeBase;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.BTreeNodeInterface;
-import don.juan.matus.lib.collection.sorted.tree.btree.base.page.storage.BTreePageIdBase;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.page.storage.BTreePageIdInterface;
 
 import java.io.Serializable;
@@ -24,6 +23,16 @@ public class BPlusTreeNode<
         super(ts);
         left = null;
         right = null;
+    }
+
+    @Override
+    public PI getPageIdLeft() {
+        return left;
+    }
+
+    @Override
+    public PI getPageIdRight() {
+        return right;
     }
 
 }

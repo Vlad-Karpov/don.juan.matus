@@ -34,8 +34,7 @@ public class BTreeBase<
         this.keyClass = keyClass;
         this.valueClass = valueClass;
         this.pageIdClass = pageIdClass;
-        root = pageIdClass.newInstance();
-        root.setIdAsInt(pageCounter.incrementAndGet());
+        root = getNewPageId();
         pageStorage = new BTreePageStorageMap<>();
         this.pageSize = pageSize;
         maxLevel = 0L;
@@ -70,6 +69,11 @@ public class BTreeBase<
     }
 
     @Override
+    public short getRealPageSize() {
+        return pageSize;
+    }
+
+    @Override
     public Class<PI> getPageIdClass() {
         return pageIdClass;
     }
@@ -77,6 +81,13 @@ public class BTreeBase<
     @Override
     public boolean add(BTreeKeyValuePairInterface<K, V> kvbTreeKeyValuePairInterface) {
         return false;
+    }
+
+    @Override
+    public PI getNewPageId() throws IllegalAccessException, InstantiationException {
+        PI pageId = pageIdClass.newInstance();
+        pageId.setIdAsInt(pageCounter.incrementAndGet());
+        return pageId;
     }
 
 }

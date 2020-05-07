@@ -2,6 +2,7 @@ package don.juan.matus.lib.collection.sorted.tree.btree.btree;
 
 import don.juan.matus.lib.collection.sorted.tree.btree.base.BTreeBase;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.BTreeKeyValuePairInterface;
+import don.juan.matus.lib.collection.sorted.tree.btree.base.BTreeNodeInterface;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.page.storage.BTreePageIdBase;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.page.storage.BTreePageStorageInterface;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.page.storage.CharacterArray;
@@ -27,26 +28,45 @@ public class BTree<K extends Comparable<K> & Serializable,
     }
 
     @Override
+    public short getRealPageSize() {
+        return (short) (pageSize + 1);
+    }
+
+    @Override
     public boolean add(BTreeKeyValuePairInterface<K, V> kvbTreeKeyValuePairInterface) {
-        BTreeNode<K, V, BTreeKeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase> page = (BTreeNode<K, V, BTreeKeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase>) pageStorage.getPage(root);
-        if (page == null) {
-            page = new BTreeNode<>(this);
-            pageStorage.putPage(root, page);
-        }
+        addInternal(kvbTreeKeyValuePairInterface, root);
+        return true;
+    }
+
+    private void addInternal(
+            BTreeKeyValuePairInterface<K, V> keyValuePair,
+            BTreePageIdBase pageId) {
+        BTreeNodeInterface<K, V, BTreeKeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase> page = getPageById(pageId);
         if (page.getSize() < getPageSize()) {
             short s = 0;
             while (s < page.getSize()) {
                 K key = page.getKey(s);
+                if (key.compareTo(keyValuePair.getKey()) > 0) {
+                    BTreePageIdBase pid = page.getPageId(s);
+                    if (pid != null) {
+                        addInternal(keyValuePair, pid);
+                    }
+                    break;
+                }
                 s++;
             }
         } else {
             //todo:
         }
-        return false;
     }
 
-    private void addInternal(BTreeKeyValuePairInterface<K, V> kvbTreeKeyValuePairInterface) {
-
+    private BTreeNode<K, V, BTreeKeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase> getPageById(BTreePageIdBase pid) {
+        BTreeNode<K, V, BTreeKeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase> page = (BTreeNode<K, V, BTreeKeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase>) pageStorage.getPage(pid);
+        if (page == null) {
+            page = new BTreeNode<>(this);
+            pageStorage.putPage(pid, page);
+        }
+        return page;
     }
 
 }
