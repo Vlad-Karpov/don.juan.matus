@@ -25,9 +25,9 @@ public class BTreeNode<
 
     @Override
     @SuppressWarnings("unchecked")
-    public PI[] getPageIds() {
+    public PI[] getPageIds(BTreeInterface<K, V, PK, PI> tree) {
         if (child == null) {
-            child = (PI[]) Array.newInstance(btree.getPageIdClass(), btree.getRealPageSize());
+            child = (PI[]) Array.newInstance(tree.getPageIdClass(), tree.getRealPageSize());
         }
         return child;
     }

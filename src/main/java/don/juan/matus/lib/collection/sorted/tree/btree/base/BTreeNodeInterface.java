@@ -12,15 +12,13 @@ public interface BTreeNodeInterface<
         PI extends BTreePageIdInterface<PK>>
         extends Serializable {
 
-    BTreeInterface<K, V, PK, PI> getBtree();
-
     short getSize();
 
     K getKey(short s);
 
     V getValue(short s);
 
-    PI getPageId(short s);
+    PI getPageId(BTreeInterface<K, V, PK, PI> tree, short s);
 
     PI getPageIdLeft();
 
@@ -30,7 +28,7 @@ public interface BTreeNodeInterface<
 
     V[] getValues();
 
-    PI[] getPageIds();
+    PI[] getPageIds(BTreeInterface<K, V, PK, PI> tree);
 
     boolean isLeaf();
 

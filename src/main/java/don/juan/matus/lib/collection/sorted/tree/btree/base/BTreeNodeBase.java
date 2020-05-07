@@ -15,21 +15,14 @@ public class BTreeNodeBase<
 
     protected K[] key;
     protected V[] value;
-    protected transient BTreeInterface<K, V, PK, PI> btree;
     protected short size;
 
     @SuppressWarnings("unchecked")
     public BTreeNodeBase(BTreeInterface<K, V, PK, PI> ts) {
-        btree = ts;
         size = 0;
-        short length = btree.getRealPageSize();
-        key = (K[]) Array.newInstance(btree.getKeyClass(), length);
-        value = (V[]) Array.newInstance(btree.getValueClass(), length);
-    }
-
-    @Override
-    public BTreeInterface<K, V, PK, PI> getBtree() {
-        return btree;
+        short length = ts.getRealPageSize();
+        key = (K[]) Array.newInstance(ts.getKeyClass(), length);
+        value = (V[]) Array.newInstance(ts.getValueClass(), length);
     }
 
     @Override
@@ -48,17 +41,17 @@ public class BTreeNodeBase<
     }
 
     @Override
-    public PI getPageId(short s) {
-        return getPageIds()[s];
+    public PI getPageId(BTreeInterface<K, V, PK, PI> tree, short s) {
+        return getPageIds(tree)[s];
     }
 
     @Override
-    public PI getPageIdLeft(){
+    public PI getPageIdLeft() {
         return null;
     }
 
     @Override
-    public PI getPageIdRight(){
+    public PI getPageIdRight() {
         return null;
     }
 
@@ -73,12 +66,7 @@ public class BTreeNodeBase<
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public PI[] getPageIds() {
-//        if (child == null) {
-//            child = (PI[]) Array.newInstance(btree.getPageIdClass(), btree.getRealPageSize());
-//        }
-//        return child;
+    public PI[] getPageIds(BTreeInterface<K, V, PK, PI> tree) {
         return null;
     }
 
