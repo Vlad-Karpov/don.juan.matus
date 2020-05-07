@@ -15,7 +15,6 @@ public class BTreeNodeBase<
 
     protected K[] key;
     protected V[] value;
-    protected PI[] child = null;
     protected transient BTreeInterface<K, V, PK, PI> btree;
     protected short size;
 
@@ -76,15 +75,16 @@ public class BTreeNodeBase<
     @Override
     @SuppressWarnings("unchecked")
     public PI[] getPageIds() {
-        if (child == null) {
-            child = (PI[]) Array.newInstance(btree.getPageIdClass(), btree.getRealPageSize());
-        }
-        return child;
+//        if (child == null) {
+//            child = (PI[]) Array.newInstance(btree.getPageIdClass(), btree.getRealPageSize());
+//        }
+//        return child;
+        return null;
     }
 
     @Override
     public boolean isLeaf() {
-        return child == null;
+        return true;
     }
 
 }

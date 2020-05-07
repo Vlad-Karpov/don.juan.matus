@@ -7,34 +7,32 @@ import don.juan.matus.lib.collection.sorted.tree.btree.base.BTreeNodeInterface;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.page.storage.BTreePageIdInterface;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 
-public class BPlusTreeNode<
+public class BPlusTreeNodeLeaf<
         K extends Comparable<K> & Serializable,
         V extends Serializable,
         P extends BTreeKeyValuePairInterface<K, V>,
         PK extends Comparable<PK> & Serializable,
         PI extends BTreePageIdInterface<PK>>
-        extends BPlusTreeNodeLeaf<K, V, P, PK, PI> implements BTreeNodeInterface<K, V, P, PK, PI> {
+        extends BTreeNodeBase<K, V, P, PK, PI> implements BTreeNodeInterface<K, V, P, PK, PI> {
 
-    protected PI[] child = null;
+    protected PI left;
+    protected PI right;
 
-    public BPlusTreeNode(BTreeInterface<K, V, PK, PI> ts) {
+    public BPlusTreeNodeLeaf(BTreeInterface<K, V, PK, PI> ts) {
         super(ts);
+        left = null;
+        right = null;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public PI[] getPageIds() {
-        if (child == null) {
-            child = (PI[]) Array.newInstance(btree.getPageIdClass(), btree.getRealPageSize());
-        }
-        return child;
+    public PI getPageIdLeft() {
+        return left;
     }
 
     @Override
-    public boolean isLeaf() {
-        return child == null;
+    public PI getPageIdRight() {
+        return right;
     }
 
 }

@@ -60,10 +60,10 @@ public class BTree<K extends Comparable<K> & Serializable,
         }
     }
 
-    private BTreeNode<K, V, BTreeKeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase> getPageById(BTreePageIdBase pid) {
-        BTreeNode<K, V, BTreeKeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase> page = (BTreeNode<K, V, BTreeKeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase>) pageStorage.getPage(pid);
+    private BTreeNodeInterface<K, V, BTreeKeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase> getPageById(BTreePageIdBase pid) {
+        BTreeNodeInterface<K, V, BTreeKeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase> page = pageStorage.getPage(pid);
         if (page == null) {
-            page = new BTreeNode<>(this);
+            page = new BTreeNodeLeaf<>(this);
             pageStorage.putPage(pid, page);
         }
         return page;
