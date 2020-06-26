@@ -360,6 +360,7 @@ public class BinTreeBase<T extends Comparable<T>>
 
     protected BinTreeNodeInterface<T> addLoop(final T theObject, final BinTreeNodeInterface<T> currentNode) {
         BinTreeNodeInterface<T> current = currentNode;
+        current = beforeAddLoop(current);
         do {
             current.onNode();
             if (current.getObjectNode() == null) {
@@ -396,6 +397,10 @@ public class BinTreeBase<T extends Comparable<T>>
             }
         } while (true);
         return postAddLoop(current);
+    }
+
+    protected BinTreeNodeInterface<T> beforeAddLoop(final BinTreeNodeInterface<T> currentNode) {
+        return currentNode;
     }
 
     protected BinTreeNodeInterface<T> postAddLoop(final BinTreeNodeInterface<T> currentNode) {

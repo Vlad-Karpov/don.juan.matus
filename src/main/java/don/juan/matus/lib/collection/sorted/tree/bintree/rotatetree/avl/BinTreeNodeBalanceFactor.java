@@ -9,7 +9,7 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
  */
 public class BinTreeNodeBalanceFactor<T extends Comparable<T>> extends BinTreeNodeBase<T> {
 
-    private byte balanceFactor;
+    protected byte balanceFactor;
 
     public BinTreeNodeBalanceFactor(T objectNode, BinTreeNodeBalanceFactor<T> left, BinTreeNodeBalanceFactor<T> parent, BinTreeNodeBalanceFactor<T> right) {
         super(objectNode, left, parent, right);

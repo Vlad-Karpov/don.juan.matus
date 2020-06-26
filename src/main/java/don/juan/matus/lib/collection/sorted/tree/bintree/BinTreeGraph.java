@@ -282,6 +282,24 @@ public class BinTreeGraph<T extends Comparable<T>> {
             }
         });
 
+        JButton jButtonSeek = new JButton("seek");
+        jButtonSeek.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Long newValue = Long.parseLong(jTextField.getText());
+                Boolean b = tree.seek((T)newValue, null);
+                if (b) {
+                    System.out.println("seek ok");
+                } else {
+                    System.out.println("seek fail");
+                }
+                jTextField.setText("");
+                jTextField.requestFocusInWindow();
+                dopInfo.clear();
+                SwingUtilities.updateComponentTreeUI(frame);
+            }
+        });
+
 
         jMenuBar.add(jTextField);
         jMenuBar.add(jButtonAdd);
@@ -289,6 +307,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
         jMenuBar.add(jButtonCheck);
         jMenuBar.add(jButtonClear);
         jMenuBar.add(jButtonBalance);
+        jMenuBar.add(jButtonSeek);
         frame.setJMenuBar(jMenuBar);
         cp = frame.getContentPane();
         pane = new JPanel() {
