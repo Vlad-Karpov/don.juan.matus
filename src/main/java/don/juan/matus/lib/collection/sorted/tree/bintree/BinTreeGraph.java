@@ -129,17 +129,21 @@ public class BinTreeGraph<T extends Comparable<T>> {
 
 
             private void paint(BinTreeNodeInterface<T> theObject) {
+
+                String outStr = tree.root.desc();
+                g.drawString(outStr, 2,  20);
+
                 DopInfo di = dopInfo.get(theObject);
                 g.setColor(Color.gray);
                 int xx = 20;
-                int yy = 20 + di.level.intValue() * 30;
+                int yy = 30 + di.level.intValue() * 30;
                 g.drawRect(xx, yy, 20, 20);
                 g.drawString(di.level.toString(), xx + 7,  yy + 15);
 
                 int prevW = getPrevW(theObject);
                 xx = 45 + prevW + di.width / 2;
 
-                String outStr = theObject.desc();
+                outStr = theObject.desc();
                 if (outStr.contains("RED")) {
                     g.setColor(Color.red);
                 } else if (outStr.contains("BLACK")) {
@@ -173,6 +177,10 @@ public class BinTreeGraph<T extends Comparable<T>> {
                     if (current.getParent().getRight() == current && current.getParent().getLeft() != null) {
                         DopInfo dip = dopInfo.get(current.getParent().getLeft());
                         result += dip.width;
+                    }
+                    if (current.getParent().getRight() == current && current.getParent().getLeft() == null) {
+                        DopInfo dip = dopInfo.get(current.getParent());
+                        result += dip.width / 2;
                     }
                     current = current.getParent();
                 }
