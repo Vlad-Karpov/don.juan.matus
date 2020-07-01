@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Grahp binary tree
@@ -18,9 +19,9 @@ public class BinTreeGraph<T extends Comparable<T>> {
     private Container cp;
     private JScrollPane jspane;
     private Long maxLevel = -1L;
-    private HashMap<BinTreeNodeInterface<T>, DopInfo> dopInfo = new HashMap();
+    private HashMap<BinTreeNodeInterface<T>, DopInfo> dopInfo = new HashMap<>();
     private Long maxX = 900L;
-    private Long maxY = 700L;
+    private Long maxY = 500L;
 
     public BinTreeGraph() {
        this(new BinTreeBase<T>());
@@ -35,7 +36,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
         tree.clearTree();
         maxLevel = -1L;
         maxX = 900L;
-        maxY = 700L;
+        maxY = 500L;
         dopInfo.clear();
     }
 
@@ -52,6 +53,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
     }
 
     public void paintQ(final Graphics g) {
+
         tree.passStraight(new BinTreePassEvent<BinTreeNodeInterface<T>>() {
 
             private Long level = -2L;
@@ -96,17 +98,35 @@ public class BinTreeGraph<T extends Comparable<T>> {
 
             @Override
             public void onNodeCompleted(BinTreeNodeInterface<T> theObject) {
-
+                Integer wl = 0;
+                if (theObject.getLeft() != null) {
+                    DopInfo dil = dopInfo.get(theObject.getLeft());
+                    wl = dil.width;
+                }
+                Integer wr = 0;
+                if (theObject.getRight() != null) {
+                    DopInfo dir = dopInfo.get(theObject.getRight());
+                    wr = dir.width;
+                }
+                DopInfo di = dopInfo.get(theObject);
+                di.w = theObject.desc().length() * 6 + 4;
+                di.width = Math.max(di.w, wl + wr)  + 20;
             }
 
             @Override
             public void onPassCompleted() {
 
             }
+
         });
-        maxX = 45L + (1L << maxLevel) * 100L;
+        if (tree.root.getLeft() != null) {
+            maxX = dopInfo.get(tree.root.getLeft()).width.longValue();
+        } else {
+            maxX = 45L + (1L << maxLevel) * 100L;
+        }
         maxY = 50L + maxLevel * 53L;
         tree.passStraight(new BinTreePassEvent<BinTreeNodeInterface<T>>() {
+
 
             private void paint(BinTreeNodeInterface<T> theObject) {
                 DopInfo di = dopInfo.get(theObject);
@@ -116,14 +136,8 @@ public class BinTreeGraph<T extends Comparable<T>> {
                 g.drawRect(xx, yy, 20, 20);
                 g.drawString(di.level.toString(), xx + 7,  yy + 15);
 
-                Long rowCount = (1L << di.level);
-                Long maxLevelRowCount = (1L << maxLevel);
-                Long currentNodeRowIndex = rowCount - (di.currentNodeCount - calcItemUpToLevelCount(di.level));
-
-                Long xCountMax = 100L * maxLevelRowCount;
-                Long xRowCount = xCountMax / rowCount;
-
-                xx = xx + 25 + currentNodeRowIndex.intValue() * xRowCount.intValue() + xRowCount.intValue() / 2;
+                int prevW = getPrevW(theObject);
+                xx = 45 + prevW + di.width / 2;
 
                 String outStr = theObject.desc();
                 if (outStr.contains("RED")) {
@@ -133,25 +147,36 @@ public class BinTreeGraph<T extends Comparable<T>> {
                 } else {
                     g.setColor(Color.gray);
                 }
-                //g.drawRect(xx, yy, 30, 20);
                 g.drawString(outStr, xx + 2,  yy + 15);
                 g.setColor(Color.gray);
-
                 updateDopInfo(theObject, new DopInfo(xx, yy));
 
                 if (theObject.getLeft() != null) {
-                    di = dopInfo.get(theObject.getLeft());
-                    if (di != null) {
-                        g.drawLine(xx, yy + 20, di.x + 7, di.y);
+                    DopInfo dil = dopInfo.get(theObject.getLeft());
+                    if (dil != null) {
+                        g.drawLine(xx, yy + 20, dil.x + 7, dil.y);
                     }
                 }
                 if (theObject.getRight() != null) {
-                    di = dopInfo.get(theObject.getRight());
-                    if (di != null) {
-                        g.drawLine(xx + 30, yy + 20, di.x + 7, di.y);
+                    DopInfo dir = dopInfo.get(theObject.getRight());
+                    if (dir != null) {
+                        g.drawLine(xx + 10, yy + 20, dir.x + 7, dir.y);
                     }
                 }
 
+            }
+
+            private int getPrevW(BinTreeNodeInterface<T> theObject) {
+                int result = 0;
+                BinTreeNodeInterface<T> current = theObject;
+                while(current.getParent() != null) {
+                    if (current.getParent().getRight() == current && current.getParent().getLeft() != null) {
+                        DopInfo dip = dopInfo.get(current.getParent().getLeft());
+                        result += dip.width;
+                    }
+                    current = current.getParent();
+                }
+                return result;
             }
 
             public void onPass(BinTreeNodeInterface<T> theObject) {
@@ -300,6 +325,26 @@ public class BinTreeGraph<T extends Comparable<T>> {
             }
         });
 
+        JButton jButtonAddRnd = new JButton("add rnd");
+        jButtonAddRnd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int newValue = 1;
+                try {
+                    newValue = Integer.parseInt(jTextField.getText());
+                } catch (Exception ex) {
+                    newValue = 1;
+                }
+                Random r = new Random();
+                for (int i = 0; i < newValue; i++) {
+                    tree.add((T)(new Long(r.nextLong())));
+                }
+                jTextField.setText("");
+                jTextField.requestFocusInWindow();
+                dopInfo.clear();
+                SwingUtilities.updateComponentTreeUI(frame);
+            }
+        });
 
         jMenuBar.add(jTextField);
         jMenuBar.add(jButtonAdd);
@@ -308,6 +353,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
         jMenuBar.add(jButtonClear);
         jMenuBar.add(jButtonBalance);
         jMenuBar.add(jButtonSeek);
+        jMenuBar.add(jButtonAddRnd);
         frame.setJMenuBar(jMenuBar);
         cp = frame.getContentPane();
         pane = new JPanel() {
@@ -349,6 +395,8 @@ public class BinTreeGraph<T extends Comparable<T>> {
         public Long level;
         public Integer x;
         public Integer y;
+        public Integer w;
+        public Integer width;
 
         public DopInfo() {
             this.currentNodeCount = null;
@@ -383,6 +431,17 @@ public class BinTreeGraph<T extends Comparable<T>> {
             this.level = null;
             this.x = x;
             this.y = y;
+        }
+
+        @Override
+        public String toString() {
+            return "DopInfo{" +
+                    "currentNodeCount=" + currentNodeCount +
+                    ", level=" + level +
+                    ", x=" + x +
+                    ", y=" + y +
+                    ", w=" + width +
+                    '}';
         }
     }
 
