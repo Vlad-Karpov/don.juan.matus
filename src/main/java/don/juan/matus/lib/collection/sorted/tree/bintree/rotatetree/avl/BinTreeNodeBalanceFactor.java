@@ -74,5 +74,9 @@ public class BinTreeNodeBalanceFactor<T extends Comparable<T>> extends BinTreeNo
         return objectNode + "," + balanceFactor;
     }
 
-
+    @Override
+    public void clear() {
+        super.clear();
+        this.balanceFactor = 0;
+    }
 }

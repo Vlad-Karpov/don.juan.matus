@@ -96,4 +96,9 @@ public class BinTreeNodeBase<T extends Comparable<T>> implements BinTreeNodeInte
         return null;
     }
 
+    @Override
+    public void clear() {
+
+    }
+
 }

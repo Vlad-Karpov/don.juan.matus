@@ -178,10 +178,10 @@ public class BinTreeGraph<T extends Comparable<T>> {
                         DopInfo dip = dopInfo.get(current.getParent().getLeft());
                         result += dip.width;
                     }
-                    if (current.getParent().getRight() == current && current.getParent().getLeft() == null) {
-                        DopInfo dip = dopInfo.get(current.getParent());
-                        result += dip.width / 2;
-                    }
+//                    if (current.getParent().getRight() == current && current.getParent().getLeft() == null) {
+//                        DopInfo dip = dopInfo.get(current.getParent());
+//                        result += dip.width / 2;
+//                    }
                     current = current.getParent();
                 }
                 return result;

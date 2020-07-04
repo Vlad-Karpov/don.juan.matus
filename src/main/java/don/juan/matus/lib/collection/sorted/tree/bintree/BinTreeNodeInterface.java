@@ -37,4 +37,6 @@ public interface BinTreeNodeInterface<T extends Comparable<T>> extends Comparabl
 
     Object changeOuterObject(Object theOuterObject, BinTreeNodeInterface<T> currentNode, int increment);
 
+    void clear();
+
 }

@@ -535,6 +535,7 @@ public class BinTreeBase<T extends Comparable<T>>
     @Override
     public void clearTree() {
         root.setLeft(null);
+        root.clear();
         maxLevel = 0L;
         level = 0L;
         size = 0L;
