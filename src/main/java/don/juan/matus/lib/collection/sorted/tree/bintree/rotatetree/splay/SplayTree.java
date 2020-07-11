@@ -14,29 +14,33 @@ public class SplayTree<T extends Comparable<T>> extends BinTreeBase<T> {
     public void splay(final BinTreeNodeInterface<T> theRoot, final BinTreeNodeInterface<T> currentNode) {
         level = 0L;
         while (parentOf(currentNode) != theRoot) {
-            if (currentNode == parentOf(currentNode).getLeft()) {
-                if (parentOf(parentOf(currentNode)) == theRoot) {
-                    rotateRight(parentOf(currentNode));
-                } else if (parentOf(currentNode) == parentOf(parentOf(currentNode)).getLeft()) {
-                    rotateRight(parentOf(parentOf(currentNode)));
-                    rotateRight(parentOf(currentNode));
-                } else {
-                    rotateRight(parentOf(currentNode));
-                    rotateLeft(parentOf(currentNode));
-                }
-            } else {
-                if (parentOf(parentOf(currentNode)) == theRoot) {
-                    rotateLeft(parentOf(currentNode));
-                } else if (parentOf(currentNode) == parentOf(parentOf(currentNode)).getRight()) {
-                    rotateLeft(parentOf(parentOf(currentNode)));
-                    rotateLeft(parentOf(currentNode));
-                } else {
-                    rotateLeft(parentOf(currentNode));
-                    rotateRight(parentOf(currentNode));
-                }
-            }
+            splayQuantum(theRoot, currentNode, 0);
             level++;
             if (maxLevel < level) maxLevel = level;
+        }
+    }
+
+    protected void splayQuantum(BinTreeNodeInterface<T> theRoot, BinTreeNodeInterface<T> currentNode, int theSign) {
+        if (currentNode == parentOf(currentNode).getLeft()) {
+            if (parentOf(parentOf(currentNode)) == theRoot) {
+                rotateRight(parentOf(currentNode));
+            } else if (parentOf(currentNode) == parentOf(parentOf(currentNode)).getLeft()) {
+                rotateRight(parentOf(parentOf(currentNode)));
+                rotateRight(parentOf(currentNode));
+            } else {
+                rotateRight(parentOf(currentNode));
+                rotateLeft(parentOf(currentNode));
+            }
+        } else {
+            if (parentOf(parentOf(currentNode)) == theRoot) {
+                rotateLeft(parentOf(currentNode));
+            } else if (parentOf(currentNode) == parentOf(parentOf(currentNode)).getRight()) {
+                rotateLeft(parentOf(parentOf(currentNode)));
+                rotateLeft(parentOf(currentNode));
+            } else {
+                rotateLeft(parentOf(currentNode));
+                rotateRight(parentOf(currentNode));
+            }
         }
     }
 

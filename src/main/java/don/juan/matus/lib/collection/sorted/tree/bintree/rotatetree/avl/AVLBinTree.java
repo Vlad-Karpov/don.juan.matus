@@ -113,7 +113,7 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
 
     public static <T extends Comparable<T>> int culculateIncHeight(final BinTreeNodeBalanceFactor<T> currentNode, int theIncHeight, int theSign, byte ob, byte nb) {
         int incHeight = theIncHeight;
-        if (currentNode.getParent() != null) {
+        if (currentNode != null && currentNode.getParent() != null) {
             if (theSign == 1) {
                 //add
                 if (abs(ob) < abs(nb)) {

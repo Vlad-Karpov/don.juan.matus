@@ -34,6 +34,7 @@ n, a, b - integer
 2) n * max(a, b) = max(n * a, n * b)   n >= 0
 3) n * max(a, b) = min(n * a, n * b)   n < 0
 
+
 0) min(a, b) = min(b, a)
 1) n + min(a, b) = min(n + a, n + b)
 2) n * min(a, b) = min(n * a, n * b)   n >= 0
@@ -413,3 +414,92 @@ dbn = db + max(cbn, 0, - pb - 1) + min(1 - cbn, 0, pb)
 dbn = db + max(cbn - 1, 0, -pb) + min(-cbn, 0, 1 + pb)
 
 
+
+
+
+
+
+/*******************************************************************************
+                    left balance change
+
+                  g (gb)                            g (gbn)
+                 /                                 /
+                /                                 /
+             d (db)                            d (dbn)
+           /        \                        /        \
+          /          \                      /          \
+       l (lb)        r (rb)              l (lbn)        r (rbn)
+     /\     /\       /\    /\          /\     /\       / \    / \
+    /ll\   /lr\     /rl\  /rr\        /  \   /  \     /rln\  /rrn\
+   /____\ /____\   /____\/____\      / lln\ / lrn\   /_____\/_____\
+
+
+d dad
+l left
+r rigth
+node
+
+db(n) dad balance factor (new)
+lb(n) left balance factor (new)
+rb(n) right balance factor (new)
+
+ll(n) left left subtree (new)
+lr(n) left right subtree (new)
+rl(n) right left subtree (new)
+rr(n) right right subtree (new)
+
+H(...) hight subtree
+
+*******************************************************************************/
+
+lb = H(ll)-H(lr)
+lbn = H(lln)-H(lr) | H(ll)-H(lrn)
+rb = H(rl)-H(rr)
+db = max(H(ll), H(lr)) + 1 - (max(H(rl), H(rr)) + 1)
+db = max(H(ll), H(lr)) - max(H(rl), H(rr))
+db = max(H(ll) - max(H(rl), H(rr)), H(lr) - max(H(rl), H(rr)))
+db = max(H(ll) + min(-H(rl), -H(rr)), H(lr) + min(-H(rl), -H(rr)))
+
+db = max(min(H(ll) - H(rl), H(ll) - H(rr)), min(H(lr) - H(rl), H(lr) - H(rr)))
+dbn = max(min(H(lln) - H(rl), H(lln) - H(rr)), min(H(lr) - H(rl), H(lr) - H(rr)))
+
+
+db =        max(H(ll), H(lr)) - max(H(rl), H(rr))
+dbn =       max(H(lln), H(lr)) - max(H(rl), H(rr)) | max(H(ll), H(lrn)) - max(H(rl), H(rr))
+        |   max(H(ll), H(lr)) - max(H(rln), H(rr)) | max(H(ll), H(lr)) - max(H(rl), H(rrn))
+
+1)
+    dbn - db = max(H(lln), H(lr)) -  max(H(ll), H(lr))
+    dbn - db = max(H(lln), H(lr)) +  min(-H(ll), -H(lr))
+    dbn - db = max(H(lln) + min(-H(ll), -H(lr)), H(lr) + min(-H(ll), -H(lr)))
+    dbn - db = max(min(H(lln)-H(ll), H(lln)-H(lr)), min(H(lr)-H(ll), H(lr)-H(lr)))
+    dbn - db = max(min(H(lln)-H(ll), lbn), min(-lb, 0))
+    dbn = db + max(min( H(lln)-H(ll) , lbn), min(-lb, 0))       !!
+
+2)
+    dbn - db = max(H(ll), H(lrn)) -  max(H(ll), H(lr))
+    dbn - db = max(H(ll), H(lrn)) +  min(-H(ll), -H(lr))
+    dbn - db = max(H(ll) + min(-H(ll), -H(lr)), H(lrn) + min(-H(ll), -H(lr)))
+    dbn - db = max(min(H(ll)-H(ll), H(ll)-H(lr)), min(H(lrn)-H(ll), H(lrn)-H(lr)))
+    dbn - db = max(min(0, lb), min(-lbn, H(lrn)-H(lr)))
+    dbn = db + max(min( H(lrn)-H(lr), -lbn), min(lb, 0))        !!
+
+3)
+    dbn - db = max(H(rln), H(rr)) -  max(H(rl), H(rr))
+    dbn - db = max(H(rln), H(rr)) +  max(-H(rl), -H(rr))
+    dbn - db = max(H(rln) + min(-H(rl), -H(rr)), H(rr) + min(-H(rl), -H(rr)))
+    dbn - db = max(min(H(rln)-H(rl), H(rln)-H(rr)), min(H(rr)-H(rl), H(rr)-H(rr)))
+    dbn = db + max(min( H(rln)-H(rl), rbn), min(-rb, 0))        !!
+
+4)
+    dbn = db + max(min( H(rrn)-H(rr), -rbn), min(rb, 0))        !!
+
+total:
+    dbn = db + max(min( H(lln)-H(ll), lbn), min(-lb, 0))       !!
+    dbn = db + max(min( H(rln)-H(rl), rbn), min(-rb, 0))       !!
+    dbn = db + max(min( H(lrn)-H(lr), -lbn), min(lb, 0))       !!
+    dbn = db + max(min( H(rrn)-H(rr), -rbn), min(rb, 0))       !!
+
+
+    gbn = gb + max(min( deltaH.son.left, dbn), min(-db, 0))
+    gbn = gb + max(min( deltaH.son.right, -dbn), min(db, 0))
