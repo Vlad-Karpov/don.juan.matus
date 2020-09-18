@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -354,6 +355,36 @@ public class BinTreeGraph<T extends Comparable<T>> {
             }
         });
 
+        JButton jButtonDelRnd = new JButton("del rnd");
+        jButtonDelRnd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int newValue = 1;
+                try {
+                    newValue = Integer.parseInt(jTextField.getText());
+                } catch (Exception ex) {
+                    newValue = 1;
+                }
+                Random r = new Random();
+                while (newValue > 0) {
+                    Integer ri = r.ints(0, tree.getSize().intValue())
+                            .findFirst()
+                            .getAsInt();
+
+                    Iterator it = tree.iterator();
+                    for (int i = 0; i < ri; i++) {
+                        it.next();
+                    }
+                    it.remove();
+                    newValue--;
+                }
+                jTextField.setText("");
+                jTextField.requestFocusInWindow();
+                dopInfo.clear();
+                SwingUtilities.updateComponentTreeUI(frame);
+            }
+        });
+
         jMenuBar.add(jTextField);
         jMenuBar.add(jButtonAdd);
         jMenuBar.add(jButtonDel);
@@ -362,6 +393,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
         jMenuBar.add(jButtonBalance);
         jMenuBar.add(jButtonSeek);
         jMenuBar.add(jButtonAddRnd);
+        jMenuBar.add(jButtonDelRnd);
         frame.setJMenuBar(jMenuBar);
         cp = frame.getContentPane();
         pane = new JPanel() {

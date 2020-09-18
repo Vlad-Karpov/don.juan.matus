@@ -27,18 +27,23 @@ H(...) hight subtree
 *******************************************************************************/
 
 /*
-n, a, b - integer
+n, a, b, c, d - integer
 
 0) max(a, b) = max(b, a)
 1) n + max(a, b) = max(n + a, n + b)
 2) n * max(a, b) = max(n * a, n * b)   n >= 0
-3) n * max(a, b) = min(n * a, n * b)   n < 0
-
+3) n * max(a, b) = min(n * a, n * b)   n < 0   =>  max(a, b) = - min(-a, -b)
+4) max(max(a, b), max(c, d)) = max(a, b, c, d)
+5) max(a, b) + max(c, d) = max(a + c, a + d, b + c, b + d)
+6) max(0, 1, 2, a) = max(2, a)
 
 0) min(a, b) = min(b, a)
 1) n + min(a, b) = min(n + a, n + b)
 2) n * min(a, b) = min(n * a, n * b)   n >= 0
-3) n * min(a, b) = max(n * a, n * b)   n < 0
+3) n * min(a, b) = max(n * a, n * b)   n < 0   =>  min(a, b) = - max(-a, -b)
+4) min(min(a, b), min(c, d)) = min(a, b, c, d)
+5) min(a, b) + min(c, d) = min(a + c, a + d, b + c, b + d)
+6) min(0, 1, 2, a) = max(0, a)
 */
   
  pb = H(pl) - H(pr)
@@ -316,7 +321,7 @@ cbn = 0
 
 1 rl) dbn = -2 - max(- 0 - 1, 0, 1) - min(0, 0, 1 - 1) = - 2 - 1 - 0 = -3   wrong!
 
-2 rr) dbn = -2 + max(- 0 - 1, 0, 1) + min(0, 0, 1 - 1) = -2 + 1 + 0 = -1    !!! that`s right!
+2 rr) dbn = -2 + max(- 0 - 1, 0, 1) + min(0, 0, 1 - 1) = -2 + 1 + 0 = -1    !!! that s right!
 
 
 /*******************************************************************************
@@ -361,6 +366,10 @@ dbn = db + max(- cbn - 1, 0, pb) + min( cbn, 0, 1 - pb)
 /*******************************************************************************
                     left rotation current is left
 
+                    g (gb)                            g (gbn)
+                   /     /\                            /     /\
+                  /     /gl\                          /     /gl\
+                 /     /____\                        /     /____\
              dad (db)                            dad (dbn)
            /        \                          /         \
           /          \                        /           \
@@ -397,24 +406,44 @@ dbn - db = max(H(cl)-H(pl), H(pl)-H(pl), H(pr)-H(pl) - 1) + min(+H(pl)-H(cl) + 1
 dbn - db = max(cbn, 0, - pb - 1) + min(1 - cbn, 0, pb)
 dbn = db + max(cbn, 0, - pb - 1) + min(1 - cbn, 0, pb)
 
+gbn = max(H(cl) + 3, H(pl) + 3, H(pr) + 2, H(dl) + 1)  - H(gl)
+gb =  max(H(cl) + 2, H(pl) + 3, H(pr) + 3, H(dl) + 1)  - H(gl)
 
+gbn = gb + delta
+
+delta = max(H(cl) + 3, H(pl) + 3, H(pr) + 2, H(dl) + 1) - max(H(cl) + 2, H(pl) + 3, H(pr) + 3, H(dl) + 1)
+max(
+    max(1, cbn, H(cl) - H(pr), H(cl) - H(dl) + 2),
+    ...
+)
 
 /*******************************************************************************/
 
 -- right rotation
+delta = max(- cbn - 1, 0, pb) + min(cbn, 0, 1 - pb)
+
+= max(- cbn - 1, 0, pb) - max(-cbn, 0, pb - 1)
+= max(-cbn-1, -cbn-pb, cbn, pb-1, pb+cbn, pb, 1)
 -- current left
 dbn = db - max(- cbn - 1, 0, pb) - min(cbn, 0, 1 - pb)
+dbn = db - delta
 -- current right
 dbn = db + max(- cbn - 1, 0, pb) + min(cbn, 0, 1 - pb)
+dbn = db + delta
 
 --left rotation
+delta = max(cbn - 1, 0, -pb) + min(-cbn, 0, 1 + pb)
+
+=max(cbn - 1, 0, -pb) - max(cbn, 0, - 1 - pb)
+=max(cbn-1, cbn+pb, -cbn, pb+1, -pb-cbn, -pb, 1)
 -- current left
 dbn = db + max(cbn, 0, - pb - 1) + min(1 - cbn, 0, pb)
+dbn = db - min(-cbn, 0, pb + 1) - max(cbn - 1, 0, -pb)
+dbn = db - max(cbn - 1, 0, -pb) - min(-cbn, 0, 1 + pb)
+dbn = db - delta
 -- current right
 dbn = db + max(cbn - 1, 0, -pb) + min(-cbn, 0, 1 + pb)
-
-
-
+dbn = db + delta
 
 
 

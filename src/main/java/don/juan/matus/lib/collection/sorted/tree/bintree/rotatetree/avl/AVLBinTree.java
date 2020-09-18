@@ -78,13 +78,14 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
         while (cursor != root) {
             parent = (BinTreeNodeBalanceFactor<T>) cursor.getParent();
             byte ob = parent.getBalanceFactor();
-            parent.incBalanceFactor((byte) incHeight);
+            parent.incBalanceFactor(leftOf(parent) == cursor ? (byte) incHeight : (byte) -incHeight);
             if (cursor.getBalanceFactor() == threshold) {
                 if (((BinTreeNodeBalanceFactor<T>) cursor.getLeft()).getBalanceFactor() == -(threshold - 1)) {
                     byte cb = cursor.getBalanceFactor();
                     super.rotateLeft(cursor.getLeft());
                     byte cbn = cursor.getBalanceFactor();
-                    parent.incBalanceFactor((byte) (parent.getRight() == cursor ? -cbn + cb : cbn - cb));
+                    int incH = abs(cbn) - abs(cb);
+                    parent.incBalanceFactor((byte) (leftOf(parent) == cursor ? incH : -incH));
                 }
                 if (cursor.getBalanceFactor() == threshold) {
                     cursor = (BinTreeNodeBalanceFactor<T>) super.rotateRight(cursor);
@@ -95,7 +96,8 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
                     byte cb = cursor.getBalanceFactor();
                     super.rotateRight(cursor.getRight());
                     byte cbn = cursor.getBalanceFactor();
-                    parent.incBalanceFactor((byte) (parent.getRight() == cursor ? cbn - cb : -cbn + cb));
+                    int incH = abs(cbn) - abs(cb);
+                    parent.incBalanceFactor((byte) (leftOf(parent) == cursor ? incH : -incH));
                 }
                 if (cursor.getBalanceFactor() == -threshold) {
                     cursor = (BinTreeNodeBalanceFactor<T>) super.rotateLeft(cursor);
@@ -114,45 +116,16 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
     public static <T extends Comparable<T>> int calculateIncHeight(final BinTreeNodeBalanceFactor<T> currentNode, int theIncHeight, int theSign, byte ob, byte nb) {
         int incHeight = theIncHeight;
         if (currentNode != null && currentNode.getParent() != null) {
+            int delta = abs(nb) - abs(ob);
             if (theSign == 1) {
                 //add
-                if (abs(ob) < abs(nb)) {
-                    if (currentNode.getParent().getLeft() == currentNode) {
-                        incHeight = abs(nb) - abs(ob);
-                    } else {
-                        incHeight = abs(ob) - abs(nb);
-                    }
-                } else {
-                    if (ob > 0 && nb < 0) {
-                        if (currentNode.getParent().getLeft() == currentNode) {
-                            incHeight = abs(nb);
-                        } else {
-                            incHeight = -abs(nb);
-                        }
-                    }
-                    if (ob < 0 && nb > 0) {
-                        if (currentNode.getParent().getLeft() == currentNode) {
-                            incHeight = abs(nb);
-                        } else {
-                            incHeight = -abs(nb);
-                        }
-                    }
+                if (delta > 0) {
+                    incHeight = delta;
                 }
             } else {
                 //delete
-                if (ob > 0 && (nb >= 0 && nb < ob)) {
-                    if (currentNode.getParent().getLeft() == currentNode) {
-                        incHeight = nb - ob;
-                    } else {
-                        incHeight = ob - nb;
-                    }
-                }
-                if (ob < 0 && (nb <= 0 && nb > ob)) {
-                    if (currentNode.getParent().getLeft() == currentNode) {
-                        incHeight = ob - nb;
-                    } else {
-                        incHeight = nb - ob;
-                    }
+                if (delta < 0) {
+                    incHeight = delta;
                 }
             }
         }
@@ -163,14 +136,14 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
     protected BinTreeNodeInterface<T> postAddLoop(final BinTreeNodeInterface<T> currentNode) {
         BinTreeNodeBalanceFactor<T> cursor = (BinTreeNodeBalanceFactor<T>) currentNode;
         BinTreeNodeBalanceFactor<T> parent = (BinTreeNodeBalanceFactor<T>) cursor.getParent();
-        return balanceTree(cursor, parent.getLeft() == cursor ? 1 : -1, 1);
+        return balanceTree(cursor, 1, 1);
     }
 
     @Override
     protected void changeNode(BinTreeNodeInterface<T> theCurrentNode) {
         BinTreeNodeBalanceFactor<T> cursor = (BinTreeNodeBalanceFactor<T>) theCurrentNode;
         BinTreeNodeBalanceFactor<T> parent = (BinTreeNodeBalanceFactor<T>) cursor.getParent();
-        balanceTree((BinTreeNodeBalanceFactor<T>) theCurrentNode, parent.getLeft() == cursor ? -1 : 1, -1);
+        balanceTree((BinTreeNodeBalanceFactor<T>) theCurrentNode, -1, -1);
     }
 
     @Override
@@ -181,11 +154,9 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
 
     public static <T extends Comparable<T>> boolean checkTreeNodeStatic(boolean result, BinTreeCheckPassEvent<T> thePassEvent, BinTreeIterator<T> btiLeft, BinTreeIterator<T> btiRight, BinTreeNodeInterface<T> currentNode, BinTreeNodeInterface<T> previousNode) {
         if (result) {
-            if (btiLeft != null && btiRight != null) {
-                if (btiLeft.getMaxLevel() - btiRight.getMaxLevel() != ((BinTreeNodeBalanceFactor<T>) currentNode).getBalanceFactor()) {
-                    thePassEvent.setErrorMessage("AVLBinTree: Tree structure invalid, incorrect balance factor!");
-                    result = false;
-                }
+            if ((btiLeft != null ? btiLeft.getMaxLevel() + 1 : 0) - (btiRight != null ? btiRight.getMaxLevel() + 1 : 0) != ((BinTreeNodeBalanceFactor<T>) currentNode).getBalanceFactor()) {
+                thePassEvent.setErrorMessage("AVLBinTree: Tree structure invalid, incorrect balance factor!");
+                result = false;
             }
         }
         return result;

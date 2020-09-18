@@ -6,8 +6,7 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.BinTreeNodeBalanceFactor;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.splay.SplayTree;
 
-import static don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface.leftOf;
-import static don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface.parentOf;
+import static don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface.*;
 import static don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree.checkTreeNodeStatic;
 import static don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree.fixBalanceAfterRotateLeft;
 import static don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree.fixBalanceAfterRotateRight;
@@ -49,6 +48,35 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
         return currentNode;
     }
 
+    @Override
+    public void splay(final BinTreeNodeInterface<T> theRoot, final BinTreeNodeInterface<T> currentNode) {
+        AvlSplayHeapNode<T> cursor = (AvlSplayHeapNode<T>) currentNode;
+        level = 0L;
+        int incHeight = 0;
+        while (parentOf(cursor) != theRoot) {
+            AvlSplayHeapNode<T> parent = (AvlSplayHeapNode<T>) parentOf(cursor);
+            AvlSplayHeapNode<T> grandpa = (AvlSplayHeapNode<T>) parentOf(parent);
+            AvlSplayHeapNode<T> greatGrandfather = (AvlSplayHeapNode<T>) parentOf(grandpa);
+            byte obg = greatGrandfather != null ? greatGrandfather.getBalanceFactor() : 0;
+            if (grandpa != null) {
+                byte ob = grandpa.getBalanceFactor();
+                byte nb = grandpa.incBalanceFactor(leftOf(grandpa) == parent ? (byte) incHeight : (byte) -incHeight);
+                incHeight = abs(nb) - abs(ob);
+                //incHeight = calculateIncHeight(grandpa, 0, 1, ob, nb);
+            }
+            if (greatGrandfather != null) {
+                greatGrandfather.incBalanceFactor(leftOf(greatGrandfather) == grandpa ? (byte) incHeight : (byte) -incHeight);
+            }
+            splayQuantum(theRoot, cursor, incHeight, 0);
+            if (greatGrandfather != null) {
+                byte nb = greatGrandfather.getBalanceFactor();
+                incHeight = abs(nb) - abs(obg);
+                //incHeight = calculateIncHeight(greatGrandfather, 0, 1, obg, nb);
+            }
+            level++;
+            if (maxLevel < level) maxLevel = level;
+        }
+    }
 
     @Override
     protected BinTreeNodeInterface<T> postAddLoop(final BinTreeNodeInterface<T> currentNode) {
@@ -73,22 +101,25 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
             byte obg = greatGrandfather != null ? greatGrandfather.getBalanceFactor() : 0;
             if (grandpa != null) {
                 byte ob = grandpa.getBalanceFactor();
-                byte nb = grandpa.incBalanceFactor((byte) incHeight);
-                incHeight = calculateIncHeight(grandpa, 0, theSign, ob, nb);
+                byte nb = grandpa.incBalanceFactor(leftOf(grandpa) == parent ? (byte) incHeight : (byte) -incHeight);
+                //incHeight = calculateIncHeight(grandpa, 0, theSign, ob, nb);
+                incHeight = abs(nb) - abs(ob);
             }
             if (greatGrandfather != null) {
-                greatGrandfather.incBalanceFactor((byte) incHeight);
+                greatGrandfather.incBalanceFactor(leftOf(greatGrandfather) == grandpa ? (byte) incHeight : (byte) -incHeight);
             }
-            splayQuantum(root, cursor, theSign);
+            splayQuantum(root, cursor, incHeight, theSign);
             if (greatGrandfather != null) {
                 byte nb = greatGrandfather.getBalanceFactor();
-                incHeight = calculateIncHeight(greatGrandfather, 0, theSign, obg, nb);
+                //incHeight = calculateIncHeight(greatGrandfather, 0, theSign, obg, nb);
+                incHeight = abs(nb) - abs(obg);
             }
         }
     }
 
     @Override
-    protected void splayQuantum(BinTreeNodeInterface<T> theRoot, BinTreeNodeInterface<T> currentNode, int theSign) {
+    protected void splayQuantum(BinTreeNodeInterface<T> theRoot, BinTreeNodeInterface<T> currentNode, int theIncHeight, int theSign) {
+        int incHeight;
         if (currentNode == parentOf(currentNode).getLeft()) {
             if (parentOf(parentOf(currentNode)) == theRoot) {
                 rotateRight(parentOf(currentNode));
@@ -102,8 +133,8 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
                 rotateRight(parentOf(currentNode));
                 if (greatGrandfather != null) {
                     byte nb = grandpa.getBalanceFactor();
-                    int incHeight = calculateIncHeight(grandpa, 0, theSign, ob, nb);
-                    greatGrandfather.incBalanceFactor((byte) incHeight);
+                    incHeight = abs(nb) - abs(ob);
+                    greatGrandfather.incBalanceFactor(leftOf(greatGrandfather) == grandpa ? (byte) incHeight : (byte) -incHeight);
                 }
                 rotateLeft(parentOf(currentNode));
             }
@@ -120,8 +151,8 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
                 rotateLeft(parentOf(currentNode));
                 if (greatGrandfather != null) {
                     byte nb = grandpa.getBalanceFactor();
-                    int incHeight = calculateIncHeight(grandpa, 0, theSign, ob, nb);
-                    greatGrandfather.incBalanceFactor((byte) incHeight);
+                    incHeight = abs(nb) - abs(ob);
+                    greatGrandfather.incBalanceFactor(leftOf(greatGrandfather) == grandpa ? (byte) incHeight : (byte) -incHeight);
                 }
                 rotateRight(parentOf(currentNode));
             }
@@ -135,7 +166,7 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
             if (parent != null) {
                 byte ob = parent.getBalanceFactor();
                 byte nb = parent.incBalanceFactor(leftOf(parent) == theCurrentNode ? (byte) incHeight : (byte) -incHeight);
-                incHeight = calculateIncHeight(parent, 0, 1, ob, nb);
+                incHeight = calculateIncHeight(parent, incHeight, -1, ob, nb);
             }
             fixBalanceAfterChange(theCurrentNode, incHeight, -1);
             //remove node
