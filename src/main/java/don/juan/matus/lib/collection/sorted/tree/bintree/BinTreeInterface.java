@@ -122,6 +122,10 @@ public interface BinTreeInterface<T extends Comparable<T>> extends CollectionBas
         return (b1 < 0) ? -b1 : b1;
     }
 
+    static boolean getRandomBoolean() {
+        return Math.random() < 0.5;
+    }
+
     void rebalanceTree();
 
     void splay(final BinTreeNodeInterface<T> theRoot, final BinTreeNodeInterface<T> currentNode);
