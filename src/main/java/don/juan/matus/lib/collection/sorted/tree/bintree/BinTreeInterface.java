@@ -27,6 +27,10 @@ public interface BinTreeInterface<T extends Comparable<T>> extends CollectionBas
 
     void passStraight(BinTreePassEvent<BinTreeNodeInterface<T>> thePassEvent);
 
+    Long checkStructure(BinTreeNodeInterface<T> theRoot);
+
+    Long checkStructure(BinTreeCheckPassEvent<T> thePassEvent, BinTreeNodeInterface<T> theRoot);
+
     Long checkStructure(BinTreeCheckPassEvent<T> thePassEvent);
 
     boolean checkTreeNode(
