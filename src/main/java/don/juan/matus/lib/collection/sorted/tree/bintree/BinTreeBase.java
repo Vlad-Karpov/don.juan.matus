@@ -120,10 +120,9 @@ public class BinTreeBase<T extends Comparable<T>>
         if (node != root) thePassEvent.onNodeCompleted(node);
     }
 
-    //todo: to do this!
     @Override
     public Long checkStructure(BinTreeNodeInterface<T> theRoot) {
-        return checkStructure(new BinTreeDebugPassEvent(), root);
+        return checkStructure(new BinTreeDebugPassEvent<T>(), theRoot);
     }
 
     @Override
