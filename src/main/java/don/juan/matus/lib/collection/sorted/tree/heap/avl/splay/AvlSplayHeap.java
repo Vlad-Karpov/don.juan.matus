@@ -7,6 +7,7 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.BinTreeN
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.splay.SplayTree;
 
 import static don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface.*;
+import static don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree.calculateIncHeight;
 import static don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree.checkTreeNodeStatic;
 import static don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree.fixBalanceAfterRotateLeft;
 import static don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree.fixBalanceAfterRotateRight;
@@ -14,6 +15,7 @@ import static don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.A
 public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
 
     private int maxHeapSize;
+    private EvictionStrategy evictionStrategy = EvictionStrategy.SPLAY;
 
     public AvlSplayHeap(int maxHeapSize) {
         super();
@@ -32,6 +34,14 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
         this.maxHeapSize = maxHeapSize;
     }
 
+    public EvictionStrategy getEvictionStrategy() {
+        return evictionStrategy;
+    }
+
+    public void setEvictionStrategy(EvictionStrategy evictionStrategy) {
+        this.evictionStrategy = evictionStrategy;
+    }
+
     @Override
     public void afterRotateRight(BinTreeNodeInterface<T> dadNode, BinTreeNodeInterface<T> currentNode, BinTreeNodeInterface<T> pivotNode) {
         fixBalanceAfterRotateRight(dadNode, (BinTreeNodeBalanceFactor<T>) currentNode, pivotNode);
@@ -45,7 +55,18 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
     @Override
     protected BinTreeNodeInterface<T> beforeAddLoop(final BinTreeNodeInterface<T> currentNode) {
         if (size == maxHeapSize) {
-            evict(findLastUsed());
+            AvlSplayHeapNode<T> evictNode = findLastUsed();
+            switch (evictionStrategy) {
+                case SIMPLE: {
+                    evict(findLastUsed());
+                    break;
+                }
+                case SPLAY:
+                default: {
+                    removeNode(false, evictNode, evictNode);
+                    break;
+                }
+            }
         }
         return currentNode;
     }
@@ -107,81 +128,63 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
         }
     }
 
-    //todo: remove it to AVLBinTree instead of calculateIncHeight
-    private int calculateIncHeight(
-            final byte parentOldBalance,
-            final byte parentNewBalance,
-            final BinTreeNodeInterface<T> currentNode) {
-        int incHeight = 0;
-        if (parentNewBalance != parentOldBalance) {
-            if (leftOf(parentOf(currentNode)) == currentNode) {
-                if (parentOldBalance <= 0) {
-                    if (parentNewBalance >= 0) {
-                        incHeight = parentNewBalance;
-                    }
-                } else {
-                    if (parentNewBalance > 0) {
-                        incHeight = parentNewBalance - parentOldBalance;
-                    } else {
-                        incHeight = - parentOldBalance;
-                    }
-                }
-            } else {
-                if (parentOldBalance >= 0) {
-                    if (parentNewBalance <= 0) {
-                        incHeight = -parentNewBalance;
-                    }
-                } else {
-                    if (parentNewBalance < 0) {
-                        incHeight = - parentNewBalance + parentOldBalance;
-                    } else {
-                        incHeight = parentOldBalance;
-                    }
-                }
-            }
+    protected void zigZagRightLift(BinTreeNodeInterface<T> currentNode) {
+        int incHeight;
+        AvlSplayHeapNode<T> grandpa = (AvlSplayHeapNode<T>) parentOf(parentOf(currentNode));
+        AvlSplayHeapNode<T> greatGrandfather = (AvlSplayHeapNode<T>) parentOf(parentOf(parentOf(currentNode)));
+        byte ob = grandpa != null ? grandpa.getBalanceFactor() : 0;
+        rotateRight(parentOf(currentNode));
+        if (greatGrandfather != null) {
+            byte nb = grandpa.getBalanceFactor();
+            incHeight = calculateIncHeight(ob, nb, (AvlSplayHeapNode<T>) currentNode);
+            greatGrandfather.incBalanceFactor(leftOf(greatGrandfather) == grandpa ? (byte) incHeight : (byte) -incHeight);
         }
-        return incHeight;
+        rotateLeft(parentOf(currentNode));
     }
 
-    @Override
-    protected void splayQuantum(BinTreeNodeInterface<T> theRoot, BinTreeNodeInterface<T> currentNode) {
+    protected void zigZagLiftRight(BinTreeNodeInterface<T> currentNode) {
         int incHeight;
-        if (currentNode == parentOf(currentNode).getLeft()) {
-            if (parentOf(parentOf(currentNode)) == theRoot) {
-                rotateRight(parentOf(currentNode));
-            } else if (parentOf(currentNode) == parentOf(parentOf(currentNode)).getLeft()) {
-                rotateRight(parentOf(parentOf(currentNode)));
-                rotateRight(parentOf(currentNode));
-            } else {
-                AvlSplayHeapNode<T> grandpa = (AvlSplayHeapNode<T>) parentOf(parentOf(currentNode));
-                AvlSplayHeapNode<T> greatGrandfather = (AvlSplayHeapNode<T>) parentOf(parentOf(parentOf(currentNode)));
-                byte ob = grandpa != null ? grandpa.getBalanceFactor() : 0;
-                rotateRight(parentOf(currentNode));
-                if (greatGrandfather != null) {
-                    byte nb = grandpa.getBalanceFactor();
-                    incHeight = calculateIncHeight(ob, nb, (AvlSplayHeapNode<T>) currentNode);
-                    greatGrandfather.incBalanceFactor(leftOf(greatGrandfather) == grandpa ? (byte) incHeight : (byte) -incHeight);
+        AvlSplayHeapNode<T> grandpa = (AvlSplayHeapNode<T>) parentOf(parentOf(currentNode));
+        AvlSplayHeapNode<T> greatGrandfather = (AvlSplayHeapNode<T>) parentOf(parentOf(parentOf(currentNode)));
+        byte ob = grandpa != null ? grandpa.getBalanceFactor() : 0;
+        rotateLeft(parentOf(currentNode));
+        if (greatGrandfather != null) {
+            byte nb = grandpa.getBalanceFactor();
+            incHeight = calculateIncHeight(ob, nb, currentNode);
+            greatGrandfather.incBalanceFactor(leftOf(greatGrandfather) == grandpa ? (byte) incHeight : (byte) -incHeight);
+        }
+        rotateRight(parentOf(currentNode));
+    }
+
+    protected boolean choiceLeftOrRight(BinTreeNodeInterface<T> left, BinTreeNodeInterface<T> right) {
+        AvlSplayHeapNode<T> parent = (AvlSplayHeapNode<T>) parentOf(left);
+        if (parent != null) {
+            byte bf = parent.getBalanceFactor();
+            switch (Integer.signum(bf)) {
+                case -1: {
+                    return false;
                 }
-                rotateLeft(parentOf(currentNode));
+                case 1: {
+                    return true;
+                }
+                default: {
+                    return super.choiceLeftOrRight(left, right);
+                }
             }
         } else {
-            if (parentOf(parentOf(currentNode)) == theRoot) {
-                rotateLeft(parentOf(currentNode));
-            } else if (parentOf(currentNode) == parentOf(parentOf(currentNode)).getRight()) {
-                rotateLeft(parentOf(parentOf(currentNode)));
-                rotateLeft(parentOf(currentNode));
-            } else {
-                AvlSplayHeapNode<T> grandpa = (AvlSplayHeapNode<T>) parentOf(parentOf(currentNode));
-                AvlSplayHeapNode<T> greatGrandfather = (AvlSplayHeapNode<T>) parentOf(parentOf(parentOf(currentNode)));
-                byte ob = grandpa != null ? grandpa.getBalanceFactor() : 0;
-                rotateLeft(parentOf(currentNode));
-                if (greatGrandfather != null) {
-                    byte nb = grandpa.getBalanceFactor();
-                    incHeight = calculateIncHeight(ob, nb, currentNode);
-                    greatGrandfather.incBalanceFactor(leftOf(greatGrandfather) == grandpa ? (byte) incHeight : (byte) -incHeight);
-                }
-                rotateRight(parentOf(currentNode));
-            }
+            return super.choiceLeftOrRight(left, right);
+        }
+    }
+
+    protected void onMergeSplay(BinTreeNodeInterface<T> extreme) {
+        AvlSplayHeapNode<T> cursor = (AvlSplayHeapNode<T>) extreme;
+        AvlSplayHeapNode<T> parent = (AvlSplayHeapNode<T>) parentOf(cursor);
+        if (parent.getRight() == cursor) {
+            cursor.setBalanceFactor(parent.getBalanceFactor());
+            cursor.incBalanceFactor();
+        } else {
+            cursor.setBalanceFactor(parent.getBalanceFactor());
+            cursor.decBalanceFactor();
         }
     }
 
@@ -272,6 +275,11 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
     public boolean checkTreeNode(BinTreeCheckPassEvent<T> thePassEvent, BinTreeIterator<T> btiLeft, BinTreeIterator<T> btiRight, BinTreeNodeInterface<T> currentNode, BinTreeNodeInterface<T> previousNode) {
         boolean result = super.checkTreeNode(thePassEvent, btiLeft, btiRight, currentNode, previousNode);
         return checkTreeNodeStatic(result, thePassEvent, btiLeft, btiRight, currentNode, previousNode);
+    }
+
+    public static enum EvictionStrategy {
+        SPLAY,
+        SIMPLE
     }
 
 }

@@ -84,7 +84,11 @@ public class BinTreeNodeBase<T extends Comparable<T>> implements BinTreeNodeInte
     }
 
     public String desc() {
-        return objectNode.toString();
+        if (objectNode != null) {
+            return objectNode.toString();
+        } else {
+            return "null";
+        }
     }
 
     public int compareTo(BinTreeNodeInterface<T> o) {

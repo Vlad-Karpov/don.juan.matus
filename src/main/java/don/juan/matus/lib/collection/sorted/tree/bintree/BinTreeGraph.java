@@ -25,7 +25,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
     private Long maxY = 500L;
 
     public BinTreeGraph() {
-       this(new BinTreeBase<T>());
+        this(new BinTreeBase<T>());
     }
 
     public BinTreeGraph(BinTreeBase<T> theTree) {
@@ -69,21 +69,26 @@ public class BinTreeGraph<T extends Comparable<T>> {
                 if (result > maxLevel) maxLevel = result;
                 return result;
             }
+
             public Long decLevel(BinTreeNodeInterface<T> theObject) {
                 return --level;
             }
+
             public Long incLeft(BinTreeNodeInterface<T> theObject) {
                 nodeOrder.append("1");
                 return Long.parseLong(nodeOrder.toString(), 2);
             }
+
             public Long decLeft(BinTreeNodeInterface<T> theObject) {
                 nodeOrder.setLength(nodeOrder.length() - 1);
                 return getaLong();
             }
+
             public Long incRight(BinTreeNodeInterface<T> theObject) {
                 nodeOrder.append("0");
                 return Long.parseLong(nodeOrder.toString(), 2);
             }
+
             public Long decRight(BinTreeNodeInterface<T> theObject) {
                 nodeOrder.setLength(nodeOrder.length() - 1);
                 return getaLong();
@@ -111,7 +116,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
                 }
                 DopInfo di = dopInfo.get(theObject);
                 di.w = theObject.desc().length() * 6 + 4;
-                di.width = Math.max(di.w, wl + wr)  + 20;
+                di.width = Math.max(di.w, wl + wr) + 20;
             }
 
             @Override
@@ -132,14 +137,14 @@ public class BinTreeGraph<T extends Comparable<T>> {
             private void paint(BinTreeNodeInterface<T> theObject) {
 
                 String outStr = tree.root.desc();
-                g.drawString(outStr, 2,  20);
+                g.drawString(outStr, 2, 20);
 
                 DopInfo di = dopInfo.get(theObject);
                 g.setColor(Color.gray);
                 int xx = 20;
                 int yy = 30 + di.level.intValue() * 30;
                 g.drawRect(xx, yy, 20, 20);
-                g.drawString(di.level.toString(), xx + 7,  yy + 15);
+                g.drawString(di.level.toString(), xx + 7, yy + 15);
 
                 int prevW = getPrevW(theObject);
                 xx = 45 + prevW + di.width / 2;
@@ -152,7 +157,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
                 } else {
                     g.setColor(Color.gray);
                 }
-                g.drawString(outStr, xx + 2,  yy + 15);
+                g.drawString(outStr, xx + 2, yy + 15);
                 g.setColor(Color.gray);
                 updateDopInfo(theObject, new DopInfo(xx, yy));
 
@@ -174,7 +179,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
             private int getPrevW(BinTreeNodeInterface<T> theObject) {
                 int result = 0;
                 BinTreeNodeInterface<T> current = theObject;
-                while(current.getParent() != null) {
+                while (current.getParent() != null) {
                     if (current.getParent().getRight() == current && current.getParent().getLeft() != null) {
                         DopInfo dip = dopInfo.get(current.getParent().getLeft());
                         result += dip.width;
@@ -202,6 +207,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
             public Long incLeft(BinTreeNodeInterface<T> theObject) {
                 return null;
             }
+
             public Long decLeft(BinTreeNodeInterface<T> theObject) {
                 return null;
             }
@@ -209,6 +215,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
             public Long incRight(BinTreeNodeInterface<T> theObject) {
                 return null;
             }
+
             public Long decRight(BinTreeNodeInterface<T> theObject) {
                 return null;
             }
@@ -237,7 +244,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Long newValue = Long.parseLong(jTextField.getText());
-                tree.add((T)newValue);
+                tree.add((T) newValue);
                 System.out.println("add " + newValue);
                 jTextField.setText("");
                 jTextField.requestFocusInWindow();
@@ -250,7 +257,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Long newValue = Long.parseLong(jTextField.getText());
-                tree.remove((T)newValue);
+                tree.remove((T) newValue);
                 System.out.println("del " + newValue);
                 jTextField.setText("");
                 jTextField.requestFocusInWindow();
@@ -262,30 +269,31 @@ public class BinTreeGraph<T extends Comparable<T>> {
         jButtonCheck.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tree.checkStructure(new BinTreeCheckPassEvent<T>() {
+                System.out.println("check " +
+                        tree.checkStructure(new BinTreeCheckPassEvent<T>() {
 
-                    private String errorMessage;
+                            private String errorMessage;
 
-                    @Override
-                    public void onPass(BinTreeIterator<T> leftIterator, BinTreeIterator<T> rightIterator, BinTreeNodeInterface<T> currentNode, BinTreeNodeInterface<T> previousNode) {
-                        System.out.println(errorMessage
-                                + "\r\n Current node: " + currentNode
-                                + "\r\n Previous node: " + previousNode
-                                + "\r\n Left iterator: " + leftIterator
-                                + "\r\n Right iterator: " + rightIterator);
-                    }
+                            @Override
+                            public void onPass(BinTreeIterator<T> leftIterator, BinTreeIterator<T> rightIterator, BinTreeNodeInterface<T> currentNode, BinTreeNodeInterface<T> previousNode) {
+                                System.out.println(errorMessage
+                                        + "\r\n Current node: " + currentNode
+                                        + "\r\n Previous node: " + previousNode
+                                        + "\r\n Left iterator: " + leftIterator
+                                        + "\r\n Right iterator: " + rightIterator);
+                            }
 
-                    @Override
-                    public void setErrorMessage(String errMsg) {
-                        errorMessage = errMsg;
-                    }
+                            @Override
+                            public void setErrorMessage(String errMsg) {
+                                errorMessage = errMsg;
+                            }
 
-                    @Override
-                    public String getErrorMessage() {
-                        return errorMessage;
-                    }
+                            @Override
+                            public String getErrorMessage() {
+                                return errorMessage;
+                            }
 
-                });
+                        }) + " nodes");
                 jTextField.requestFocusInWindow();
                 dopInfo.clear();
                 SwingUtilities.updateComponentTreeUI(frame);
@@ -321,7 +329,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Long newValue = Long.parseLong(jTextField.getText());
-                Boolean b = tree.seek((T)newValue, null);
+                Boolean b = tree.seek((T) newValue, null);
                 if (b) {
                     System.out.println("seek ok");
                 } else {
@@ -346,7 +354,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
                 }
                 Random r = new Random();
                 for (int i = 0; i < newValue; i++) {
-                    tree.add((T)(new Long(r.nextLong())));
+                    tree.add((T) (new Long(r.nextLong())));
                 }
                 jTextField.setText("");
                 jTextField.requestFocusInWindow();
@@ -487,7 +495,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
 
     private Long calcItemUpToLevelCount(Long theLevel) {
         Long result = 0L;
-        for(long i = 0L; i < theLevel; i++) {
+        for (long i = 0L; i < theLevel; i++) {
             result = result + (1 << i);
         }
         return result;

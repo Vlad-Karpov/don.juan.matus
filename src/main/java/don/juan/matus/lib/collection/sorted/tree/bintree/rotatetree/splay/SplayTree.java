@@ -1,6 +1,7 @@
 package don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.splay;
 
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeBase;
+import static don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface.*;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 
 import static don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface.parentOf;
@@ -28,8 +29,7 @@ public class SplayTree<T extends Comparable<T>> extends BinTreeBase<T> {
                 rotateRight(parentOf(parentOf(currentNode)));
                 rotateRight(parentOf(currentNode));
             } else {
-                rotateRight(parentOf(currentNode));
-                rotateLeft(parentOf(currentNode));
+                zigZagRightLift(currentNode);
             }
         } else {
             if (parentOf(parentOf(currentNode)) == theRoot) {
@@ -38,29 +38,50 @@ public class SplayTree<T extends Comparable<T>> extends BinTreeBase<T> {
                 rotateLeft(parentOf(parentOf(currentNode)));
                 rotateLeft(parentOf(currentNode));
             } else {
-                rotateLeft(parentOf(currentNode));
-                rotateRight(parentOf(currentNode));
+                zigZagLiftRight(currentNode);
             }
         }
     }
 
+    protected void zigZagRightLift(BinTreeNodeInterface<T> currentNode) {
+        rotateRight(parentOf(currentNode));
+        rotateLeft(parentOf(currentNode));
+    }
+    protected void zigZagLiftRight(BinTreeNodeInterface<T> currentNode) {
+        rotateLeft(parentOf(currentNode));
+        rotateRight(parentOf(currentNode));
+    }
+
     private BinTreeNodeInterface<T> mergeSplay(BinTreeNodeInterface<T> left, BinTreeNodeInterface<T> right) {
-        BinTreeNodeInterface<T> extreme = null;
+        BinTreeNodeInterface<T> extreme;
         if (left == null) return right;
         if (right == null) return left;
-        extreme = left;
-        while (extreme.getRight() != null)
-            extreme = extreme.getRight();
-        splay(parentOf(left), extreme);
-        extreme.setRight(right);
-        right.setParent(extreme);
-//        extreme = right;
-//        while (extreme.getLeft() != null)
-//            extreme = extreme.getLeft();
-//        splay(parentOf(right), extreme);
-//        extreme.setLeft(left);
-//        if (left != null) left.setParent(extreme);
+        if (choiceLeftOrRight(left, right)) {
+            extreme = left;
+            while (extreme.getRight() != null)
+                extreme = extreme.getRight();
+            splay(parentOf(left), extreme);
+            onMergeSplay(extreme);
+            extreme.setRight(right);
+            right.setParent(extreme);
+        } else {
+            extreme = right;
+            while (extreme.getLeft() != null)
+                extreme = extreme.getLeft();
+            splay(parentOf(right), extreme);
+            onMergeSplay(extreme);
+            extreme.setLeft(left);
+            left.setParent(extreme);
+        }
         return extreme;
+    }
+
+    protected boolean choiceLeftOrRight(BinTreeNodeInterface<T> left, BinTreeNodeInterface<T> right) {
+        return getRandomBoolean();
+    }
+
+    protected void onMergeSplay(BinTreeNodeInterface<T> extreme) {
+
     }
 
     private void splitSplay(MergeParts parts, BinTreeNodeInterface<T> node) {

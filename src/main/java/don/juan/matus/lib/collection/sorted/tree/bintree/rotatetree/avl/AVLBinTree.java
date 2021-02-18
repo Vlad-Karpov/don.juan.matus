@@ -84,7 +84,7 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
                     byte cb = cursor.getBalanceFactor();
                     super.rotateLeft(cursor.getLeft());
                     byte cbn = cursor.getBalanceFactor();
-                    int incH = abs(cbn) - abs(cb);
+                    int incH = calculateIncHeight(cb, cbn, cursor.getLeft());
                     parent.incBalanceFactor((byte) (leftOf(parent) == cursor ? incH : -incH));
                 }
                 if (cursor.getBalanceFactor() == threshold) {
@@ -96,7 +96,7 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
                     byte cb = cursor.getBalanceFactor();
                     super.rotateRight(cursor.getRight());
                     byte cbn = cursor.getBalanceFactor();
-                    int incH = abs(cbn) - abs(cb);
+                    int incH = calculateIncHeight(cb, cbn, cursor.getRight());
                     parent.incBalanceFactor((byte) (leftOf(parent) == cursor ? incH : -incH));
                 }
                 if (cursor.getBalanceFactor() == -threshold) {
@@ -104,7 +104,7 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
                 }
             }
             byte nb = parent.getBalanceFactor();
-            incHeight = calculateIncHeight(0, theSign, ob, nb);
+            incHeight = calculateIncHeight(ob, nb, cursor);
             if (theSign == 1 && parent.getBalanceFactor() == 0 && incHeight == 0) {
                 break;
             }
@@ -113,18 +113,36 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
         return cursor;
     }
 
-    public static <T extends Comparable<T>> int calculateIncHeight(int theIncHeight, int theSign, byte ob, byte nb) {
-        int incHeight = theIncHeight;
-        int delta = abs(nb) - abs(ob);
-        if (theSign == 1) {
-            //add
-            if (delta > 0) {
-                incHeight = delta;
-            }
-        } else {
-            //delete
-            if (delta < 0) {
-                incHeight = delta;
+    public static <T extends Comparable<T>> int calculateIncHeight(
+            final byte parentOldBalance,
+            final byte parentNewBalance,
+            final BinTreeNodeInterface<T> currentNode) {
+        int incHeight = 0;
+        if (parentNewBalance != parentOldBalance) {
+            if (leftOf(parentOf(currentNode)) == currentNode) {
+                if (parentOldBalance <= 0) {
+                    if (parentNewBalance >= 0) {
+                        incHeight = parentNewBalance;
+                    }
+                } else {
+                    if (parentNewBalance > 0) {
+                        incHeight = parentNewBalance - parentOldBalance;
+                    } else {
+                        incHeight = - parentOldBalance;
+                    }
+                }
+            } else {
+                if (parentOldBalance >= 0) {
+                    if (parentNewBalance <= 0) {
+                        incHeight = -parentNewBalance;
+                    }
+                } else {
+                    if (parentNewBalance < 0) {
+                        incHeight = - parentNewBalance + parentOldBalance;
+                    } else {
+                        incHeight = parentOldBalance;
+                    }
+                }
             }
         }
         return incHeight;
