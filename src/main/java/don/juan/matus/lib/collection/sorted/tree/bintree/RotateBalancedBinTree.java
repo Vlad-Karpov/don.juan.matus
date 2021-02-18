@@ -19,5 +19,7 @@ public interface RotateBalancedBinTree<T extends Comparable<T>> {
 
     BinTreeNodeInterface<T> rebalanceTree(BinTreeNodeInterface<T> currentNode);
 
+    void restructureAfterRebalance(BinTreeNodeInterface<T> currentNode);
+
     void rebalanceTree();
 }

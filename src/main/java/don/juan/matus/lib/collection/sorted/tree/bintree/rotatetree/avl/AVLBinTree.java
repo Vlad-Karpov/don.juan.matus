@@ -178,5 +178,25 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
         return result;
     }
 
+    public void restructureAfterRebalance(BinTreeNodeInterface<T> currentNode) {
+        restructureAfterRebalanceAVL(currentNode);
+    }
+
+    public static <T extends Comparable<T>> void restructureAfterRebalanceAVL(BinTreeNodeInterface<T> currentNode) {
+        passRestructure(currentNode);
+    }
+
+    private static <T extends Comparable<T>> int passRestructure(BinTreeNodeInterface<T> node) {
+        int hl = 0;
+        int hr = 0;
+        if (node.getLeft() != null) {
+            hl += passRestructure(node.getLeft());
+        }
+        if (node.getRight() != null) {
+            hr += passRestructure(node.getRight());
+        }
+        ((BinTreeNodeBalanceFactor<T>) node).setBalanceFactor((byte)(hl - hr));
+        return max(hl, hr) + 1;
+    }
 
 }
