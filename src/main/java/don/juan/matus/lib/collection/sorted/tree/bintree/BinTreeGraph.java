@@ -363,6 +363,26 @@ public class BinTreeGraph<T extends Comparable<T>> {
             }
         });
 
+        JButton jButtonAddSequence = new JButton("add seq");
+        jButtonAddSequence.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int newValue = 1;
+                try {
+                    newValue = Integer.parseInt(jTextField.getText());
+                } catch (Exception ex) {
+                    newValue = 1;
+                }
+                for (int i = 1; i <= newValue; i++) {
+                    tree.add((T) (new Long(i)));
+                }
+                jTextField.setText("");
+                jTextField.requestFocusInWindow();
+                dopInfo.clear();
+                SwingUtilities.updateComponentTreeUI(frame);
+            }
+        });
+
         JButton jButtonDelRnd = new JButton("del rnd");
         jButtonDelRnd.addActionListener(new ActionListener() {
             @Override
@@ -401,6 +421,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
         jMenuBar.add(jButtonBalance);
         jMenuBar.add(jButtonSeek);
         jMenuBar.add(jButtonAddRnd);
+        jMenuBar.add(jButtonAddSequence);
         jMenuBar.add(jButtonDelRnd);
         frame.setJMenuBar(jMenuBar);
         cp = frame.getContentPane();

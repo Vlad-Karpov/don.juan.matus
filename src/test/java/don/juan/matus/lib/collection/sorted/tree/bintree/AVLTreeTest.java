@@ -33,8 +33,8 @@ del 15
     public static final long CNT = 36L;
 
     public static void main(String[] args) {
-        AVLBinTree<Long> btLng = new AVLBinTree<>();
-        btLng.setThreshold((byte)5);
+        //AVLBinTree<Long> btLng = new AVLBinTree<>();
+        //btLng.setThreshold((byte)5);
         //RedBlackTree<Long> btLng = new RedBlackTree<>();
         //BinTreeW<Long> btLng = new BinTreeW<>();
         //RndBinTree<Long> btLng = new RndBinTree<>();
@@ -44,7 +44,7 @@ del 15
         //RandomRotateBinTree<Long> btLng = new RandomRotateBinTree<>();
         //SplayTree<Long> btLng = new SplayTree<>();
         //AATree<Long> btLng = new AATree<>();
-        //AvlSplayHeap<Long> btLng = new AvlSplayHeap<>(1000);
+        AvlSplayHeap<Long> btLng = new AvlSplayHeap<>(50);
         //BinTreeCheckPassEventTest check = new BinTreeCheckPassEventTest();
         //Long[] rnd = new Long[]{407L,3879L,958L,3899L,4262L,3295L,8258L,8214L,875L,4581L,9733L,164L,2942L,8446L,5083L,7494L,9901L,8354L,3326L,8427L,1407L,4104L,3489L,5555L};
         Long[] rnd = new Long[]{9205L,8378L,7395L,6283L,1970L,4425L,5537L,5573L,3508L,5060L,2979L,921L,8387L,5293L,8488L,3405L,4196L,5580L,8660L,1036L,1278L,4456L,4500L,4799L,3347L,3114L, 1L, 2L, 3L, 4L};
