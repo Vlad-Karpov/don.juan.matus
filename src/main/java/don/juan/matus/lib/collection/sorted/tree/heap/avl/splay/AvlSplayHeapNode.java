@@ -3,14 +3,9 @@ package don.juan.matus.lib.collection.sorted.tree.heap.avl.splay;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.BinTreeNodeBalanceFactor;
 
-import java.time.temporal.ChronoUnit;
-
-import static java.time.temporal.ChronoUnit.FOREVER;
-
 public class AvlSplayHeapNode<T extends Comparable<T>> extends BinTreeNodeBalanceFactor<T> {
 
     private long createTime = System.currentTimeMillis();
-    private ChronoUnit ttl = FOREVER;
 
     public AvlSplayHeapNode(T objectNode, BinTreeNodeBalanceFactor<T> left, BinTreeNodeBalanceFactor<T> parent, BinTreeNodeBalanceFactor<T> right) {
         super(objectNode, left, parent, right);
@@ -18,14 +13,6 @@ public class AvlSplayHeapNode<T extends Comparable<T>> extends BinTreeNodeBalanc
 
     public long getCreateTime() {
         return createTime;
-    }
-
-    public ChronoUnit getTtl() {
-        return ttl;
-    }
-
-    public void setTtl(ChronoUnit ttl) {
-        this.ttl = ttl;
     }
 
     @Override
