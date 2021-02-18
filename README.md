@@ -1,17 +1,26 @@
 # don.juan.matus
 don.juan.matus repository
 
-# package don.juan.matus.lib.tree.bintree
+# package don.juan.matus.lib.collection.sorted.tree.bintree
 
-Binary searche tree classes:
+Binary search tree classes:
 
-  - AVL (don.juan.matus.lib.tree.bintree.rotatetree.avl.AVLBinTree)
-  - Red Black tree (don.juan.matus.lib.tree.bintree.rotatetree.red_black.RedBlackTree)
-  - AA binary tree - in future
-  - Scapegoat (don.juan.matus.lib.tree.bintree.rotatetree.scapegoat.ScapegoatTree)
-  - Weight balanced tree (don.juan.matus.lib.tree.bintree.rotatetree.waight.BinTreeW)
-  - Randomizing tree (don.juan.matus.lib.tree.bintree.rotatetree.random.RndBinTree)
-  - Cartesian tree (don.juan.matus.lib.tree.bintree.mergeabletree.cartesian.CartesianBinTree)
-  - Splay tree
+  - BST (BinTreeBase)
+  - Weight balanced tree (BinTreeW)
+  - AVL (AVLBinTree)
+  - Red Black tree (RedBlackTree)
+  - AA binary tree - (AATree)
+  - Scapegoat (ScapegoatTree)
+  - RandomRotateBinTree (RandomRotateBinTree)
+  - Randomizing tree (RndBinTree)
+  - Cartesian tree (CartesianBinTree)
+  - RandomMergeBinTree (RandomMergeBinTree)
+  - Splay tree (SplayTree)
+  
+Other order collections:
+
+   - Skip list (SkipList)  
 
 and others...
+
+   - Heap based on AVL and Splay trees (AvlSplayHeap) 
