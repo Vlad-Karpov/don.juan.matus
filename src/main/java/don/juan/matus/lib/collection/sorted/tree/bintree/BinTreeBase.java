@@ -123,20 +123,14 @@ public class BinTreeBase<T extends Comparable<T>>
     //todo: to do this!
     @Override
     public Long checkStructure(BinTreeNodeInterface<T> theRoot) {
-        return null;
+        return checkStructure(new BinTreeDebugPassEvent(), root);
     }
 
-    //todo: to do this!
     @Override
     public Long checkStructure(BinTreeCheckPassEvent<T> thePassEvent, BinTreeNodeInterface<T> theRoot) {
-        return null;
-    }
-
-    @Override
-    public Long checkStructure(BinTreeCheckPassEvent<T> thePassEvent) {
         Long result = 0L;
         BinTreeNodeInterface<T> previosNode = null;
-        BinTreeIterator<T> bti = new BinTreeIterator<T>(this, root);
+        BinTreeIterator<T> bti = new BinTreeIterator<T>(this, theRoot);
         while (bti.hasNext()) {
             BinTreeIterator<T> btiLeft = null;
             BinTreeIterator<T> btiRight = null;
@@ -156,6 +150,11 @@ public class BinTreeBase<T extends Comparable<T>>
             bti.next();
         }
         return result;
+    }
+
+    @Override
+    public Long checkStructure(BinTreeCheckPassEvent<T> thePassEvent) {
+        return checkStructure(thePassEvent, root);
     }
 
     @Override
@@ -645,7 +644,11 @@ public class BinTreeBase<T extends Comparable<T>>
                 }
             }
         }
+        restructureAfterRebalance(theRoot);
         return theRoot;
+    }
+
+    public void restructureAfterRebalance(BinTreeNodeInterface<T> currentNode) {
     }
 
     public void rebalanceTree() {

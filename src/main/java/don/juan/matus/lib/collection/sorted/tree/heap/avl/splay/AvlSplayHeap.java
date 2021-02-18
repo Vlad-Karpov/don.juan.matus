@@ -3,6 +3,7 @@ package don.juan.matus.lib.collection.sorted.tree.heap.avl.splay;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeCheckPassEvent;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeIterator;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
+import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.BinTreeNodeBalanceFactor;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.splay.SplayTree;
 
@@ -275,6 +276,10 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
     public boolean checkTreeNode(BinTreeCheckPassEvent<T> thePassEvent, BinTreeIterator<T> btiLeft, BinTreeIterator<T> btiRight, BinTreeNodeInterface<T> currentNode, BinTreeNodeInterface<T> previousNode) {
         boolean result = super.checkTreeNode(thePassEvent, btiLeft, btiRight, currentNode, previousNode);
         return checkTreeNodeStatic(result, thePassEvent, btiLeft, btiRight, currentNode, previousNode);
+    }
+
+    public void restructureAfterRebalance(BinTreeNodeInterface<T> currentNode) {
+        AVLBinTree.restructureAfterRebalanceAVL(currentNode);
     }
 
     public static enum EvictionStrategy {
