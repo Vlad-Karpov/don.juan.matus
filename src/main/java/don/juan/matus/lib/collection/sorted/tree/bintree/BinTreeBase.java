@@ -160,7 +160,7 @@ public class BinTreeBase<T extends Comparable<T>>
     public boolean checkTreeNode(BinTreeCheckPassEvent<T> thePassEvent, BinTreeIterator<T> btiLeft, BinTreeIterator<T> btiRight, BinTreeNodeInterface<T> currentNode, BinTreeNodeInterface<T> previousNode) {
         boolean result = true;
         if (previousNode != null && currentNode != null && previousNode.getObjectNode() != null && currentNode.getObjectNode() != null) {
-            if (previousNode.compareTo(currentNode) > 0) {
+            if (previousNode.getObjectNode().compareTo(currentNode.getObjectNode()) > 0) {
                 thePassEvent.setErrorMessage("BinTreeBase: Tree structure invalid, previous value greeter then current!");
                 result = false;
             }
@@ -419,7 +419,7 @@ public class BinTreeBase<T extends Comparable<T>>
 
     @Override
     public boolean remove(Object theObject) {
-        return seekLoop((T)theObject, root, removeGeneralCall);
+        return seekLoop((T) theObject, root, removeGeneralCall);
     }
 
     @Override
@@ -475,6 +475,22 @@ public class BinTreeBase<T extends Comparable<T>>
     }
 
     @Override
+    public BinTreeNodeInterface<T> getFirst() {
+        BinTreeNodeInterface<T> result = null;
+        for (BinTreeNodeInterface<T> current = root.getLeft(); current != null; current = BinTreeInterface.leftOf(current))
+            result = current;
+        return result;
+    }
+
+    @Override
+    public BinTreeNodeInterface<T> getLast() {
+        BinTreeNodeInterface<T> result = null;
+        for (BinTreeNodeInterface<T> current = root.getLeft(); current != null; current = BinTreeInterface.rightOf(current))
+            result = current;
+        return result;
+    }
+
+    @Override
     public BinTreeNodeInterface<T> removeNode(
             Boolean theDescending,
             BinTreeNodeInterface<T> currentNode,
@@ -500,12 +516,12 @@ public class BinTreeBase<T extends Comparable<T>>
                             }
                         } while (true);
                         //replace next to target
+                        next = onReplaceNextToTarget(target, next);
                         if (result != null) {
                             if (next == result) {
                                 result = target;
                             }
                         }
-                        target.setObjectNode(next.getObjectNode());
                         //
                         if (next.getRight() == null) {
                             break;
@@ -520,7 +536,12 @@ public class BinTreeBase<T extends Comparable<T>>
         return result;
     }
 
-    private void removeFromLinkeList(BinTreeNodeInterface<T> current) {
+    protected BinTreeNodeInterface<T> onReplaceNextToTarget(BinTreeNodeInterface<T> target, BinTreeNodeInterface<T> next) {
+        target.setObjectNode(next.getObjectNode());
+        return next;
+    }
+
+    protected void removeFromLinkeList(BinTreeNodeInterface<T> current) {
         changeNode(current);
         BinTreeNodeInterface<T> leftNode = current.getLeft();
         BinTreeNodeInterface<T> parent = current.getParent();

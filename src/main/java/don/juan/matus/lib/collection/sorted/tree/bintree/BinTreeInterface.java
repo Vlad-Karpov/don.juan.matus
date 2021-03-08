@@ -130,4 +130,7 @@ public interface BinTreeInterface<T extends Comparable<T>> extends CollectionBas
 
     void splay(final BinTreeNodeInterface<T> theRoot, final BinTreeNodeInterface<T> currentNode);
 
+    BinTreeNodeInterface<T> getFirst();
+    BinTreeNodeInterface<T> getLast();
+
 }

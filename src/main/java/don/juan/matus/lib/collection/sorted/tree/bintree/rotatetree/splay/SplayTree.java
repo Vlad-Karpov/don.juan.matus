@@ -11,6 +11,16 @@ Splay tree
  */
 public class SplayTree<T extends Comparable<T>> extends BinTreeBase<T> {
 
+    private Boolean choiceLeftOrRightProp = true;
+
+    public Boolean getChoiceLeftOrRightProp() {
+        return choiceLeftOrRightProp;
+    }
+
+    public void setChoiceLeftOrRightProp(Boolean choiceLeftOrRightProp) {
+        this.choiceLeftOrRightProp = choiceLeftOrRightProp;
+    }
+
     @Override
     public void splay(final BinTreeNodeInterface<T> theRoot, final BinTreeNodeInterface<T> currentNode) {
         level = 0L;
@@ -77,7 +87,10 @@ public class SplayTree<T extends Comparable<T>> extends BinTreeBase<T> {
     }
 
     protected boolean choiceLeftOrRight(BinTreeNodeInterface<T> left, BinTreeNodeInterface<T> right) {
-        return getRandomBoolean();
+        if (choiceLeftOrRightProp == null) {
+            return getRandomBoolean();
+        }
+        return choiceLeftOrRightProp;
     }
 
     protected void onMergeSplay(BinTreeNodeInterface<T> extreme) {
