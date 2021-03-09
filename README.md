@@ -23,4 +23,5 @@ Other order collections:
 
 and others...
 
-   - Heap based on AVL and Splay trees (AvlSplayHeap) 
+   - Heap based on AVL and Splay trees (AvlSplayHeap)
+   - Heap based on AVL tree and index by creation node time as AVL tree also (while...)

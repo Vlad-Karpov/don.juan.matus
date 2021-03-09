@@ -8,7 +8,6 @@ import don.juan.matus.lib.collection.sorted.tree.heap.HeapNode;
 public class AvlHeap<T extends Comparable<T>> extends AVLBinTree<T> {
 
     private int maxHeapSize;
-    //todo: replace to linked list
     private final AVLBinTree<BinTreeNodeInterface<T>> indexTree;
 
     public AvlHeap(int maxHeapSize) {
@@ -144,6 +143,5 @@ public class AvlHeap<T extends Comparable<T>> extends AVLBinTree<T> {
         });
         return super.checkStructure(thePassEvent);
     }
-
 
 }
