@@ -1,7 +1,7 @@
 package don.juan.matus.lib.collection.sorted.tree.btree.btree;
 
 import don.juan.matus.lib.collection.sorted.tree.btree.base.BTreeBase;
-import don.juan.matus.lib.collection.sorted.tree.btree.base.BTreeKeyValuePairInterface;
+import don.juan.matus.lib.collection.KeyValuePairInterface;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.BTreeNodeInterface;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.page.storage.BTreePageIdBase;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.page.storage.BTreePageStorageInterface;
@@ -22,7 +22,7 @@ public class BTree<K extends Comparable<K> & Serializable,
             short pageSize,
             Class<K> keyClass,
             Class<V> valueClass,
-            BTreePageStorageInterface<K, V, BTreeKeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase> pageStorage)
+            BTreePageStorageInterface<K, V, KeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase> pageStorage)
             throws IllegalAccessException, InstantiationException {
         super(pageSize, keyClass, valueClass, BTreePageIdBase.class, pageStorage);
     }
@@ -33,15 +33,15 @@ public class BTree<K extends Comparable<K> & Serializable,
     }
 
     @Override
-    public boolean add(BTreeKeyValuePairInterface<K, V> keyValuePair) {
+    public boolean add(KeyValuePairInterface<K, V> keyValuePair) {
         addInternal(keyValuePair, root);
         return true;
     }
 
     private void addInternal(
-            BTreeKeyValuePairInterface<K, V> keyValuePair,
+            KeyValuePairInterface<K, V> keyValuePair,
             BTreePageIdBase pageId) {
-        BTreeNodeInterface<K, V, BTreeKeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase> page = getPageById(pageId);
+        BTreeNodeInterface<K, V, KeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase> page = getPageById(pageId);
         if (page.getSize() < getPageSize()) {
             short s = 0;
             while (s < page.getSize()) {
@@ -60,8 +60,8 @@ public class BTree<K extends Comparable<K> & Serializable,
         }
     }
 
-    private BTreeNodeInterface<K, V, BTreeKeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase> getPageById(BTreePageIdBase pid) {
-        BTreeNodeInterface<K, V, BTreeKeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase> page = pageStorage.getPage(pid);
+    private BTreeNodeInterface<K, V, KeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase> getPageById(BTreePageIdBase pid) {
+        BTreeNodeInterface<K, V, KeyValuePairInterface<K, V>, CharacterArray, BTreePageIdBase> page = pageStorage.getPage(pid);
         if (page == null) {
             page = new BTreeNodeLeaf<>(this);
             pageStorage.putPage(pid, page);

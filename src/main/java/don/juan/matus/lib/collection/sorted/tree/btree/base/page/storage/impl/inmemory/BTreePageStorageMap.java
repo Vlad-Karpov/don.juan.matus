@@ -1,6 +1,6 @@
 package don.juan.matus.lib.collection.sorted.tree.btree.base.page.storage.impl.inmemory;
 
-import don.juan.matus.lib.collection.sorted.tree.btree.base.BTreeKeyValuePairInterface;
+import don.juan.matus.lib.collection.KeyValuePairInterface;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.BTreeNodeInterface;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.page.storage.BTreePageIdInterface;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.page.storage.BTreePageStorageInterface;
@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BTreePageStorageMap<
         K extends Comparable<K> & Serializable,
         V extends Serializable,
-        P extends BTreeKeyValuePairInterface<K, V>,
+        P extends KeyValuePairInterface<K, V>,
         PK extends Comparable<PK> & Serializable,
         PI extends BTreePageIdInterface<PK>> implements BTreePageStorageInterface<K, V, P, PK, PI> {
 

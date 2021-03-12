@@ -1,5 +1,6 @@
 package don.juan.matus.lib.collection.sorted.tree.btree.base;
 
+import don.juan.matus.lib.collection.KeyValuePairInterface;
 import don.juan.matus.lib.collection.sorted.tree.TreeBase;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.page.storage.BTreePageIdInterface;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.page.storage.BTreePageStorageInterface;
@@ -13,9 +14,9 @@ public class BTreeBase<
         V extends Serializable,
         PK extends Comparable<PK> & Serializable,
         PI extends BTreePageIdInterface<PK>>
-        extends TreeBase<BTreeKeyValuePairInterface<K, V>> implements BTreeInterface<K, V, PK, PI> {
+        extends TreeBase<KeyValuePairInterface<K, V>> implements BTreeInterface<K, V, PK, PI> {
 
-    protected BTreePageStorageInterface<K, V, BTreeKeyValuePairInterface<K, V>, PK, PI> pageStorage;
+    protected BTreePageStorageInterface<K, V, KeyValuePairInterface<K, V>, PK, PI> pageStorage;
     protected PI root;
     protected Long maxLevel;
     protected Long level;
@@ -47,7 +48,7 @@ public class BTreeBase<
             Class<K> keyClass,
             Class<V> valueClass,
             Class<PI> pageIdClass,
-            BTreePageStorageInterface<K, V, BTreeKeyValuePairInterface<K, V>, PK, PI> pageStorage)
+            BTreePageStorageInterface<K, V, KeyValuePairInterface<K, V>, PK, PI> pageStorage)
             throws InstantiationException, IllegalAccessException {
         this(pageSize, keyClass, valueClass, pageIdClass);
         this.pageStorage = pageStorage;
@@ -79,7 +80,7 @@ public class BTreeBase<
     }
 
     @Override
-    public boolean add(BTreeKeyValuePairInterface<K, V> kvbTreeKeyValuePairInterface) {
+    public boolean add(KeyValuePairInterface<K, V> kvbTreeKeyValuePairInterface) {
         return false;
     }
 

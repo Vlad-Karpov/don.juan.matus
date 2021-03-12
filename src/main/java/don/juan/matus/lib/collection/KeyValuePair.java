@@ -1,20 +1,20 @@
-package don.juan.matus.lib.collection.sorted.tree.btree.base;
+package don.juan.matus.lib.collection;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 
-public class BTreeKeyValuePair<
+public class KeyValuePair<
         K extends Comparable<K> & Serializable,
         V extends Serializable>
-        implements BTreeKeyValuePairInterface<K, V>
-        , Comparable<BTreeKeyValuePairInterface<K, V>>
+        implements KeyValuePairInterface<K, V>
+        , Comparable<KeyValuePairInterface<K, V>>
         , Serializable {
 
     private K key;
     private V value;
 
-    public BTreeKeyValuePair(K key, V value) {
+    public KeyValuePair(K key, V value) {
         this.key = key;
         this.value = value;
     }
@@ -40,7 +40,7 @@ public class BTreeKeyValuePair<
     }
 
     @Override
-    public int compareTo(@NotNull BTreeKeyValuePairInterface<K, V> o) {
+    public int compareTo(@NotNull KeyValuePairInterface<K, V> o) {
         return key.compareTo(o.getKey());
     }
 }

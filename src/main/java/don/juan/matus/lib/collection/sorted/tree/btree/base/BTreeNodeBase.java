@@ -1,5 +1,6 @@
 package don.juan.matus.lib.collection.sorted.tree.btree.base;
 
+import don.juan.matus.lib.collection.KeyValuePairInterface;
 import don.juan.matus.lib.collection.sorted.tree.btree.base.page.storage.BTreePageIdInterface;
 
 import java.io.Serializable;
@@ -8,7 +9,7 @@ import java.lang.reflect.Array;
 public class BTreeNodeBase<
         K extends Comparable<K> & Serializable,
         V extends Serializable,
-        P extends BTreeKeyValuePairInterface<K, V>,
+        P extends KeyValuePairInterface<K, V>,
         PK extends Comparable<PK> & Serializable,
         PI extends BTreePageIdInterface<PK>>
         implements BTreeNodeInterface<K, V, P, PK, PI> {

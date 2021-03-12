@@ -1,12 +1,12 @@
-package don.juan.matus.lib.collection.sorted.tree.btree.base;
+package don.juan.matus.lib.collection;
 
 import java.io.Serializable;
 
-public interface BTreeKeyValuePairInterface<
+public interface KeyValuePairInterface<
         K extends Comparable<K> & Serializable,
         V extends Serializable>
         extends
-        Comparable<BTreeKeyValuePairInterface<K, V>>
+        Comparable<KeyValuePairInterface<K, V>>
         , Serializable {
 
     K getKey();
