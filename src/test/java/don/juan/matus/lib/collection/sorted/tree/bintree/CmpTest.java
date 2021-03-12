@@ -20,6 +20,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -60,22 +62,23 @@ public class CmpTest extends TestCase {
         return result;
     }
 
-    public static void createRandomDataFile() throws IOException {
-        TreeMapTst<Long, Long> tmRndLng = new TreeMapTst<Long, Long>();
-        List<Long> rList = new ArrayList<Long>();
-        Long rnd;
-        while (tmRndLng.size() < maxRandomDataFile) {
-            rnd = Math.round(Math.random() * maxRandomDataFile);
-            if (tmRndLng.put(rnd, rnd) == null) rList.add(rnd);
-        }
-        tmRndLng = null;
-        System.gc();
-        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("src/test/resources/RandomDataFile.dat"));
-        os.writeObject(rList);
-        os.flush();
-        os.close();
-        System.gc();
-    }
+//    public static void createRandomDataFile() throws IOException {
+//        TreeMapTst<Long, Long> tmRndLng = new TreeMapTst<Long, Long>();
+//        List<Long> rList = new ArrayList<Long>();
+//        Long rnd;
+//        while (tmRndLng.size() < maxRandomDataFile) {
+//            rnd = Math.round(Math.random() * maxRandomDataFile);
+//            if (tmRndLng.put(rnd, rnd) == null) rList.add(rnd);
+//        }
+//        tmRndLng = null;
+//        System.gc();
+//        Files.createFile(Paths.get("src/test/resources/RandomDataFile.dat"));
+//        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("src/test/resources/RandomDataFile.dat"));
+//        os.writeObject(rList);
+//        os.flush();
+//        os.close();
+//        System.gc();
+//    }
 
     public void testBinTreeTreeMapTst() throws InterruptedException {
         addSeekRemove(rList, new TreeMapTst<>());

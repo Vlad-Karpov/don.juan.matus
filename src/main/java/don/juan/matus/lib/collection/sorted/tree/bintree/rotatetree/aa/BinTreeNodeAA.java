@@ -1,5 +1,6 @@
 package don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.aa;
 
+import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeBase;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 
@@ -7,18 +8,20 @@ public class BinTreeNodeAA<T extends Comparable<T>> extends BinTreeNodeBase<T> {
 
     short level;
 
-    public BinTreeNodeAA(T objectNode, BinTreeNodeBase<T> left, BinTreeNodeBase<T> parent, BinTreeNodeBase<T> right) {
-        super(objectNode, left, parent, right);
+    public BinTreeNodeAA(BinTreeInterface<T> owner, T objectNode, BinTreeNodeBase<T> left, BinTreeNodeBase<T> parent, BinTreeNodeBase<T> right) {
+        super(owner, objectNode, left, parent, right);
         level = 1;
     }
 
     @Override
     public BinTreeNodeInterface<T> createNode(
+            BinTreeInterface<T> owner,
             T theObject,
             BinTreeNodeInterface<T> theLeft,
             BinTreeNodeInterface<T> theParent,
             BinTreeNodeInterface<T> theRight) {
         return new BinTreeNodeAA(
+                owner,
                 theObject,
                 (BinTreeNodeAA<T>) theLeft,
                 (BinTreeNodeAA<T>) theParent,

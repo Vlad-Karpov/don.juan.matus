@@ -6,15 +6,13 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.BinTreeNodeBalanceFactor;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.splay.SplayTree;
-import don.juan.matus.lib.collection.sorted.tree.heap.HeapNode;
+import don.juan.matus.lib.collection.sorted.tree.heap.HeapInterface;
+import don.juan.matus.lib.collection.sorted.tree.heap.LightHeapNode;
 
 import static don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface.*;
-import static don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree.calculateIncHeight;
-import static don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree.checkTreeNodeStatic;
-import static don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree.fixBalanceAfterRotateLeft;
-import static don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree.fixBalanceAfterRotateRight;
+import static don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree.*;
 
-public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
+public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> implements HeapInterface<T> {
 
     private int maxHeapSize;
     private EvictionStrategy evictionStrategy = EvictionStrategy.SPLAY;
@@ -25,7 +23,7 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
             throw new RuntimeException("AvlSplayHeap: maxHeapSize must be greater then zero!");
         }
         this.maxHeapSize = maxHeapSize;
-        root = new HeapNode<T>(null, null, null, null);
+        root = new LightHeapNode<T>(this, null, null, null, null);
     }
 
     public int getMaxHeapSize() {
@@ -57,7 +55,7 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
     @Override
     protected BinTreeNodeInterface<T> beforeAddLoop(final BinTreeNodeInterface<T> currentNode) {
         if (size == maxHeapSize) {
-            HeapNode<T> evictNode = findLastUsed();
+            LightHeapNode<T> evictNode = findLastUsed();
             switch (evictionStrategy) {
                 case SIMPLE: {
                     evict(evictNode);
@@ -65,7 +63,7 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
                 }
                 case SPLAY:
                 default: {
-                    removeNode(false, evictNode, evictNode);
+                    removeNode(false, evictNode, evictNode, null);
                     break;
                 }
             }
@@ -81,7 +79,7 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
     @Override
     protected BinTreeNodeInterface<T> postAddLoop(final BinTreeNodeInterface<T> currentNode) {
         int incHeight = 1;
-        HeapNode<T> parent = (HeapNode<T>) parentOf(currentNode);
+        LightHeapNode<T> parent = (LightHeapNode<T>) parentOf(currentNode);
         if (parent != null) {
             byte ob = parent.getBalanceFactor();
             byte nb = parent.incBalanceFactor(leftOf(parent) == currentNode ? (byte) incHeight : (byte) -incHeight);
@@ -100,11 +98,11 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
         level = 0L;
         byte ob;
         byte nb;
-        HeapNode<T> cursor = (HeapNode<T>) currentNode;
+        LightHeapNode<T> cursor = (LightHeapNode<T>) currentNode;
         while (parentOf(cursor) != theRoot && cursor != theRoot) {
-            HeapNode<T> parent = (HeapNode<T>) parentOf(cursor);
-            HeapNode<T> grandpa = (HeapNode<T>) parentOf(parent);
-            HeapNode<T> greatGrandfather = (HeapNode<T>) parentOf(grandpa);
+            LightHeapNode<T> parent = (LightHeapNode<T>) parentOf(cursor);
+            LightHeapNode<T> grandpa = (LightHeapNode<T>) parentOf(parent);
+            LightHeapNode<T> greatGrandfather = (LightHeapNode<T>) parentOf(grandpa);
             if (grandpa != null) {
                 ob = grandpa.getBalanceFactor();
                 nb = grandpa.incBalanceFactor(leftOf(grandpa) == parent ? (byte) incHeight : (byte) -incHeight);
@@ -132,13 +130,13 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
 
     protected void zigZagRightLift(BinTreeNodeInterface<T> currentNode) {
         int incHeight;
-        HeapNode<T> grandpa = (HeapNode<T>) parentOf(parentOf(currentNode));
-        HeapNode<T> greatGrandfather = (HeapNode<T>) parentOf(parentOf(parentOf(currentNode)));
+        LightHeapNode<T> grandpa = (LightHeapNode<T>) parentOf(parentOf(currentNode));
+        LightHeapNode<T> greatGrandfather = (LightHeapNode<T>) parentOf(parentOf(parentOf(currentNode)));
         byte ob = grandpa != null ? grandpa.getBalanceFactor() : 0;
         rotateRight(parentOf(currentNode));
         if (greatGrandfather != null) {
             byte nb = grandpa.getBalanceFactor();
-            incHeight = calculateIncHeight(ob, nb, (HeapNode<T>) currentNode);
+            incHeight = calculateIncHeight(ob, nb, (LightHeapNode<T>) currentNode);
             greatGrandfather.incBalanceFactor(leftOf(greatGrandfather) == grandpa ? (byte) incHeight : (byte) -incHeight);
         }
         rotateLeft(parentOf(currentNode));
@@ -146,8 +144,8 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
 
     protected void zigZagLiftRight(BinTreeNodeInterface<T> currentNode) {
         int incHeight;
-        HeapNode<T> grandpa = (HeapNode<T>) parentOf(parentOf(currentNode));
-        HeapNode<T> greatGrandfather = (HeapNode<T>) parentOf(parentOf(parentOf(currentNode)));
+        LightHeapNode<T> grandpa = (LightHeapNode<T>) parentOf(parentOf(currentNode));
+        LightHeapNode<T> greatGrandfather = (LightHeapNode<T>) parentOf(parentOf(parentOf(currentNode)));
         byte ob = grandpa != null ? grandpa.getBalanceFactor() : 0;
         rotateLeft(parentOf(currentNode));
         if (greatGrandfather != null) {
@@ -159,7 +157,7 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
     }
 
     protected boolean choiceLeftOrRight(BinTreeNodeInterface<T> left, BinTreeNodeInterface<T> right) {
-        HeapNode<T> parent = (HeapNode<T>) parentOf(left);
+        LightHeapNode<T> parent = (LightHeapNode<T>) parentOf(left);
         if (parent != null) {
             byte bf = parent.getBalanceFactor();
             switch (Integer.signum(bf)) {
@@ -179,8 +177,8 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
     }
 
     protected void onMergeSplay(BinTreeNodeInterface<T> extreme) {
-        HeapNode<T> cursor = (HeapNode<T>) extreme;
-        HeapNode<T> parent = (HeapNode<T>) parentOf(cursor);
+        LightHeapNode<T> cursor = (LightHeapNode<T>) extreme;
+        LightHeapNode<T> parent = (LightHeapNode<T>) parentOf(cursor);
         if (parent.getRight() == cursor) {
             cursor.setBalanceFactor(parent.getBalanceFactor());
             cursor.incBalanceFactor();
@@ -190,7 +188,7 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
         }
     }
 
-    public void evict(final HeapNode<T> theCurrentNode) {
+    public void evict(final LightHeapNode<T> theCurrentNode) {
         if (theCurrentNode != null) {
             int incHeight = -1;
             BinTreeNodeBalanceFactor<T> parent = (BinTreeNodeBalanceFactor<T>) parentOf(theCurrentNode);
@@ -212,21 +210,21 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
         }
     }
 
-    public HeapNode<T> findLastUsed() {
-        HeapNode<T> result = null;
-        HeapNode<T> current = (HeapNode<T>) root;
+    public LightHeapNode<T> findLastUsed() {
+        LightHeapNode<T> result = null;
+        LightHeapNode<T> current = (LightHeapNode<T>) root;
         if (current != null) {
             do {
                 if (current.getObjectNode() == null) {
                     if (current.getLeft() != null) {
-                        current = (HeapNode<T>) current.getLeft();
+                        current = (LightHeapNode<T>) current.getLeft();
                     } else {
                         break;
                     }
                 } else {
                     if (current.getBalanceFactor() > 0) {
                         if (current.getLeft() != null) {
-                            current = (HeapNode<T>) current.getLeft();
+                            current = (LightHeapNode<T>) current.getLeft();
                         } else {
                             if (current.getRight() != null) {
                                 throw new RuntimeException("AvlSplayHeap: invalid structure!");
@@ -236,7 +234,7 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
                         }
                     } else if (current.getBalanceFactor() < 0) {
                         if (current.getRight() != null) {
-                            current = (HeapNode<T>) current.getRight();
+                            current = (LightHeapNode<T>) current.getRight();
                         } else {
                             if (current.getLeft() != null) {
                                 throw new RuntimeException("AvlSplayHeap: invalid structure!");
@@ -247,7 +245,7 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
                     } else {
                         if (getRandomBoolean()) {
                             if (current.getLeft() != null) {
-                                current = (HeapNode<T>) current.getLeft();
+                                current = (LightHeapNode<T>) current.getLeft();
                             } else {
                                 if (current.getRight() != null) {
                                     throw new RuntimeException("AvlSplayHeap: invalid structure!");
@@ -257,7 +255,7 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
                             }
                         } else {
                             if (current.getRight() != null) {
-                                current = (HeapNode<T>) current.getRight();
+                                current = (LightHeapNode<T>) current.getRight();
                             } else {
                                 if (current.getLeft() != null) {
                                     throw new RuntimeException("AvlSplayHeap: invalid structure!");
@@ -281,6 +279,11 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> {
 
     public void restructureAfterRebalance(BinTreeNodeInterface<T> currentNode) {
         AVLBinTree.restructureAfterRebalanceAVL(currentNode);
+    }
+
+    @Override
+    public int getNextId() {
+        return 0;
     }
 
     public static enum EvictionStrategy {

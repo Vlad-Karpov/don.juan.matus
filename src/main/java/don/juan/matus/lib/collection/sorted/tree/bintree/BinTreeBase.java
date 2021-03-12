@@ -22,7 +22,7 @@ public class BinTreeBase<T extends Comparable<T>>
     protected Long level;
     protected Long rotateCount;
     private GeneralCall<T> removeGeneralCall = (theResult, theCmp, resultNode, generalObject) -> {
-        if (theResult) removeNode(false, resultNode, null);
+        if (theResult) removeNode(false, resultNode, null, null);
     };
     protected MergeStrategy<T> mergeStrategy = (left, right) -> false;
     protected MergeableBinTree.MergeParts parts;
@@ -30,7 +30,7 @@ public class BinTreeBase<T extends Comparable<T>>
 
     public BinTreeBase() {
         super();
-        root = new BinTreeNodeBase<T>(null, null, null, null);
+        root = new BinTreeNodeBase<T>(this, null, null, null, null);
         maxLevel = 0L;
         level = 0L;
         size = 0L;
@@ -378,7 +378,7 @@ public class BinTreeBase<T extends Comparable<T>>
                 if (current.getLeft() != null) {
                     current = current.getLeft();
                 } else {
-                    current.setLeft(current.createNode(theObject, null, current, null));
+                    current.setLeft(current.createNode(this, theObject, null, current, null));
                     current = current.getLeft();
                     break;
                 }
@@ -390,7 +390,7 @@ public class BinTreeBase<T extends Comparable<T>>
                     if (current.getLeft() != null) {
                         current = current.getLeft();
                     } else {
-                        current.setLeft(current.createNode(theObject, null, current, null));
+                        current.setLeft(current.createNode(this, theObject, null, current, null));
                         current = current.getLeft();
                         break;
                     }
@@ -399,7 +399,7 @@ public class BinTreeBase<T extends Comparable<T>>
                     if (current.getRight() != null) {
                         current = current.getRight();
                     } else {
-                        current.setRight(current.createNode(theObject, null, current, null));
+                        current.setRight(current.createNode(this, theObject, null, current, null));
                         current = current.getRight();
                         break;
                     }
@@ -494,7 +494,8 @@ public class BinTreeBase<T extends Comparable<T>>
     public BinTreeNodeInterface<T> removeNode(
             Boolean theDescending,
             BinTreeNodeInterface<T> currentNode,
-            BinTreeNodeInterface<T> nextNode) {
+            BinTreeNodeInterface<T> nextNode,
+            BinTreeNodeInterface<BinTreeNodeInterface<T>> evictNodeIndex) {
         BinTreeNodeInterface<T> next;
         BinTreeNodeInterface<T> target;
         BinTreeNodeInterface<T> result = nextNode;

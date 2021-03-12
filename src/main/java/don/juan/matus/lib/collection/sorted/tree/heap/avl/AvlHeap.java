@@ -3,12 +3,14 @@ package don.juan.matus.lib.collection.sorted.tree.heap.avl;
 import don.juan.matus.lib.collection.sorted.tree.bintree.*;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.BinTreeNodeBalanceFactor;
+import don.juan.matus.lib.collection.sorted.tree.heap.HeapInterface;
 import don.juan.matus.lib.collection.sorted.tree.heap.HeapNode;
 
-public class AvlHeap<T extends Comparable<T>> extends AVLBinTree<T> {
+public class AvlHeap<T extends Comparable<T>> extends AVLBinTree<T> implements HeapInterface<T> {
 
     private int maxHeapSize;
     private final AVLBinTree<BinTreeNodeInterface<T>> indexTree;
+    private int heapNodeId = 0;
 
     public AvlHeap(int maxHeapSize) {
         super();
@@ -16,7 +18,7 @@ public class AvlHeap<T extends Comparable<T>> extends AVLBinTree<T> {
             throw new RuntimeException("AvlHeap: maxHeapSize must be greater then zero!");
         }
         this.maxHeapSize = maxHeapSize;
-        root = new HeapNode<>(null, null, null, null);
+        root = new HeapNode<>(this, null, null, null, null);
         indexTree = new AVLBinTree<>();
     }
 
@@ -33,8 +35,7 @@ public class AvlHeap<T extends Comparable<T>> extends AVLBinTree<T> {
         if (size == maxHeapSize) {
             BinTreeNodeInterface<BinTreeNodeInterface<T>> evictNodeIndex = indexTree.getFirst();
             BinTreeNodeInterface<T> evictNode = evictNodeIndex.getObjectNode();
-            indexTree.removeNode(false, evictNodeIndex, evictNodeIndex);
-            removeNode(false, evictNode, evictNode);
+            removeNode(false, evictNode, evictNode, evictNodeIndex);
         }
         return currentNode;
     }
@@ -43,9 +44,13 @@ public class AvlHeap<T extends Comparable<T>> extends AVLBinTree<T> {
     public BinTreeNodeInterface<T> removeNode(
             Boolean theDescending,
             BinTreeNodeInterface<T> currentNode,
-            BinTreeNodeInterface<T> nextNode) {
-        //todo: remove item from index
-        return super.removeNode(theDescending, currentNode, nextNode);
+            BinTreeNodeInterface<T> nextNode, BinTreeNodeInterface<BinTreeNodeInterface<T>> evictNodeIndex) {
+        if (evictNodeIndex != null) {
+            indexTree.removeNode(false, evictNodeIndex, evictNodeIndex, null);
+        } else {
+            indexTree.remove(currentNode);
+        }
+        return super.removeNode(theDescending, currentNode, nextNode, evictNodeIndex);
     }
 
         @Override
@@ -128,7 +133,7 @@ public class AvlHeap<T extends Comparable<T>> extends AVLBinTree<T> {
 
             @Override
             public void onPass(BinTreeIterator<BinTreeNodeInterface<T>> leftIterator, BinTreeIterator<BinTreeNodeInterface<T>> rightIterator, BinTreeNodeInterface<BinTreeNodeInterface<T>> currentNode, BinTreeNodeInterface<BinTreeNodeInterface<T>> previousNode) {
-                thePassEvent.onPass(null, null, new BinTreeNodeBase(currentNode.getObjectNode().getObjectNode(), null, null, null), new BinTreeNodeBase(previousNode.getObjectNode().getObjectNode(), null, null, null));
+                thePassEvent.onPass(null, null, new BinTreeNodeBase(null, currentNode.getObjectNode().getObjectNode(), null, null, null), new BinTreeNodeBase(null, previousNode.getObjectNode().getObjectNode(), null, null, null));
             }
 
             @Override
@@ -142,6 +147,11 @@ public class AvlHeap<T extends Comparable<T>> extends AVLBinTree<T> {
             }
         });
         return super.checkStructure(thePassEvent);
+    }
+
+    @Override
+    public int getNextId() {
+        return ++heapNodeId;
     }
 
 }

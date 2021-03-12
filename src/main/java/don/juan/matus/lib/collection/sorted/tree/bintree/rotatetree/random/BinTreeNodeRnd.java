@@ -1,5 +1,6 @@
 package don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.random;
 
+import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.waight.BinTreeNodeWeight;
 
@@ -8,17 +9,24 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.waight.BinTr
  */
 public class BinTreeNodeRnd<T extends Comparable<T>> extends BinTreeNodeWeight<T> {
 
-    public BinTreeNodeRnd(T objectNode, BinTreeNodeRnd<T> left, BinTreeNodeRnd<T> parent, BinTreeNodeRnd<T> right) {
-        super(objectNode, left, parent, right);
+    public BinTreeNodeRnd(
+            BinTreeInterface<T> owner,
+            T objectNode,
+            BinTreeNodeRnd<T> left,
+            BinTreeNodeRnd<T> parent,
+            BinTreeNodeRnd<T> right) {
+        super(owner, objectNode, left, parent, right);
     }
 
     @Override
     public BinTreeNodeInterface<T> createNode(
+            BinTreeInterface<T> owner,
             T theObject,
             BinTreeNodeInterface<T> theLeft,
             BinTreeNodeInterface<T> theParent,
             BinTreeNodeInterface<T> theRight) {
         return new BinTreeNodeRnd(
+                owner,
                 theObject,
                 (BinTreeNodeRnd<T>)theLeft,
                 (BinTreeNodeRnd<T>)theParent,

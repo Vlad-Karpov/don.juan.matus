@@ -11,7 +11,7 @@ public class RedBlackTree<T extends Comparable<T>> extends BinTreeBase<T> {
 
     public RedBlackTree() {
         super();
-        root = new BinTreeNodeRedBlack<T>(null, null, null, null);
+        root = new BinTreeNodeRedBlack<T>(this, null, null, null, null);
     }
 
     @Override

@@ -11,7 +11,7 @@ public class BinTreeW<T extends Comparable<T>> extends BinTreeBase<T> {
 
     public BinTreeW() {
         super();
-        root = new BinTreeNodeWeight<T>(null, null, null, null);
+        root = new BinTreeNodeWeight<T>(this, null, null, null, null);
     }
 
     public double getAlpha() {

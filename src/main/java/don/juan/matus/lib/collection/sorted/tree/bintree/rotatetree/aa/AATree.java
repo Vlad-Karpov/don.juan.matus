@@ -11,7 +11,7 @@ public class AATree<T extends Comparable<T>> extends BinTreeBase<T> {
 
     public AATree() {
         super();
-        root = new BinTreeNodeAA<T>(null, null, null, null);
+        root = new BinTreeNodeAA<T>(this, null, null, null, null);
     }
 
     BinTreeNodeAA<T> skew(BinTreeNodeInterface<T> currentNode) {

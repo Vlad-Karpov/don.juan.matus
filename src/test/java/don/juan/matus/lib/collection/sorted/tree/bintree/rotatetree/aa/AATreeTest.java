@@ -7,15 +7,15 @@ public class AATreeTest extends TestCase {
 
     public void testSkew1() {
         AATree<Character> tree = new AATree<>();
-        BinTreeNodeAA<Character> a = new BinTreeNodeAA<>('A', null, null, null);
-        BinTreeNodeAA<Character> b = new BinTreeNodeAA<>('B', null, null, null);
-        BinTreeNodeAA<Character> l = new BinTreeNodeAA<>('L', a, null, b);
+        BinTreeNodeAA<Character> a = new BinTreeNodeAA<>(null, 'A', null, null, null);
+        BinTreeNodeAA<Character> b = new BinTreeNodeAA<>(null, 'B', null, null, null);
+        BinTreeNodeAA<Character> l = new BinTreeNodeAA<>(null, 'L', a, null, b);
         a.setParent(l);
         b.setParent(l);
-        BinTreeNodeAA<Character> r = new BinTreeNodeAA<>('R', null, null, null);
-        BinTreeNodeAA<Character> t = new BinTreeNodeAA<>('T', l, null, r);
+        BinTreeNodeAA<Character> r = new BinTreeNodeAA<>(null, 'R', null, null, null);
+        BinTreeNodeAA<Character> t = new BinTreeNodeAA<>(null, 'T', l, null, r);
         r.setParent(t);
-        BinTreeNodeAA<Character> p = new BinTreeNodeAA<>('P', null, null, t);
+        BinTreeNodeAA<Character> p = new BinTreeNodeAA<>(null, 'P', null, null, t);
         t.setParent(p);
         BinTreeNodeAA<Character> result = tree.skew(t);
         Assert.assertEquals('L', (char)result.getObjectNode());
@@ -39,9 +39,9 @@ public class AATreeTest extends TestCase {
 
     public void testSkew2() {
         AATree<Character> tree = new AATree<>();
-        BinTreeNodeAA<Character> l = new BinTreeNodeAA<>('L', null, null, null);
-        BinTreeNodeAA<Character> t = new BinTreeNodeAA<>('T', l, null, null);
-        BinTreeNodeAA<Character> p = new BinTreeNodeAA<>('P', null, null, t);
+        BinTreeNodeAA<Character> l = new BinTreeNodeAA<>(null, 'L', null, null, null);
+        BinTreeNodeAA<Character> t = new BinTreeNodeAA<>(null, 'T', l, null, null);
+        BinTreeNodeAA<Character> p = new BinTreeNodeAA<>(null, 'P', null, null, t);
         t.setParent(p);
         BinTreeNodeAA<Character> result = tree.skew(t);
         Assert.assertEquals('L', (char)result.getObjectNode());
@@ -62,16 +62,16 @@ public class AATreeTest extends TestCase {
 
     public void testSplit1() {
         AATree<Character> tree = new AATree<>();
-        BinTreeNodeAA<Character> p = new BinTreeNodeAA<>('P', null, null, null);
-        BinTreeNodeAA<Character> a = new BinTreeNodeAA<>('A', null, null, null);
-        BinTreeNodeAA<Character> r = new BinTreeNodeAA<>('R', null, null, null);
-        BinTreeNodeAA<Character> t = new BinTreeNodeAA<>('T', a, p, r);
+        BinTreeNodeAA<Character> p = new BinTreeNodeAA<>(null, 'P', null, null, null);
+        BinTreeNodeAA<Character> a = new BinTreeNodeAA<>(null, 'A', null, null, null);
+        BinTreeNodeAA<Character> r = new BinTreeNodeAA<>(null, 'R', null, null, null);
+        BinTreeNodeAA<Character> t = new BinTreeNodeAA<>(null, 'T', a, p, r);
         r.setParent(t);
         a.setParent(t);
         p.setRight(t);
-        BinTreeNodeAA<Character> b = new BinTreeNodeAA<>('B', null, r, null);
+        BinTreeNodeAA<Character> b = new BinTreeNodeAA<>(null, 'B', null, r, null);
         r.setLeft(b);
-        BinTreeNodeAA<Character> x = new BinTreeNodeAA<>('X', null, r, null);
+        BinTreeNodeAA<Character> x = new BinTreeNodeAA<>(null, 'X', null, r, null);
         r.setRight(x);
         BinTreeNodeAA<Character> result = tree.split(t);
         Assert.assertEquals('P', (char)result.getParent().getObjectNode());
@@ -89,12 +89,12 @@ public class AATreeTest extends TestCase {
 
     public void testSplit2() {
         AATree<Character> tree = new AATree<>();
-        BinTreeNodeAA<Character> p = new BinTreeNodeAA<>('P', null, null, null);
-        BinTreeNodeAA<Character> r = new BinTreeNodeAA<>('R', null, null, null);
-        BinTreeNodeAA<Character> t = new BinTreeNodeAA<>('T', null, p, r);
+        BinTreeNodeAA<Character> p = new BinTreeNodeAA<>(null, 'P', null, null, null);
+        BinTreeNodeAA<Character> r = new BinTreeNodeAA<>(null, 'R', null, null, null);
+        BinTreeNodeAA<Character> t = new BinTreeNodeAA<>(null, 'T', null, p, r);
         r.setParent(t);
         p.setRight(t);
-        BinTreeNodeAA<Character> x = new BinTreeNodeAA<>('X', null, r, null);
+        BinTreeNodeAA<Character> x = new BinTreeNodeAA<>(null, 'X', null, r, null);
         r.setRight(x);
         BinTreeNodeAA<Character> result = tree.split(t);
         Assert.assertEquals('P', (char)result.getParent().getObjectNode());

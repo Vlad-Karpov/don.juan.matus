@@ -1,5 +1,6 @@
 package don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.waight;
 
+import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeBase;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 
@@ -10,8 +11,13 @@ public class BinTreeNodeWeight<T extends Comparable<T>> extends BinTreeNodeBase<
 
     private Long weight;
 
-    public BinTreeNodeWeight(T objectNode, BinTreeNodeWeight<T> left, BinTreeNodeWeight<T> parent, BinTreeNodeWeight<T> right) {
-        super(objectNode, left, parent, right);
+    public BinTreeNodeWeight(
+            BinTreeInterface<T> owner,
+            T objectNode,
+            BinTreeNodeWeight<T> left,
+            BinTreeNodeWeight<T> parent,
+            BinTreeNodeWeight<T> right) {
+        super(owner, objectNode, left, parent, right);
         this.objectNode = objectNode;
         this.weight = 0L;
     }
@@ -34,12 +40,13 @@ public class BinTreeNodeWeight<T extends Comparable<T>> extends BinTreeNodeBase<
 
     @Override
     public BinTreeNodeInterface<T> createNode(
+            BinTreeInterface<T> owner,
             T theObject,
             BinTreeNodeInterface<T> theLeft,
             BinTreeNodeInterface<T> theParent,
             BinTreeNodeInterface<T> theRight) {
         return new BinTreeNodeWeight(
-                theObject,
+                owner, theObject,
                 (BinTreeNodeWeight<T>)theLeft,
                 (BinTreeNodeWeight<T>)theParent,
                 (BinTreeNodeWeight<T>)theRight);

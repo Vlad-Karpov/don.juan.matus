@@ -1,11 +1,17 @@
 package don.juan.matus.lib.collection.sorted.tree.bintree.mergeabletree.cartesian;
 
+import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 
 public class BinTreeNodeWithPriority<T extends Comparable<T> & PriorityCartesianBinTreeNode> extends BinTreeNodeCartesianBinTree<T> {
 
-    public BinTreeNodeWithPriority(T objectNode, BinTreeNodeWithPriority<T> left, BinTreeNodeWithPriority<T> parent, BinTreeNodeWithPriority<T> right) {
-        super(objectNode, left, parent, right);
+    public BinTreeNodeWithPriority(
+            BinTreeInterface<T> owner,
+            T objectNode,
+            BinTreeNodeWithPriority<T> left,
+            BinTreeNodeWithPriority<T> parent,
+            BinTreeNodeWithPriority<T> right) {
+        super(owner, objectNode, left, parent, right);
     }
 
     @Override
@@ -15,11 +21,13 @@ public class BinTreeNodeWithPriority<T extends Comparable<T> & PriorityCartesian
 
     @Override
     public BinTreeNodeInterface<T> createNode(
+            BinTreeInterface<T> owner,
             T theObject,
             BinTreeNodeInterface<T> theLeft,
             BinTreeNodeInterface<T> theParent,
             BinTreeNodeInterface<T> theRight) {
         return new BinTreeNodeWithPriority(
+                owner,
                 theObject,
                 (BinTreeNodeWithPriority<T>) theLeft,
                 (BinTreeNodeWithPriority<T>) theParent,

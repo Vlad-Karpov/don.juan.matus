@@ -1,5 +1,6 @@
 package don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl;
 
+import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeBase;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 
@@ -11,8 +12,13 @@ public class BinTreeNodeBalanceFactor<T extends Comparable<T>> extends BinTreeNo
 
     protected byte balanceFactor;
 
-    public BinTreeNodeBalanceFactor(T objectNode, BinTreeNodeBalanceFactor<T> left, BinTreeNodeBalanceFactor<T> parent, BinTreeNodeBalanceFactor<T> right) {
-        super(objectNode, left, parent, right);
+    public BinTreeNodeBalanceFactor(
+            BinTreeInterface<T> owner,
+            T objectNode,
+            BinTreeNodeBalanceFactor<T> left,
+            BinTreeNodeBalanceFactor<T> parent,
+            BinTreeNodeBalanceFactor<T> right) {
+        super(owner, objectNode, left, parent, right);
         this.balanceFactor = 0;
     }
 
@@ -51,11 +57,13 @@ public class BinTreeNodeBalanceFactor<T extends Comparable<T>> extends BinTreeNo
 
     @Override
     public BinTreeNodeInterface<T> createNode(
+            BinTreeInterface<T> owner,
             T theObject,
             BinTreeNodeInterface<T> theLeft,
             BinTreeNodeInterface<T> theParent,
             BinTreeNodeInterface<T> theRight) {
         return new BinTreeNodeBalanceFactor(
+                owner,
                 theObject,
                 (BinTreeNodeBalanceFactor<T>) theLeft,
                 (BinTreeNodeBalanceFactor<T>) theParent,

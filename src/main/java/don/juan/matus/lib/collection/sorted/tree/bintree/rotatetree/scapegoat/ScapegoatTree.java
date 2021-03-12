@@ -10,7 +10,7 @@ public class ScapegoatTree<T extends Comparable<T>> extends BinTreeBase<T> {
 
     public ScapegoatTree() {
         super();
-        root = new BinTreeNodeBase<T>(null, null, null, null);
+        root = new BinTreeNodeBase<T>(this, null, null, null, null);
     }
 
     public double getAlpha() {

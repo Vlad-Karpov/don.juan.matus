@@ -1,5 +1,6 @@
 package don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.red_black;
 
+import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeBase;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 
@@ -11,8 +12,13 @@ public class BinTreeNodeRedBlack<T extends Comparable<T>> extends BinTreeNodeBas
     // 0 - black; 1 - red
     byte color;
 
-    public BinTreeNodeRedBlack(T objectNode, BinTreeNodeBase<T> left, BinTreeNodeBase<T> parent, BinTreeNodeBase<T> right) {
-        super(objectNode, left, parent, right);
+    public BinTreeNodeRedBlack(
+            BinTreeInterface<T> owner,
+            T objectNode,
+            BinTreeNodeBase<T> left,
+            BinTreeNodeBase<T> parent,
+            BinTreeNodeBase<T> right) {
+        super(owner, objectNode, left, parent, right);
         color = BLACK;
     }
 
@@ -43,11 +49,13 @@ public class BinTreeNodeRedBlack<T extends Comparable<T>> extends BinTreeNodeBas
 
     @Override
     public BinTreeNodeInterface<T> createNode(
+            BinTreeInterface<T> owner,
             T theObject,
             BinTreeNodeInterface<T> theLeft,
             BinTreeNodeInterface<T> theParent,
             BinTreeNodeInterface<T> theRight) {
         return new BinTreeNodeRedBlack(
+                owner,
                 theObject,
                 (BinTreeNodeRedBlack<T>) theLeft,
                 (BinTreeNodeRedBlack<T>) theParent,

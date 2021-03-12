@@ -17,7 +17,7 @@ public class RndBinTree<T extends Comparable<T>> extends BinTreeW<T> {
 
     public RndBinTree() {
         rnd = new Random();
-        root = new BinTreeNodeRnd<T>(null, null, null, null);
+        root = new BinTreeNodeRnd<T>(this, null, null, null, null);
     }
 
     protected <U extends BinTreeNodeWeight<T>> U rebalance(U cursor) {

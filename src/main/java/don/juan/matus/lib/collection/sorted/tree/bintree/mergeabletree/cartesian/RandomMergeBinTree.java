@@ -13,7 +13,7 @@ public class RandomMergeBinTree<T extends Comparable<T>> extends MergeableBaseBi
     public RandomMergeBinTree() {
         super();
         rnd = new Random();
-        root = new BinTreeNodeBase<>(null, null, null, null);
+        root = new BinTreeNodeBase<>(this, null, null, null, null);
         mergeStrategy = (left, right) -> rnd.nextDouble() < threshold;
     }
 

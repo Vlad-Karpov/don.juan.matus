@@ -11,6 +11,7 @@ public class BinTreeNodeBase<T extends Comparable<T>> implements BinTreeNodeInte
     protected BinTreeNodeBase<T> right;
 
     public BinTreeNodeBase(
+            BinTreeInterface<T> owner,
             T objectNode,
             BinTreeNodeBase<T> left,
             BinTreeNodeBase<T> parent,
@@ -66,11 +67,13 @@ public class BinTreeNodeBase<T extends Comparable<T>> implements BinTreeNodeInte
     }
 
     public BinTreeNodeInterface<T> createNode(
+            BinTreeInterface<T> owner,
             T theObject,
             BinTreeNodeInterface<T> theLeft,
             BinTreeNodeInterface<T> theParent,
             BinTreeNodeInterface<T> theRight) {
         return new BinTreeNodeBase(
+                owner,
                 theObject,
                 (BinTreeNodeBase<T>)theLeft,
                 (BinTreeNodeBase<T>)theParent,

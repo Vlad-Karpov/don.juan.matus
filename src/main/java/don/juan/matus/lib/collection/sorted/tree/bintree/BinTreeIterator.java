@@ -105,7 +105,7 @@ public class BinTreeIterator<T extends Comparable<T>> extends BinTreeIteratorBas
 
     @Override
     public void remove() {
-        currentNode = binTree.removeNode(false, removeNode, currentNode);
+        currentNode = binTree.removeNode(false, removeNode, currentNode, null);
         removeNode = null;
     }
 

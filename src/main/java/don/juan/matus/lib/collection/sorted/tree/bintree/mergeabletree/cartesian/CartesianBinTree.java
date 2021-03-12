@@ -8,7 +8,7 @@ public class CartesianBinTree<T extends Comparable<T>> extends MergeableBaseBinT
 
     public CartesianBinTree() {
         super();
-        root = new BinTreeNodeWithPriorityInNode<>(null, null, null, null);
+        root = new BinTreeNodeWithPriorityInNode<>(this, null, null, null, null);
         mergeStrategy = (left, right) -> ((BinTreeNodeCartesianBinTree<T>) left).getPriority() < ((BinTreeNodeCartesianBinTree<T>) right).getPriority();
     }
 

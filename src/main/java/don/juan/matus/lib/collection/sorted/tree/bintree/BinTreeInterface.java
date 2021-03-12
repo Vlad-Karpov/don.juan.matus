@@ -2,8 +2,6 @@ package don.juan.matus.lib.collection.sorted.tree.bintree;
 
 import don.juan.matus.lib.collection.CollectionBaseInterface;
 
-import java.util.Iterator;
-
 /**
  * Interface binary tree.
  */
@@ -84,7 +82,7 @@ public interface BinTreeInterface<T extends Comparable<T>> extends CollectionBas
     BinTreeNodeInterface<T> removeNode(
             Boolean theDescending,
             BinTreeNodeInterface<T> currentNode,
-            BinTreeNodeInterface<T> nextNode);
+            BinTreeNodeInterface<T> nextNode, BinTreeNodeInterface<BinTreeNodeInterface<T>> evictNodeIndex);
 
     void clearTree();
 

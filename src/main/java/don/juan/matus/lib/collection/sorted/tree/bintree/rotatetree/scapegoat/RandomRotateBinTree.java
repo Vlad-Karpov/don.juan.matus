@@ -13,7 +13,7 @@ public class RandomRotateBinTree<T extends Comparable<T>> extends ScapegoatTree<
         super();
         alpha = 0.7d;
         rnd = new Random();
-        root = new BinTreeNodeBase<>(null, null, null, null);
+        root = new BinTreeNodeBase<>(this, null, null, null, null);
     }
 
     protected BinTreeNodeInterface<T> rebalance(BinTreeNodeInterface<T> cursor) {

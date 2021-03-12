@@ -16,7 +16,7 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
 
     public AVLBinTree() {
         super();
-        root = new BinTreeNodeBalanceFactor<T>(null, null, null, null);
+        root = new BinTreeNodeBalanceFactor<T>(this, null, null, null, null);
     }
 
     public byte getThreshold() {

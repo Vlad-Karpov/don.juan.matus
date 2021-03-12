@@ -8,7 +8,7 @@ public class MergeableBaseBinTree<T extends Comparable<T>> extends BinTreeBase<T
     @Override
     public boolean add(T theObject) {
         split(parts, root.getLeft(), theObject);
-        BinTreeNodeInterface<T> newNode = root.createNode(theObject, null, null, null);
+        BinTreeNodeInterface<T> newNode = root.createNode(this, theObject, null, null, null);
         BinTreeNodeInterface<T> newTree = merge(merge(parts.leftTree, newNode), parts.rightTree);
         newTree.setParent(root);
         root.setLeft(newTree);

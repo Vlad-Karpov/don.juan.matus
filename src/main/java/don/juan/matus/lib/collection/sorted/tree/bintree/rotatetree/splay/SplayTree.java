@@ -111,7 +111,7 @@ public class SplayTree<T extends Comparable<T>> extends BinTreeBase<T> {
     public BinTreeNodeInterface<T> removeNode(
             Boolean theDescending,
             BinTreeNodeInterface<T> currentNode,
-            BinTreeNodeInterface<T> nextNode) {
+            BinTreeNodeInterface<T> nextNode, BinTreeNodeInterface<BinTreeNodeInterface<T>> evictNodeIndex) {
         BinTreeNodeInterface<T> result = nextNode;
         if (currentNode != null) {
             splay(root, currentNode);

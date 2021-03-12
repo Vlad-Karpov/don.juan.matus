@@ -28,6 +28,7 @@ public interface BinTreeNodeInterface<T extends Comparable<T>> extends Comparabl
     void onGoRight();
 
     BinTreeNodeInterface<T> createNode(
+            BinTreeInterface<T> owner,
             T theObject,
             BinTreeNodeInterface<T> theLeft,
             BinTreeNodeInterface<T> theParent,

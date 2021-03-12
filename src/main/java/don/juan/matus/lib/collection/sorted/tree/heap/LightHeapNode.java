@@ -4,14 +4,12 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.BinTreeNodeBalanceFactor;
 
-public class HeapNode<T extends Comparable<T>> extends LightHeapNode<T> {
+public class LightHeapNode<T extends Comparable<T>> extends BinTreeNodeBalanceFactor<T> {
 
     private long createTime = System.currentTimeMillis();
-    private int id;
 
-    public HeapNode(BinTreeInterface<T> owner, T objectNode, BinTreeNodeBalanceFactor<T> left, BinTreeNodeBalanceFactor<T> parent, BinTreeNodeBalanceFactor<T> right) {
+    public LightHeapNode(BinTreeInterface<T> owner, T objectNode, BinTreeNodeBalanceFactor<T> left, BinTreeNodeBalanceFactor<T> parent, BinTreeNodeBalanceFactor<T> right) {
         super(owner, objectNode, left, parent, right);
-        id = ((HeapInterface<T>)owner).getNextId();
     }
 
     public long getCreateTime() {
@@ -38,15 +36,14 @@ public class HeapNode<T extends Comparable<T>> extends LightHeapNode<T> {
     }
 
     public int compareTo(BinTreeNodeInterface<T> o) {
-        HeapNode<T> ob = (HeapNode<T>) o;
-        return id - ob.id;
+        LightHeapNode<T> ob = (LightHeapNode<T>) o;
+        return (int)(createTime - ob.createTime);
     }
 
     @Override
     public String toString() {
-        return "HeapNode{" +
+        return "LightHeapNode{" +
                 "objectNode = " + objectNode +
-                ", id = " + id +
                 ", createTime = " + createTime +
                 ", balanceFactor = " + balanceFactor +
                 '}';
