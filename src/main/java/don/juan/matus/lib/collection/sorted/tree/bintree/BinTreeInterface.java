@@ -38,6 +38,9 @@ public interface BinTreeInterface<T extends Comparable<T>> extends CollectionBas
             BinTreeNodeInterface<T> currentNode,
             BinTreeNodeInterface<T> previousNode);
 
+    BinTreeNodeInterface<T> beforeSeekLoop(T theObject, BinTreeNodeInterface<T> currentNode, GeneralCall<T> generalCallObject);
+    void beforeGet();
+
     Boolean seek(T theObject, GeneralCall<T> generalCallObject);
 
     Boolean seekLoop(T theObject, BinTreeNodeInterface<T> currentNode, GeneralCall<T> generalCallObject);

@@ -57,31 +57,37 @@ public class BinTreeBase<T extends Comparable<T>>
 
     @Override
     public BinTreeNodeInterface<T> getRoot() {
+        beforeGet();
         return root;
     }
 
     public Long getMaxLevel() {
+        beforeGet();
         return maxLevel;
     }
 
     @Override
     public Long getLevel() {
+        beforeGet();
         return level;
     }
 
     @Override
     public Long getSize() {
+        beforeGet();
         return size;
     }
 
     @Override
     public void passStraight(BinTreePassEvent<BinTreeNodeInterface<T>> thePassEvent) {
+        beforeGet();
         passStraight(thePassEvent, root);
         thePassEvent.onPassCompleted();
     }
 
     @Override
     public void passBack(BinTreePassEvent<BinTreeNodeInterface<T>> thePassEvent) {
+        beforeGet();
         passBack(thePassEvent, root);
         thePassEvent.onPassCompleted();
     }
@@ -122,6 +128,7 @@ public class BinTreeBase<T extends Comparable<T>>
 
     @Override
     public Long checkStructure(BinTreeNodeInterface<T> theRoot) {
+        beforeGet();
         return checkStructure(new BinTreeDebugPassEvent<T>(), theRoot);
     }
 
@@ -153,6 +160,7 @@ public class BinTreeBase<T extends Comparable<T>>
 
     @Override
     public Long checkStructure(BinTreeCheckPassEvent<T> thePassEvent) {
+        beforeGet();
         return checkStructure(thePassEvent, root);
     }
 
@@ -328,35 +336,41 @@ public class BinTreeBase<T extends Comparable<T>>
 
     @Override
     public TreeProps treePassage() {
+        beforeGet();
         return treePassage(root.getLeft());
     }
 
     @NotNull
     @Override
     public Iterator<T> iterator() {
+        beforeGet();
         return new BinTreeIterator<>(this, root);
     }
 
     @NotNull
     @Override
     public Iterator<T> descendingIterator() {
+        beforeGet();
         return new DescendingBinTreeIterator<>(this, root);
     }
 
     @Override
     public int size() {
+        beforeGet();
         return size.intValue();
     }
 
     @NotNull
     @Override
     public Iterator<T> iterator(T theObject) {
+        beforeGet();
         return new BinTreeIterator<>(this, root, theObject);
     }
 
     @NotNull
     @Override
     public Iterator<T> descendingIterator(T theObject) {
+        beforeGet();
         return new DescendingBinTreeIterator<>(this, root, theObject);
     }
 
@@ -423,6 +437,15 @@ public class BinTreeBase<T extends Comparable<T>>
     }
 
     @Override
+    public void beforeGet() {
+    }
+
+    @Override
+    public BinTreeNodeInterface<T> beforeSeekLoop(T theObject, BinTreeNodeInterface<T> currentNode, GeneralCall<T> generalCallObject) {
+        return currentNode;
+    }
+
+    @Override
     public Boolean seek(T theObject, GeneralCall<T> generalCallObject) {
         return seekLoop(theObject, root, generalCallObject);
     }
@@ -430,6 +453,7 @@ public class BinTreeBase<T extends Comparable<T>>
     @Override
     public Boolean seekLoop(T theObject, BinTreeNodeInterface<T> currentNode, GeneralCall<T> generalCallObject) {
         Boolean result = false;
+        beforeSeekLoop(theObject, currentNode, generalCallObject);
         BinTreeNodeInterface<T> current = currentNode;
         if (current != null) {
             do {

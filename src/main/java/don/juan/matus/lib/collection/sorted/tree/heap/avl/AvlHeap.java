@@ -154,4 +154,9 @@ public class AvlHeap<T extends Comparable<T>> extends AVLBinTree<T> implements H
         return ++heapNodeId;
     }
 
+    @Override
+    public void expungeStaleEntries() {
+
+    }
+
 }

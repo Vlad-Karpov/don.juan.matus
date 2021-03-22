@@ -3,6 +3,7 @@ package don.juan.matus.lib.collection.sorted.tree.heap.avl.splay;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeCheckPassEvent;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeIterator;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
+import don.juan.matus.lib.collection.sorted.tree.bintree.GeneralCall;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.BinTreeNodeBalanceFactor;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.splay.SplayTree;
@@ -16,6 +17,7 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> implemen
 
     private int maxHeapSize;
     private EvictionStrategy evictionStrategy = EvictionStrategy.SPLAY;
+    private long ttl;
 
     public AvlSplayHeap(int maxHeapSize) {
         super();
@@ -23,7 +25,18 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> implemen
             throw new RuntimeException("AvlSplayHeap: maxHeapSize must be greater then zero!");
         }
         this.maxHeapSize = maxHeapSize;
+        this.ttl = Long.MAX_VALUE;
         root = new LightHeapNode<T>(this, null, null, null, null);
+    }
+
+    @Override
+    public long getTtl() {
+        return ttl;
+    }
+
+    @Override
+    public void setTtl(long ttl) {
+        this.ttl = ttl;
     }
 
     public int getMaxHeapSize() {
@@ -54,6 +67,7 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> implemen
 
     @Override
     protected BinTreeNodeInterface<T> beforeAddLoop(final BinTreeNodeInterface<T> currentNode) {
+        expungeStaleEntries();
         if (size == maxHeapSize) {
             LightHeapNode<T> evictNode = findLastUsed();
             switch (evictionStrategy) {
@@ -284,6 +298,40 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> implemen
     @Override
     public int getNextId() {
         return 0;
+    }
+
+    @Override
+    public void expungeStaleEntries() {
+        if (ttl < Long.MAX_VALUE) {
+            LightHeapNode<T> evictNode;
+            long createTime;
+            long currentTime = System.currentTimeMillis();
+            do {
+                evictNode = findLastUsed();
+                if (evictNode != null) {
+                    createTime = evictNode.getCreateTime();
+                    if (currentTime > createTime + ttl) {
+                        evict(evictNode);
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            } while (true);
+        }
+    }
+
+    @Override
+    public BinTreeNodeInterface<T> beforeSeekLoop(T theObject, BinTreeNodeInterface<T> currentNode, GeneralCall<T> generalCallObject) {
+        expungeStaleEntries();
+        return null;
+    }
+
+    @Override
+    public void beforeGet() {
+        expungeStaleEntries();
+        super.beforeGet();
     }
 
     public static enum EvictionStrategy {

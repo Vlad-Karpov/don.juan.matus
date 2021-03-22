@@ -413,6 +413,17 @@ public class BinTreeGraph<T extends Comparable<T>> {
             }
         });
 
+        JButton jButtonRefresh = new JButton("refresh");
+        jButtonRefresh.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jTextField.setText("");
+                jTextField.requestFocusInWindow();
+                dopInfo.clear();
+                SwingUtilities.updateComponentTreeUI(frame);
+            }
+        });
+
         jMenuBar.add(jTextField);
         jMenuBar.add(jButtonAdd);
         jMenuBar.add(jButtonDel);
@@ -423,6 +434,7 @@ public class BinTreeGraph<T extends Comparable<T>> {
         jMenuBar.add(jButtonAddRnd);
         jMenuBar.add(jButtonAddSequence);
         jMenuBar.add(jButtonDelRnd);
+        jMenuBar.add(jButtonRefresh);
         frame.setJMenuBar(jMenuBar);
         cp = frame.getContentPane();
         pane = new JPanel() {
