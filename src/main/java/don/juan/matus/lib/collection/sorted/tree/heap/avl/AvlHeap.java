@@ -5,7 +5,6 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTr
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.BinTreeNodeBalanceFactor;
 import don.juan.matus.lib.collection.sorted.tree.heap.HeapInterface;
 import don.juan.matus.lib.collection.sorted.tree.heap.HeapNode;
-import don.juan.matus.lib.collection.sorted.tree.heap.LightHeapNode;
 
 public class AvlHeap<T extends Comparable<T>> extends AVLBinTree<T> implements HeapInterface<T> {
 
