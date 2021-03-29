@@ -331,7 +331,6 @@ public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> implemen
     @Override
     public void beforeGet() {
         expungeStaleEntries();
-        super.beforeGet();
     }
 
     public static enum EvictionStrategy {

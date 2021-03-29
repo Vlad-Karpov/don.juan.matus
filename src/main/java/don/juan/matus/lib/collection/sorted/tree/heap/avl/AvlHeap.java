@@ -5,12 +5,14 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTr
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.BinTreeNodeBalanceFactor;
 import don.juan.matus.lib.collection.sorted.tree.heap.HeapInterface;
 import don.juan.matus.lib.collection.sorted.tree.heap.HeapNode;
+import don.juan.matus.lib.collection.sorted.tree.heap.LightHeapNode;
 
 public class AvlHeap<T extends Comparable<T>> extends AVLBinTree<T> implements HeapInterface<T> {
 
     private int maxHeapSize;
     private final AVLBinTree<BinTreeNodeInterface<T>> indexTree;
     private int heapNodeId = 0;
+    private long ttl;
 
     public AvlHeap(int maxHeapSize) {
         super();
@@ -22,6 +24,17 @@ public class AvlHeap<T extends Comparable<T>> extends AVLBinTree<T> implements H
         indexTree = new AVLBinTree<>();
     }
 
+    @Override
+    public long getTtl() {
+        return ttl;
+    }
+
+    @Override
+    public void setTtl(long ttl) {
+        this.ttl = ttl;
+    }
+
+
     public int getMaxHeapSize() {
         return maxHeapSize;
     }
@@ -32,6 +45,7 @@ public class AvlHeap<T extends Comparable<T>> extends AVLBinTree<T> implements H
 
     @Override
     protected BinTreeNodeInterface<T> beforeAddLoop(final BinTreeNodeInterface<T> currentNode) {
+        expungeStaleEntries();
         if (size == maxHeapSize) {
             BinTreeNodeInterface<BinTreeNodeInterface<T>> evictNodeIndex = indexTree.getFirst();
             BinTreeNodeInterface<T> evictNode = evictNodeIndex.getObjectNode();
@@ -155,8 +169,42 @@ public class AvlHeap<T extends Comparable<T>> extends AVLBinTree<T> implements H
     }
 
     @Override
-    public void expungeStaleEntries() {
+    public BinTreeNodeInterface<T> beforeSeekLoop(T theObject, BinTreeNodeInterface<T> currentNode, GeneralCall<T> generalCallObject) {
+        expungeStaleEntries();
+        return null;
+    }
 
+    @Override
+    public void beforeGet() {
+        expungeStaleEntries();
+    }
+
+    @Override
+    public void expungeStaleEntries() {
+        if (ttl < Long.MAX_VALUE) {
+            BinTreeNodeInterface<BinTreeNodeInterface<T>> evictNodeIndex;
+            HeapNode<T> evictNode;
+            long createTime;
+            long currentTime = System.currentTimeMillis();
+            do {
+                evictNodeIndex = indexTree.getFirst();
+                if (evictNodeIndex != null) {
+                    evictNode = (HeapNode<T>) evictNodeIndex.getObjectNode();
+                    if (evictNode != null) {
+                        createTime = evictNode.getCreateTime();
+                        if (currentTime > createTime + ttl) {
+                            removeNode(false, evictNode, evictNode, evictNodeIndex);
+                        } else {
+                            break;
+                        }
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            } while (true);
+        }
     }
 
 }
