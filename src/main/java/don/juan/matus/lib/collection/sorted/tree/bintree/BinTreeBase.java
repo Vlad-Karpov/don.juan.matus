@@ -5,10 +5,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 
+import static don.juan.matus.lib.util.util.compareHelper;
+
 /**
  * Base class binary tree.
  */
-public class BinTreeBase<T extends Comparable<T>>
+public class BinTreeBase<T extends Comparable<? extends T>>
         extends TreeBase<T>
         implements BinTreeInterface<T>
         , RotateBalancedBinTree<T>
@@ -168,7 +170,7 @@ public class BinTreeBase<T extends Comparable<T>>
     public boolean checkTreeNode(BinTreeCheckPassEvent<T> thePassEvent, BinTreeIterator<T> btiLeft, BinTreeIterator<T> btiRight, BinTreeNodeInterface<T> currentNode, BinTreeNodeInterface<T> previousNode) {
         boolean result = true;
         if (previousNode != null && currentNode != null && previousNode.getObjectNode() != null && currentNode.getObjectNode() != null) {
-            if (previousNode.getObjectNode().compareTo(currentNode.getObjectNode()) > 0) {
+            if (compareHelper((Comparable<T>) previousNode.getObjectNode(), currentNode.getObjectNode()) > 0) {
                 thePassEvent.setErrorMessage("BinTreeBase: Tree structure invalid, previous value greeter then current!");
                 result = false;
             }
@@ -176,7 +178,7 @@ public class BinTreeBase<T extends Comparable<T>>
         return result;
     }
 
-    public static <T extends Comparable<T>> TreeProps treePassage(final BinTreeNodeInterface<T> theRoot) {
+    public static <T extends Comparable<? extends T>> TreeProps treePassage(final BinTreeNodeInterface<T> theRoot) {
         TreeProps result = new TreeProps();
         if (theRoot != null) {
             Long currentHeght = 0L;
@@ -290,7 +292,7 @@ public class BinTreeBase<T extends Comparable<T>>
         parts.rightTree = null;
         while (current != null) {
             tmpTree = current;
-            if (current.getObjectNode().compareTo(key) < 0) {
+            if (compareHelper((Comparable<T>) current.getObjectNode(), key) < 0) {
                 current = current.getRight();
                 if (current != null) {
                     tmpTree.setRight(null);
@@ -329,7 +331,7 @@ public class BinTreeBase<T extends Comparable<T>>
         Long weight = 0L;
     }
 
-    public static <T extends Comparable<T>> long sizeOfNode(BinTreeNodeInterface<T> cursor) {
+    public static <T extends Comparable<? extends T>> long sizeOfNode(BinTreeNodeInterface<T> cursor) {
         TreeProps tp = treePassage(cursor);
         return tp.weight;
     }
@@ -399,7 +401,7 @@ public class BinTreeBase<T extends Comparable<T>>
             } else {
                 level++;
                 if (maxLevel < level) maxLevel = level;
-                if (theObject.compareTo(current.getObjectNode()) < 0) {
+                if (compareHelper((Comparable<T>) theObject, current.getObjectNode()) < 0) {
                     current.onGoLeft();
                     if (current.getLeft() != null) {
                         current = current.getLeft();
@@ -465,7 +467,7 @@ public class BinTreeBase<T extends Comparable<T>>
                         break;
                     }
                 } else {
-                    int cmp = theObject.compareTo(current.getObjectNode());
+                    int cmp = compareHelper((Comparable<T>) theObject, current.getObjectNode());
                     if (cmp == 0) {
                         result = true;
                         splay(root, current);

@@ -10,7 +10,7 @@ import static don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface
 /**
  * Classic AVL binary tree.
  */
-public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
+public class AVLBinTree<T extends Comparable<? extends T>> extends BinTreeBase<T> {
 
     private byte threshold = 2;
 
@@ -32,7 +32,7 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
         fixBalanceAfterRotateRight(dadNode, (BinTreeNodeBalanceFactor<T>) currentNode, pivotNode);
     }
 
-    public static <T extends Comparable<T>> void fixBalanceAfterRotateRight(BinTreeNodeInterface<T> dadNode, BinTreeNodeBalanceFactor<T> currentNode, BinTreeNodeInterface<T> pivotNode) {
+    public static <T extends Comparable<? extends T>> void fixBalanceAfterRotateRight(BinTreeNodeInterface<T> dadNode, BinTreeNodeBalanceFactor<T> currentNode, BinTreeNodeInterface<T> pivotNode) {
         int pb = ((BinTreeNodeBalanceFactor<T>) pivotNode).getBalanceFactor();
         int cb = currentNode.getBalanceFactor();
         int db = ((BinTreeNodeBalanceFactor<T>) dadNode).getBalanceFactor();
@@ -54,7 +54,7 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
         fixBalanceAfterRotateLeft(dadNode, (BinTreeNodeBalanceFactor<T>) currentNode, pivotNode);
     }
 
-    public static <T extends Comparable<T>> void fixBalanceAfterRotateLeft(BinTreeNodeInterface<T> dadNode, BinTreeNodeBalanceFactor<T> currentNode, BinTreeNodeInterface<T> pivotNode) {
+    public static <T extends Comparable<? extends T>> void fixBalanceAfterRotateLeft(BinTreeNodeInterface<T> dadNode, BinTreeNodeBalanceFactor<T> currentNode, BinTreeNodeInterface<T> pivotNode) {
         int pb = ((BinTreeNodeBalanceFactor<T>) pivotNode).getBalanceFactor();
         int cb = currentNode.getBalanceFactor();
         int db = ((BinTreeNodeBalanceFactor<T>) dadNode).getBalanceFactor();
@@ -113,7 +113,7 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
         return cursor;
     }
 
-    public static <T extends Comparable<T>> int calculateIncHeight(
+    public static <T extends Comparable<? extends T>> int calculateIncHeight(
             final byte parentOldBalance,
             final byte parentNewBalance,
             final BinTreeNodeInterface<T> currentNode) {
@@ -168,7 +168,7 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
         return checkTreeNodeStatic(result, thePassEvent, btiLeft, btiRight, currentNode, previousNode);
     }
 
-    public static <T extends Comparable<T>> boolean checkTreeNodeStatic(boolean result, BinTreeCheckPassEvent<T> thePassEvent, BinTreeIterator<T> btiLeft, BinTreeIterator<T> btiRight, BinTreeNodeInterface<T> currentNode, BinTreeNodeInterface<T> previousNode) {
+    public static <T extends Comparable<? extends T>> boolean checkTreeNodeStatic(boolean result, BinTreeCheckPassEvent<T> thePassEvent, BinTreeIterator<T> btiLeft, BinTreeIterator<T> btiRight, BinTreeNodeInterface<T> currentNode, BinTreeNodeInterface<T> previousNode) {
         if (result) {
             if ((btiLeft != null ? btiLeft.getMaxLevel() + 1 : 0) - (btiRight != null ? btiRight.getMaxLevel() + 1 : 0) != ((BinTreeNodeBalanceFactor<T>) currentNode).getBalanceFactor()) {
                 thePassEvent.setErrorMessage("AVLBinTree: Tree structure invalid, incorrect balance factor!");
@@ -182,11 +182,11 @@ public class AVLBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
         restructureAfterRebalanceAVL(currentNode);
     }
 
-    public static <T extends Comparable<T>> void restructureAfterRebalanceAVL(BinTreeNodeInterface<T> currentNode) {
+    public static <T extends Comparable<? extends T>> void restructureAfterRebalanceAVL(BinTreeNodeInterface<T> currentNode) {
         passRestructure(currentNode);
     }
 
-    private static <T extends Comparable<T>> int passRestructure(BinTreeNodeInterface<T> node) {
+    private static <T extends Comparable<? extends T>> int passRestructure(BinTreeNodeInterface<T> node) {
         int hl = 0;
         int hr = 0;
         if (node.getLeft() != null) {

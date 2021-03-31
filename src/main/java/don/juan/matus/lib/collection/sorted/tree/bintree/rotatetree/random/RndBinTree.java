@@ -11,7 +11,7 @@ import java.util.Random;
 /**
  * Рендомезированное дерево.
  */
-public class RndBinTree<T extends Comparable<T>> extends BinTreeW<T> {
+public class RndBinTree<T extends Comparable<? extends T>> extends BinTreeW<T> {
 
     private Random rnd;
 

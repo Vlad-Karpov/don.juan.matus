@@ -3,7 +3,7 @@ package don.juan.matus.lib.collection.sorted.tree.bintree;
 /**
  * Базовый интерфейс ноды бинарного дерева.
  */
-public interface BinTreeNodeInterface<T extends Comparable<T>> extends Comparable<BinTreeNodeInterface<T>> {
+public interface BinTreeNodeInterface<T extends Comparable<? extends T>> extends Comparable<BinTreeNodeInterface<T>> {
 
     T getObjectNode();
 

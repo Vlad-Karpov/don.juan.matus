@@ -7,7 +7,7 @@ import static don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface
 /*
 Classic Red-Black binary tree.
  */
-public class RedBlackTree<T extends Comparable<T>> extends BinTreeBase<T> {
+public class RedBlackTree<T extends Comparable<? extends T>> extends BinTreeBase<T> {
 
     public RedBlackTree() {
         super();
@@ -123,11 +123,11 @@ public class RedBlackTree<T extends Comparable<T>> extends BinTreeBase<T> {
         return currentNode;
     }
 
-    private static <T extends Comparable<T>> byte colorOf(BinTreeNodeRedBlack<T> p) {
+    private static <T extends Comparable<? extends T>> byte colorOf(BinTreeNodeRedBlack<T> p) {
         return (p == null ? BinTreeNodeRedBlack.BLACK : p.color);
     }
 
-    private static <T extends Comparable<T>> void setColor(BinTreeNodeRedBlack<T> p, byte c) {
+    private static <T extends Comparable<? extends T>> void setColor(BinTreeNodeRedBlack<T> p, byte c) {
         if (p != null)
             p.color = c;
     }

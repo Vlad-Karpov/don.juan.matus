@@ -4,7 +4,7 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.BinTreeNodeBalanceFactor;
 
-public class HeapNode<T extends Comparable<T>> extends LightHeapNode<T> {
+public class HeapNode<T extends Comparable<? extends T>> extends LightHeapNode<T> {
 
     private long createTime = System.currentTimeMillis();
     private int id;

@@ -1,6 +1,6 @@
 package don.juan.matus.lib.collection.sorted.tree.bintree;
 
-public class BinTreeCheckPassEventTest<T extends Comparable<T>> implements BinTreeCheckPassEvent<T> {
+public class BinTreeCheckPassEventTest<T extends Comparable<? extends T>> implements BinTreeCheckPassEvent<T> {
 
     private String errorMessage;
     private boolean ignor = false;

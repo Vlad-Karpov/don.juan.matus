@@ -5,7 +5,7 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 
 import java.util.Random;
 
-public class RandomRotateBinTree<T extends Comparable<T>> extends ScapegoatTree<T> {
+public class RandomRotateBinTree<T extends Comparable<? extends T>> extends ScapegoatTree<T> {
 
     private Random rnd;
 

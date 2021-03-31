@@ -1,9 +1,11 @@
 package don.juan.matus.lib.collection.sorted.tree.bintree;
 
+import static don.juan.matus.lib.util.util.compareHelper;
+
 /**
  * Base node type binary tree.
  */
-public class BinTreeNodeBase<T extends Comparable<T>> implements BinTreeNodeInterface<T> {
+public class BinTreeNodeBase<T extends Comparable<? extends T>> implements BinTreeNodeInterface<T> {
 
     protected T objectNode;
     protected BinTreeNodeBase<T> parent;
@@ -95,7 +97,7 @@ public class BinTreeNodeBase<T extends Comparable<T>> implements BinTreeNodeInte
     }
 
     public int compareTo(BinTreeNodeInterface<T> o) {
-        return objectNode.compareTo(o.getObjectNode());
+        return compareHelper((Comparable<T>) objectNode, o.getObjectNode());
     }
 
     @Override

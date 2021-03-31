@@ -8,7 +8,7 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
  * Нода двоичного дерева с баланс фактором.
  * Для AVL деревьев.
  */
-public class BinTreeNodeBalanceFactor<T extends Comparable<T>> extends BinTreeNodeBase<T> {
+public class BinTreeNodeBalanceFactor<T extends Comparable<? extends T>> extends BinTreeNodeBase<T> {
 
     protected byte balanceFactor;
 

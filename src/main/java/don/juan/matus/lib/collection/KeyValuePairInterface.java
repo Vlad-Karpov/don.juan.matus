@@ -1,5 +1,7 @@
 package don.juan.matus.lib.collection;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 
 public interface KeyValuePairInterface<
@@ -16,5 +18,10 @@ public interface KeyValuePairInterface<
     V getValue();
 
     void setValue(V value);
+
+    @Override
+    default int compareTo(@NotNull KeyValuePairInterface<K, V> o) {
+        return getKey().compareTo(o.getKey());
+    }
 
 }

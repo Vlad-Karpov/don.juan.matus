@@ -12,7 +12,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.function.Consumer;
 
-public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
+import static don.juan.matus.lib.util.util.compareHelper;
+
+public class SkipList<T extends Comparable<? extends T>> extends SortedCollectionBase<T> {
 
     List<LaneNode<T>> tower;
     Map<Integer, NavigableLaneNodeBaseInterface<T>> steckPrev;
@@ -92,7 +94,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
                     T value1 = ((LaneNode<T>) currentRightNode).getListNode().getElement();
                     if (currentRightNode.getRight() != null) {
                         T value2 = ((LaneNode<T>) currentRightNode.getRight()).getListNode().getElement();
-                        if (value1 != null && value2 != null && value1.compareTo(value2) > 0) {
+                        if (value1 != null && value2 != null && compareHelper((Comparable<T>) value1, value2) > 0) {
                             consumer.accept(currentRightNode);
                         }
                     }
@@ -101,7 +103,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
                     T value1 = ((ListNode<T>) currentRightNode).getElement();
                     if (currentRightNode.getRight() != null) {
                         T value2 = ((ListNode<T>) currentRightNode.getRight()).getElement();
-                        if (value1 != null && value2 != null && value1.compareTo(value2) > 0) {
+                        if (value1 != null && value2 != null && compareHelper((Comparable<T>) value1, value2) > 0) {
                             consumer.accept(currentRightNode);
                         }
                     }
@@ -149,7 +151,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
                 LaneNodeInterface<T> laneNode = (LaneNodeInterface<T>) node;
                 LaneNodeInterface<T> prevNode = (LaneNodeInterface<T>) prev;
                 if (laneNode.getListNode().getElement() != null) {
-                    if (laneNode.getListNode().getElement().compareTo(theObject) >= 0) {
+                    if (compareHelper((Comparable<T>) laneNode.getListNode().getElement(), theObject) >= 0) {
                         node = prevNode.getDown();
                     }
                 } else {
@@ -158,11 +160,11 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
             } else if (node instanceof SkipListNodeInterface) {
                 SkipListNodeInterface<T> listNode = (SkipListNodeInterface<T>) node;
                 if (listNode.getElement() != null) {
-                    if (listNode.getElement().compareTo(theObject) == 0) {
+                    if (compareHelper((Comparable<T>) listNode.getElement(), theObject) == 0) {
                         result = (ListNode<T>) listNode;
                         break;
                     }
-                    if (listNode.getElement().compareTo(theObject) > 0) {
+                    if (compareHelper((Comparable<T>) listNode.getElement(), theObject) > 0) {
                         if (softSeek) {
                             result = (ListNode<T>) listNode;
                         }
@@ -241,7 +243,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
                 LaneNodeInterface<T> laneNode = (LaneNodeInterface<T>) node;
                 LaneNodeInterface<T> prevNode = (LaneNodeInterface<T>) prev;
                 if (laneNode.getListNode().getElement() != null) {
-                    if (laneNode.getListNode().getElement().compareTo(theObject) > 0) {
+                    if (compareHelper((Comparable<T>) laneNode.getListNode().getElement(), theObject) > 0) {
                         steckPrev.put(index, prevNode);
                         index--;
                         node = prevNode.getDown();
@@ -255,7 +257,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
                 SkipListNodeInterface<T> listPrev = (SkipListNodeInterface<T>) prev;
                 SkipListNodeInterface<T> listNode = (SkipListNodeInterface<T>) node;
                 if (listNode.getElement() != null) {
-                    if (listNode.getElement().compareTo(theObject) > 0) {
+                    if (compareHelper((Comparable<T>) listNode.getElement(), theObject) > 0) {
                         insertListNode(listPrev, listNode, theObject);
                         break;
                     }
@@ -340,10 +342,10 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
         insertLane(newNode, newLaneNode, index + 1);
     }
 
-    interface ListNodeFlagInterface<T extends Comparable<T>> extends CollectionNodeFlagInterface<T> {
+    interface ListNodeFlagInterface<T extends Comparable<? extends T>> extends CollectionNodeFlagInterface<T> {
     }
 
-    interface NavigableNodeBaseInterface<T extends Comparable<T>> extends ListNodeFlagInterface<T> {
+    interface NavigableNodeBaseInterface<T extends Comparable<? extends T>> extends ListNodeFlagInterface<T> {
 
         NavigableNodeBaseInterface<T> getRight();
 
@@ -372,7 +374,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
 
     }
 
-    interface NavigableLaneNodeBaseInterface<T extends Comparable<T>> extends NavigableNodeBaseInterface<T> {
+    interface NavigableLaneNodeBaseInterface<T extends Comparable<? extends T>> extends NavigableNodeBaseInterface<T> {
 
         NavigableLaneNodeBaseInterface<T> getDown();
 
@@ -380,7 +382,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
 
     }
 
-    interface SkipListNodeInterface<T extends Comparable<T>> extends NavigableNodeBaseInterface<T> {
+    interface SkipListNodeInterface<T extends Comparable<? extends T>> extends NavigableNodeBaseInterface<T> {
 
         T getElement();
 
@@ -388,7 +390,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
 
     }
 
-    interface LaneNodeInterface<T extends Comparable<T>> extends NavigableLaneNodeBaseInterface<T> {
+    interface LaneNodeInterface<T extends Comparable<? extends T>> extends NavigableLaneNodeBaseInterface<T> {
 
         SkipListNodeInterface<T> getListNode();
 
@@ -396,7 +398,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
 
     }
 
-    static class NavigableNodeBaseClass<T extends Comparable<T>> implements NavigableNodeBaseInterface<T> {
+    static class NavigableNodeBaseClass<T extends Comparable<? extends T>> implements NavigableNodeBaseInterface<T> {
 
         NavigableNodeBaseInterface<T> right;
         NavigableNodeBaseInterface<T> left;
@@ -434,7 +436,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
 
     }
 
-    static class NavigableLaneNodeClass<T extends Comparable<T>> extends NavigableNodeBaseClass<T> implements NavigableNodeBaseInterface<T>, NavigableLaneNodeBaseInterface<T> {
+    static class NavigableLaneNodeClass<T extends Comparable<? extends T>> extends NavigableNodeBaseClass<T> implements NavigableNodeBaseInterface<T>, NavigableLaneNodeBaseInterface<T> {
 
         NavigableLaneNodeBaseInterface<T> down;
 
@@ -450,7 +452,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
 
     }
 
-    static class LaneNode<T extends Comparable<T>> extends NavigableLaneNodeClass<T> implements NavigableNodeBaseInterface<T>, NavigableLaneNodeBaseInterface<T>, LaneNodeInterface<T> {
+    static class LaneNode<T extends Comparable<? extends T>> extends NavigableLaneNodeClass<T> implements NavigableNodeBaseInterface<T>, NavigableLaneNodeBaseInterface<T>, LaneNodeInterface<T> {
 
         SkipListNodeInterface<T> listNode;
 
@@ -470,7 +472,7 @@ public class SkipList<T extends Comparable<T>> extends SortedCollectionBase<T> {
         }
     }
 
-    static class ListNode<T extends Comparable<T>> extends NavigableNodeBaseClass<T> implements NavigableNodeBaseInterface<T>, NavigableLaneNodeBaseInterface<T>, SkipListNodeInterface<T> {
+    static class ListNode<T extends Comparable<? extends T>> extends NavigableNodeBaseClass<T> implements NavigableNodeBaseInterface<T>, NavigableLaneNodeBaseInterface<T>, SkipListNodeInterface<T> {
 
         T element;
 

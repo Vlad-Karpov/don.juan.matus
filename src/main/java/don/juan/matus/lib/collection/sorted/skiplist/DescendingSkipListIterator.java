@@ -2,7 +2,9 @@ package don.juan.matus.lib.collection.sorted.skiplist;
 
 import java.util.Iterator;
 
-public class DescendingSkipListIterator<T extends Comparable<T>> implements Iterator<T> {
+import static don.juan.matus.lib.util.util.compareHelper;
+
+public class DescendingSkipListIterator<T extends Comparable<? extends T>> implements Iterator<T> {
 
     SkipList<T> skipList;
     SkipList.NavigableLaneNodeBaseInterface<T> current;
@@ -17,7 +19,7 @@ public class DescendingSkipListIterator<T extends Comparable<T>> implements Iter
         current = skipList.seek(theObject, true);
         if (current != null) {
             T value = ((SkipList.SkipListNodeInterface<T>) current).getElement();
-            if (value.compareTo(theObject) > 0) {
+            if (compareHelper((Comparable<T>) value, theObject) > 0) {
                 next();
             }
         }

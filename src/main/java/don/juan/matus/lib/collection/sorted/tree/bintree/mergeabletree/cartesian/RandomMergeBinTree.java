@@ -5,7 +5,7 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.mergeabletree.Mergeable
 
 import java.util.Random;
 
-public class RandomMergeBinTree<T extends Comparable<T>> extends MergeableBaseBinTree<T> {
+public class RandomMergeBinTree<T extends Comparable<? extends T>> extends MergeableBaseBinTree<T> {
 
     private Random rnd;
     private double threshold = 0.5d;

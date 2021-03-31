@@ -7,7 +7,7 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.waight.BinTr
 /**
  * Нода для вероятностного дерева.
  */
-public class BinTreeNodeRnd<T extends Comparable<T>> extends BinTreeNodeWeight<T> {
+public class BinTreeNodeRnd<T extends Comparable<? extends T>> extends BinTreeNodeWeight<T> {
 
     public BinTreeNodeRnd(
             BinTreeInterface<T> owner,

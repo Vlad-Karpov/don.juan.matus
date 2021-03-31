@@ -8,7 +8,7 @@ import java.util.NavigableSet;
 import java.util.SortedSet;
 import java.util.function.Consumer;
 
-public class SortedCollectionBase<T extends Comparable<T>> extends CollectionBase<T> implements NavigableSet<T> {
+public class SortedCollectionBase<T extends Comparable<? extends T>> extends CollectionBase<T> implements NavigableSet<T> {
 
     @Override
     public T lower(T t) {

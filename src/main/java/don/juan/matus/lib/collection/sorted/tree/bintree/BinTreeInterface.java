@@ -2,10 +2,12 @@ package don.juan.matus.lib.collection.sorted.tree.bintree;
 
 import don.juan.matus.lib.collection.CollectionBaseInterface;
 
+import static don.juan.matus.lib.util.util.compareHelper;
+
 /**
  * Interface binary tree.
  */
-public interface BinTreeInterface<T extends Comparable<T>> extends CollectionBaseInterface<T> {
+public interface BinTreeInterface<T extends Comparable<? extends T>> extends CollectionBaseInterface<T> {
 
     long getMergeCount();
 
@@ -45,7 +47,7 @@ public interface BinTreeInterface<T extends Comparable<T>> extends CollectionBas
 
     Boolean seekLoop(T theObject, BinTreeNodeInterface<T> currentNode, GeneralCall<T> generalCallObject);
 
-    static <T extends Comparable<T>> BinTreeNodeInterface<T> seekLoop(T theObject, BinTreeNodeInterface<T> currentNode) {
+    static <T extends Comparable<? extends T>> BinTreeNodeInterface<T> seekLoop(T theObject, BinTreeNodeInterface<T> currentNode) {
         BinTreeNodeInterface<T> result = null;
         BinTreeNodeInterface<T> current = currentNode;
         if (current != null) {
@@ -57,7 +59,7 @@ public interface BinTreeInterface<T extends Comparable<T>> extends CollectionBas
                         break;
                     }
                 } else {
-                    int cmp = theObject.compareTo(current.getObjectNode());
+                    int cmp = compareHelper((Comparable<T>) theObject, current.getObjectNode());
                     if (cmp == 0) {
                         result = current;
                         break;
@@ -89,15 +91,15 @@ public interface BinTreeInterface<T extends Comparable<T>> extends CollectionBas
 
     void clearTree();
 
-    static <T extends Comparable<T>> BinTreeNodeInterface<T> parentOf(BinTreeNodeInterface<T> p) {
+    static <T extends Comparable<? extends T>> BinTreeNodeInterface<T> parentOf(BinTreeNodeInterface<T> p) {
         return (p == null ? null : p.getParent());
     }
 
-    static <T extends Comparable<T>> BinTreeNodeInterface<T> leftOf(BinTreeNodeInterface<T> p) {
+    static <T extends Comparable<? extends T>> BinTreeNodeInterface<T> leftOf(BinTreeNodeInterface<T> p) {
         return (p == null) ? null : p.getLeft();
     }
 
-    static <T extends Comparable<T>> BinTreeNodeInterface<T> rightOf(BinTreeNodeInterface<T> p) {
+    static <T extends Comparable<? extends T>> BinTreeNodeInterface<T> rightOf(BinTreeNodeInterface<T> p) {
         return (p == null) ? null : p.getRight();
     }
 

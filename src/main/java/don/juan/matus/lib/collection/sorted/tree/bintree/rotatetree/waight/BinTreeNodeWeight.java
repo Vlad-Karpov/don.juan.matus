@@ -7,7 +7,7 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 /**
  * Элемент двоичного дерева с балансировкой по весам.
  */
-public class BinTreeNodeWeight<T extends Comparable<T>> extends BinTreeNodeBase<T> {
+public class BinTreeNodeWeight<T extends Comparable<? extends T>> extends BinTreeNodeBase<T> {
 
     private Long weight;
 

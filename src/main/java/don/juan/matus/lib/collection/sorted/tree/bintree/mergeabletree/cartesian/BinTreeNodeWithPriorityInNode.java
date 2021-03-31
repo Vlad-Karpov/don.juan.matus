@@ -3,7 +3,7 @@ package don.juan.matus.lib.collection.sorted.tree.bintree.mergeabletree.cartesia
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 
-public class BinTreeNodeWithPriorityInNode<T extends Comparable<T>> extends BinTreeNodeCartesianBinTree<T> {
+public class BinTreeNodeWithPriorityInNode<T extends Comparable<? extends T>> extends BinTreeNodeCartesianBinTree<T> {
 
     private double priority;
 

@@ -6,7 +6,7 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.BinTreeN
 import don.juan.matus.lib.collection.sorted.tree.heap.HeapInterface;
 import don.juan.matus.lib.collection.sorted.tree.heap.HeapNode;
 
-public class AvlHeap<T extends Comparable<T>> extends AVLBinTree<T> implements HeapInterface<T> {
+public class AvlHeap<T extends Comparable<? extends T>> extends AVLBinTree<T> implements HeapInterface<T> {
 
     private int maxHeapSize;
     private final AVLBinTree<BinTreeNodeInterface<T>> indexTree;
@@ -19,6 +19,7 @@ public class AvlHeap<T extends Comparable<T>> extends AVLBinTree<T> implements H
             throw new RuntimeException("AvlHeap: maxHeapSize must be greater then zero!");
         }
         this.maxHeapSize = maxHeapSize;
+        this.ttl = Long.MAX_VALUE;
         root = new HeapNode<>(this, null, null, null, null);
         indexTree = new AVLBinTree<>();
     }

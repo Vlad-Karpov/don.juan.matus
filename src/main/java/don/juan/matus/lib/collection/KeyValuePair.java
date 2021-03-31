@@ -7,12 +7,13 @@ import java.io.Serializable;
 public class KeyValuePair<
         K extends Comparable<K> & Serializable,
         V extends Serializable>
-        implements KeyValuePairInterface<K, V>
-        , Comparable<KeyValuePairInterface<K, V>>
-        , Serializable {
+        implements KeyValuePairInterface<K, V> {
 
-    private K key;
-    private V value;
+    protected Object key;
+    protected Object value;
+
+    public KeyValuePair() {
+    }
 
     public KeyValuePair(K key, V value) {
         this.key = key;
@@ -21,7 +22,7 @@ public class KeyValuePair<
 
     @Override
     public K getKey() {
-        return key;
+        return (K) key;
     }
 
     @Override
@@ -31,7 +32,7 @@ public class KeyValuePair<
 
     @Override
     public V getValue() {
-        return value;
+        return (V) value;
     }
 
     @Override
@@ -39,8 +40,4 @@ public class KeyValuePair<
         this.value = value;
     }
 
-    @Override
-    public int compareTo(@NotNull KeyValuePairInterface<K, V> o) {
-        return key.compareTo(o.getKey());
-    }
 }

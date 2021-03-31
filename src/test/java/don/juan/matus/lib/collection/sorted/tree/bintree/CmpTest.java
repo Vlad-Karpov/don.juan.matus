@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,6 +30,8 @@ import java.util.List;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+
+import static don.juan.matus.lib.collection.sorted.tree.bintree.CreateRandomFile.SRC_TEST_RESOURCES_RANDOM_DATA_FILE_DAT;
 
 public class CmpTest extends TestCase {
 
@@ -48,7 +51,8 @@ public class CmpTest extends TestCase {
         List<Long> result = new ArrayList<>();
         ObjectInputStream is = null;
         try {
-            is = new ObjectInputStream(new FileInputStream("src/test/resources/RandomDataFile.dat"));
+            Path pth = Paths.get(SRC_TEST_RESOURCES_RANDOM_DATA_FILE_DAT);
+            is = new ObjectInputStream(new FileInputStream(pth.normalize().toString()));
             result = (List<Long>) is.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -140,7 +144,7 @@ public class CmpTest extends TestCase {
         addSeekRemove("RandomRotateBinTree", rList, new RandomRotateBinTree<>());
     }
 
-    private <T extends Comparable<T>> void addSeekRemove(String nameSortedCollection, List<T> rList, NavigableMap<T, T> sortedMap) throws InterruptedException {
+    private <T extends Comparable<? extends T>> void addSeekRemove(String nameSortedCollection, List<T> rList, NavigableMap<T, T> sortedMap) throws InterruptedException {
         Calendar cBegin;
         Calendar cEnd;
         T rnd;
@@ -212,7 +216,7 @@ public class CmpTest extends TestCase {
         Thread.sleep(3000L);
     }
 
-    private <T extends Comparable<T>> void addSeekRemove(List<T> rList, TreeMapTst<T, T> tree) throws InterruptedException {
+    private <T extends Comparable<? extends T>> void addSeekRemove(List<T> rList, TreeMapTst<T, T> tree) throws InterruptedException {
         Calendar cBegin;
         Calendar cEnd;
         T rnd;
@@ -284,7 +288,7 @@ public class CmpTest extends TestCase {
         Thread.sleep(3000L);
     }
 
-    private <T extends Comparable<T>> void addSeekRemove(String nameSortedCollection, List<T> rList, SortedCollectionBase<T> sortedCollection) throws InterruptedException {
+    private <T extends Comparable<? extends T>> void addSeekRemove(String nameSortedCollection, List<T> rList, SortedCollectionBase<T> sortedCollection) throws InterruptedException {
         Calendar cBegin;
         Calendar cEnd;
         T rnd;
@@ -357,7 +361,7 @@ public class CmpTest extends TestCase {
         Thread.sleep(3000L);
     }
 
-    private <T extends Comparable<T>> void addSeekRemove(String nameTree, List<T> rList, BinTreeBase<T> tree) throws InterruptedException {
+    private <T extends Comparable<? extends T>> void addSeekRemove(String nameTree, List<T> rList, BinTreeBase<T> tree) throws InterruptedException {
         Calendar cBegin;
         Calendar cEnd;
         T rnd;

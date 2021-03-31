@@ -1,7 +1,7 @@
 package don.juan.matus.lib.collection.sorted.tree.bintree;
 
 
-public interface MergeableBinTree<T extends Comparable<T>> {
+public interface MergeableBinTree<T extends Comparable<? extends T>> {
 
     BinTreeNodeInterface<T> merge(BinTreeNodeInterface<T> left, BinTreeNodeInterface<T> right);
 

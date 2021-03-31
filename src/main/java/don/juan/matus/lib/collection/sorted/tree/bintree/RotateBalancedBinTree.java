@@ -3,7 +3,7 @@ package don.juan.matus.lib.collection.sorted.tree.bintree;
 /**
  * Balanced binary tree based on node rotation.
  */
-public interface RotateBalancedBinTree<T extends Comparable<T>> {
+public interface RotateBalancedBinTree<T extends Comparable<? extends T>> {
 
     Long getRotateCount();
 

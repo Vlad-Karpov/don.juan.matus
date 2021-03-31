@@ -9,7 +9,7 @@ import static don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface
 /*
 Splay tree
  */
-public class SplayTree<T extends Comparable<T>> extends BinTreeBase<T> {
+public class SplayTree<T extends Comparable<? extends T>> extends BinTreeBase<T> {
 
     private Boolean choiceLeftOrRightProp = true;
 

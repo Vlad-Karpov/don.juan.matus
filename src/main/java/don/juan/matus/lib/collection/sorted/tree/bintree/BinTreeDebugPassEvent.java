@@ -1,6 +1,6 @@
 package don.juan.matus.lib.collection.sorted.tree.bintree;
 
-public class BinTreeDebugPassEvent<T extends Comparable<T>> implements BinTreeCheckPassEvent<T> {
+public class BinTreeDebugPassEvent<T extends Comparable<? extends T>> implements BinTreeCheckPassEvent<T> {
 
     @Override
     public void onPass(BinTreeIterator<T> leftIterator, BinTreeIterator<T> rightIterator, BinTreeNodeInterface<T> currentNode, BinTreeNodeInterface<T> previousNode) {

@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 public class CreateRandomFile {
 
     private static final int maxRandomDataFile = 10000000;
+    public static final String SRC_TEST_RESOURCES_RANDOM_DATA_FILE_DAT = "./src/test/resources/RandomDataFile.dat";
 
     public static void main(String... args) {
         try {
@@ -23,6 +25,10 @@ public class CreateRandomFile {
     }
 
     public static void createRandomDataFile() throws IOException {
+        Path pth = Paths.get(SRC_TEST_RESOURCES_RANDOM_DATA_FILE_DAT);
+        Files.createDirectories(pth);
+        Files.deleteIfExists(pth);
+        Files.createFile(pth);
         TreeMapTst<Long, Long> tmRndLng = new TreeMapTst<Long, Long>();
         List<Long> rList = new ArrayList<Long>();
         Long rnd;
@@ -32,8 +38,7 @@ public class CreateRandomFile {
         }
         tmRndLng = null;
         System.gc();
-        Files.createFile(Paths.get("./src/test/resources/RandomDataFile.dat"));
-        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("src/test/resources/RandomDataFile.dat"));
+        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(pth.normalize().toString()));
         os.writeObject(rList);
         os.flush();
         os.close();

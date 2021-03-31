@@ -4,7 +4,7 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.*;
 import don.juan.matus.lib.collection.sorted.tree.bintree.mergeabletree.MergeableBaseBinTree;
 
 
-public class CartesianBinTree<T extends Comparable<T>> extends MergeableBaseBinTree<T> {
+public class CartesianBinTree<T extends Comparable<? extends T>> extends MergeableBaseBinTree<T> {
 
     public CartesianBinTree() {
         super();

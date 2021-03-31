@@ -2,7 +2,7 @@ package don.juan.matus.lib.collection.sorted.skiplist;
 
 import java.util.Iterator;
 
-public class SkipListIterator<T extends Comparable<T>> implements Iterator<T> {
+public class SkipListIterator<T extends Comparable<? extends T>> implements Iterator<T> {
 
     SkipList<T> skipList;
     SkipList.NavigableLaneNodeBaseInterface<T> current;

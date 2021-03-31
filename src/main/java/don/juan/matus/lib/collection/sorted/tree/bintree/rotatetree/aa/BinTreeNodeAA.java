@@ -4,7 +4,7 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeBase;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 
-public class BinTreeNodeAA<T extends Comparable<T>> extends BinTreeNodeBase<T> {
+public class BinTreeNodeAA<T extends Comparable<? extends T>> extends BinTreeNodeBase<T> {
 
     short level;
 

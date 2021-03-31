@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 /**
  * Base binary tree iterator.
  */
-public abstract class BinTreeIteratorBase<T extends Comparable<T>> implements Iterator<T> {
+public abstract class BinTreeIteratorBase<T extends Comparable<? extends T>> implements Iterator<T> {
 
     protected BinTreeInterface<T> binTree;
     protected BinTreeNodeInterface<T> rootNode;

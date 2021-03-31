@@ -12,7 +12,7 @@ import java.util.Random;
 /**
  * Grahp binary tree
  */
-public class BinTreeGraph<T extends Comparable<T>> {
+public class BinTreeGraph<T extends Comparable<? extends T>> {
 
     private BinTreeBase<T> tree;
     private JFrame frame;

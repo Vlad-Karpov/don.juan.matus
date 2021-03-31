@@ -13,7 +13,7 @@ import don.juan.matus.lib.collection.sorted.tree.heap.LightHeapNode;
 import static don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface.*;
 import static don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree.*;
 
-public class AvlSplayHeap<T extends Comparable<T>> extends SplayTree<T> implements HeapInterface<T> {
+public class AvlSplayHeap<T extends Comparable<? extends T>> extends SplayTree<T> implements HeapInterface<T> {
 
     private int maxHeapSize;
     private EvictionStrategy evictionStrategy = EvictionStrategy.SPLAY;

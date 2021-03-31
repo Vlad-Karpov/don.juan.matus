@@ -3,7 +3,7 @@ package don.juan.matus.lib.collection.sorted.tree.bintree;
 /**
  * Descending binary tree iterator.
  */
-public class DescendingBinTreeIterator<T extends Comparable<T>> extends BinTreeIteratorBase<T> {
+public class DescendingBinTreeIterator<T extends Comparable<? extends T>> extends BinTreeIteratorBase<T> {
 
     public DescendingBinTreeIterator(BinTreeInterface<T> theBinTree, BinTreeNodeInterface<T> theRootNode) {
         super(theBinTree, theRootNode);

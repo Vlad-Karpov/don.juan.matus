@@ -7,7 +7,7 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 
 import static don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeInterface.*;
 
-public class AATree<T extends Comparable<T>> extends BinTreeBase<T> {
+public class AATree<T extends Comparable<? extends T>> extends BinTreeBase<T> {
 
     public AATree() {
         super();

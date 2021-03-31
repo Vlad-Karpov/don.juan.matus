@@ -4,7 +4,7 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeBase;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeBase;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 
-public class ScapegoatTree<T extends Comparable<T>> extends BinTreeBase<T> {
+public class ScapegoatTree<T extends Comparable<? extends T>> extends BinTreeBase<T> {
 
     protected double alpha = 0.7d;
 

@@ -5,7 +5,7 @@ import don.juan.matus.lib.collection.sorted.tree.bintree.*;
 /**
  * Binary tree with balance by weight.
  */
-public class BinTreeW<T extends Comparable<T>> extends BinTreeBase<T> {
+public class BinTreeW<T extends Comparable<? extends T>> extends BinTreeBase<T> {
 
     private double alpha = 4.0d;
 

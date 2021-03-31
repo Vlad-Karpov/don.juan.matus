@@ -3,7 +3,7 @@ package don.juan.matus.lib.collection.sorted.tree.bintree.mergeabletree;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeBase;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
 
-public class MergeableBaseBinTree<T extends Comparable<T>> extends BinTreeBase<T> {
+public class MergeableBaseBinTree<T extends Comparable<? extends T>> extends BinTreeBase<T> {
 
     @Override
     public boolean add(T theObject) {
