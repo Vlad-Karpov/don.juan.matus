@@ -16,4 +16,11 @@ public interface HeapInterface<T extends Comparable<? extends T>> {
      */
     void expungeStaleEntries();
 
+    /**
+     * Expunges null refs entries from the table.
+     */
+    default void expungeAtherEntries() {
+
+    }
+
 }

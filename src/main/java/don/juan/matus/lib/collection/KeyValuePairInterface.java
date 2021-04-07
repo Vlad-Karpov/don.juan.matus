@@ -13,11 +13,7 @@ public interface KeyValuePairInterface<
 
     K getKey();
 
-    void setKey(K key);
-
     V getValue();
-
-    void setValue(V value);
 
     @Override
     default int compareTo(@NotNull KeyValuePairInterface<K, V> o) {

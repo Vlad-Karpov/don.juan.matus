@@ -205,6 +205,7 @@ public class AvlHeap<T extends Comparable<? extends T>> extends AVLBinTree<T> im
                 }
             } while (true);
         }
+        expungeAtherEntries();
     }
 
 }

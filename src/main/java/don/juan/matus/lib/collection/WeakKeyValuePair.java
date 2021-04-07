@@ -11,14 +11,25 @@ public class WeakKeyValuePair<
         V extends Serializable>
         extends KeyValuePair<K, V> {
 
+    protected WeakKeyValuePair() {
+        super();
+    }
+
     public WeakKeyValuePair(K key, V value) {
+        this();
         this.key = new WeakReference<>(key);
         this.value = value;
     }
 
     public WeakKeyValuePair(K key, V value, ReferenceQueue<? super K> q) {
+        this();
         this.key = new WeakReference<K>(key, q);
         this.value = value;
+    }
+
+    @Override
+    public K getKey() {
+        return ((WeakReference<K>) key).get();
     }
 
     @Override
