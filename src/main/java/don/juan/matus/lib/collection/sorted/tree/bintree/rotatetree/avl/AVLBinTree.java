@@ -152,7 +152,8 @@ public class AVLBinTree<T extends Comparable<? extends T>> extends BinTreeBase<T
     protected BinTreeNodeInterface<T> postAddLoop(final BinTreeNodeInterface<T> currentNode) {
         BinTreeNodeBalanceFactor<T> cursor = (BinTreeNodeBalanceFactor<T>) currentNode;
         BinTreeNodeBalanceFactor<T> parent = (BinTreeNodeBalanceFactor<T>) cursor.getParent();
-        return balanceTree(cursor, 1, 1);
+        balanceTree(cursor, 1, 1);
+        return currentNode;
     }
 
     @Override

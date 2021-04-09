@@ -58,7 +58,8 @@ public class AvlHeap<T extends Comparable<? extends T>> extends AVLBinTree<T> im
     public BinTreeNodeInterface<T> removeNode(
             Boolean theDescending,
             BinTreeNodeInterface<T> currentNode,
-            BinTreeNodeInterface<T> nextNode, BinTreeNodeInterface<BinTreeNodeInterface<T>> evictNodeIndex) {
+            BinTreeNodeInterface<T> nextNode,
+            BinTreeNodeInterface<BinTreeNodeInterface<T>> evictNodeIndex) {
         if (evictNodeIndex != null) {
             indexTree.removeNode(false, evictNodeIndex, evictNodeIndex, null);
         } else {
@@ -136,9 +137,9 @@ public class AvlHeap<T extends Comparable<? extends T>> extends AVLBinTree<T> im
 
     @Override
     protected BinTreeNodeInterface<T> postAddLoop(final BinTreeNodeInterface<T> currentNode) {
-        BinTreeNodeInterface<T> result = super.postAddLoop(currentNode);
+        super.postAddLoop(currentNode);
         indexTree.add(currentNode);
-        return result;
+        return currentNode;
     }
 
     @Override

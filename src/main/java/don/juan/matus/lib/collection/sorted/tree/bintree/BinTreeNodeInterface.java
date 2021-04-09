@@ -1,9 +1,11 @@
 package don.juan.matus.lib.collection.sorted.tree.bintree;
 
+import java.io.Serializable;
+
 /**
  * Базовый интерфейс ноды бинарного дерева.
  */
-public interface BinTreeNodeInterface<T extends Comparable<? extends T>> extends Comparable<BinTreeNodeInterface<T>> {
+public interface BinTreeNodeInterface<T extends Comparable<? extends T>> extends Comparable<BinTreeNodeInterface<T>>, Serializable {
 
     T getObjectNode();
 
