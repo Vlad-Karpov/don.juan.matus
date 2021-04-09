@@ -4,6 +4,7 @@ import don.juan.matus.lib.collection.KeyValuePair;
 import don.juan.matus.lib.collection.KeyValuePairInterface;
 import don.juan.matus.lib.collection.WeakKeyValuePair;
 import don.juan.matus.lib.collection.sorted.tree.bintree.BinTreeNodeInterface;
+import don.juan.matus.lib.collection.sorted.tree.bintree.GeneralCall;
 import don.juan.matus.lib.collection.sorted.tree.bintree.rotatetree.avl.AVLBinTree;
 
 import java.io.Serializable;
@@ -71,7 +72,18 @@ public class AvlHeapKeyValue<
         for (Reference<K> k = (Reference<K>) q.poll(); k != null; k = (Reference<K>) q.poll()) {
             KeyValuePairInterface<Integer, BinTreeNodeInterface<? extends KeyValuePairInterface<K, V>>> kvp;
             kvp = new KeyValuePair<>(System.identityHashCode(k), null);
-            indexRef.remove(kvp);
+            indexRef.seek(kvp, new GeneralCall<KeyValuePairInterface<Integer, BinTreeNodeInterface<? extends KeyValuePairInterface<K, V>>>>() {
+                @Override
+                public void generalCall(Boolean theResult, Integer theCmp, BinTreeNodeInterface<KeyValuePairInterface<Integer, BinTreeNodeInterface<? extends KeyValuePairInterface<K, V>>>> resultNode, Object generalObject) {
+                    if (theResult) {
+                        removeNode(
+                                false,
+                                (BinTreeNodeInterface<KeyValuePairInterface<K, V>>) resultNode.getObjectNode().getValue(),
+                                (BinTreeNodeInterface<KeyValuePairInterface<K, V>>) resultNode.getObjectNode().getValue(),
+                                null);
+                    }
+                }
+            });
         }
     }
 
